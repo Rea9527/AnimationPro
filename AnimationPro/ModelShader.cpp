@@ -9,10 +9,11 @@
 #include "ModelShader.hpp"
 
 
+ModelShader::ModelShader() {}
+
 ModelShader::ModelShader(const GLchar* vertexPath, const GLchar* fragmentPath) : Shader(vertexPath, fragmentPath) {
     
 }
-
 
 //LIGHT
 void ModelShader::loadViewPos(GLfloat x, GLfloat y, GLfloat z) {

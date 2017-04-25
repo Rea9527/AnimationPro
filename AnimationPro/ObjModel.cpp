@@ -11,6 +11,9 @@
 
 GLint loadTextureFromFile(const char* path, string directory);
 
+
+ObjModel::ObjModel() {}
+
 ObjModel::ObjModel(GLchar* path) {
     this->loadModel(path);
 }

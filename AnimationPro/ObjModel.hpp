@@ -21,6 +21,7 @@
 class ObjModel {
     
 public:
+    ObjModel();
     ObjModel(GLchar* path);
     
     void Draw(Shader shader);

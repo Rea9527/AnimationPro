@@ -34,7 +34,6 @@ void TerrainRender::prepareTerrain(Terrain terrain) {
     ModelTexture texture = terrain.getTexture();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture.getId());
-    
     glBindVertexArray(model.getVAO());
     
 }

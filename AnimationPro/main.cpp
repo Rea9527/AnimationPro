@@ -27,6 +27,7 @@
 #include "TerrainShader.hpp"
 
 #include "TerrainRender.hpp"
+#include "ModelRender.hpp"
 
 #include "Loader.hpp"
 #include "Camera.hpp"
@@ -39,6 +40,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoff, double yoff);
 void updateMovement();
+
+GLfloat WIN_WIDTH = 640, WIN_HEIGHT = 480;
 
 glm::vec3 cubePositions[] = {
     glm::vec3( 0.0f,  0.0f,  0.0f),
@@ -55,7 +58,7 @@ glm::vec3 cubePositions[] = {
 
 glm::vec3 dirLightAttrib[] {
     glm::vec3(1.0f, 1.0f, 1.0f),
-    glm::vec3(0.0f, 0.0f, 0.0f),
+    glm::vec3(1.0f, 1.0f, 1.0f),
     glm::vec3(0.0f, 0.0f, 0.0f),
     glm::vec3(-0.2f, -1.0f, -0.3f)
 };
@@ -74,12 +77,12 @@ bool keys[1024];
 
 GLfloat deltaTime = 0.0f;
 GLfloat lastFrame = 0.0f;
-GLfloat lastX = 320, lastY = 240;
+GLfloat lastX = WIN_WIDTH/2, lastY = WIN_HEIGHT/2;
 bool firstMouse = true;
 
-glm::vec3 cameraPos   = glm::vec3(2.0f, 10.0f, 1.0f);
+glm::vec3 cameraPos   = glm::vec3(700.0f, 50.0f, 250.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
-Camera myCamera(cameraPos, cameraUp, -180.0f, -60.0f);
+Camera myCamera(cameraPos, cameraUp, -180.0f, 0.0f);
 
 
 
@@ -95,8 +98,7 @@ int main(int argc, const char * argv[]) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     
-    GLfloat winWidth = 640, winHeight = 480;
-    GLFWwindow* window = glfwCreateWindow(winWidth, winHeight, "Lighting", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, "Project", NULL, NULL);
     if (!window) {
         glfwTerminate();
         return -1;
@@ -184,8 +186,9 @@ int main(int argc, const char * argv[]) {
     StaticShader myShader("./shaderSources/vertexShader.vs", "./shaderSources/fragmentShader.frag");
     TerrainShader terrainShader("./shaderSources/terrainVS.vs", "./shaderSources/terrainFS.frag");
     
-    ObjModel nanoModel("./assets/nanosuit/nanosuit.obj");
-    
+//    ObjModel nanoModel("./assets/oldhouse/oldhouse/oldhouse.obj");
+    ObjModel nanoModel("./assets/puss/Puss_in_Boots.obj");
+    ModelRender nanoRender(nanoShader, nanoModel);
     
     
     Loader loader;
@@ -213,6 +216,9 @@ int main(int argc, const char * argv[]) {
     RawModel cube = loader.loadToVAO(points, sizeof(points), indices, sizeof(indices));
     //==============================
     
+    //Lights
+    DirectionalLight dirLight = DirectionalLight(dirLightAttrib[0], dirLightAttrib[1], dirLightAttrib[2], dirLightAttrib[3]);
+    PointLight pointLight = PointLight(pointLightAttrib[0], pointLightAttrib[1], pointLightAttrib[2], pointLightAttrib[3], 1.0f, 0.09f, 0.032f);
     
     //set keycallback
     glfwSetKeyCallback(window, key_callback);
@@ -234,33 +240,18 @@ int main(int argc, const char * argv[]) {
         GLfloat angle;
         view = myCamera.getViewMat();
         angle = glm::radians(myCamera.Zoom);
-        projection = glm::perspective(angle, winWidth / winHeight, 0.1f, 1000.0f);
+        projection = glm::perspective(angle, WIN_WIDTH / WIN_HEIGHT, 0.1f, 1000.0f);
+        
         
         //==============================
         terrainRender.render(terrains, projection, view);
 
-        
-
         //==============================
-        nanoShader.Use();
-        nanoShader.getAllUniformLocations();
-        
-        //lights
-        nanoShader.loadViewPos(myCamera.Pos.x, myCamera.Pos.y, myCamera.Pos.z);
-        DirectionalLight dirLight = DirectionalLight(dirLightAttrib[0], dirLightAttrib[1], dirLightAttrib[2], dirLightAttrib[3]);
-        PointLight pointLight = PointLight(pointLightAttrib[0], pointLightAttrib[1], pointLightAttrib[2], pointLightAttrib[3], 1.0f, 0.09f, 0.032f);
-        nanoShader.addDirectionalLight(dirLight);
-        nanoShader.addPointLight(pointLight);
-        
-        nanoShader.loadViewMat(glm::value_ptr(view));
-        nanoShader.loadProjectionMat(glm::value_ptr(projection));
-        
         model = glm::mat4();
-        model = glm::translate(model, glm::vec3(0, 0, 0));
-        model = glm::scale(model, glm::vec3(0.2, 0.2, 0.2));
-        nanoShader.loadModelMat(glm::value_ptr(model));
-        nanoModel.Draw(nanoShader);
-        nanoShader.Stop();
+        model = glm::translate(model, glm::vec3(400.0f, 0, 200.0f));
+        model = glm::scale(model, glm::vec3(10.5, 10.5, 10.5));
+        nanoRender.addLight(pointLight, dirLight);
+        nanoRender.render(projection, view, model, myCamera);
         
 
         

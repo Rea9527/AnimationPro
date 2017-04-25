@@ -33,6 +33,7 @@
 		A389CE611EAF2B76004B3050 /* libassimp.3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A389CE5E1EAF2B76004B3050 /* libassimp.3.3.1.dylib */; };
 		A389CE621EAF2B76004B3050 /* libassimp.3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A389CE5F1EAF2B76004B3050 /* libassimp.3.3.1.dylib */; };
 		A389CE631EAF2B76004B3050 /* libassimp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A389CE601EAF2B76004B3050 /* libassimp.a */; };
+		A389CE661EAF7B4C004B3050 /* ModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A389CE641EAF7B4C004B3050 /* ModelRender.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -93,6 +94,8 @@
 		A389CE5E1EAF2B76004B3050 /* libassimp.3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.3.1.dylib; path = ../../../../../../usr/local/lib/libassimp.3.3.1.dylib; sourceTree = "<group>"; };
 		A389CE5F1EAF2B76004B3050 /* libassimp.3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.3.1.dylib; path = ../../../../../../usr/local/lib/libassimp.3.3.1.dylib; sourceTree = "<group>"; };
 		A389CE601EAF2B76004B3050 /* libassimp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libassimp.a; path = ../../../../../../usr/local/lib/libassimp.a; sourceTree = "<group>"; };
+		A389CE641EAF7B4C004B3050 /* ModelRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelRender.cpp; sourceTree = "<group>"; };
+		A389CE651EAF7B4C004B3050 /* ModelRender.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ModelRender.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +261,8 @@
 			children = (
 				A389CE3F1EAF2AD7004B3050 /* TerrainRender.cpp */,
 				A389CE401EAF2AD7004B3050 /* TerrainRender.hpp */,
+				A389CE641EAF7B4C004B3050 /* ModelRender.cpp */,
+				A389CE651EAF7B4C004B3050 /* ModelRender.hpp */,
 			);
 			name = render;
 			sourceTree = "<group>";
@@ -336,6 +341,7 @@
 				A389CE4F1EAF2AD7004B3050 /* Shader.cpp in Sources */,
 				A389CE531EAF2AD7004B3050 /* TerrainShader.cpp in Sources */,
 				A389CE461EAF2AD7004B3050 /* DirectionalLight.cpp in Sources */,
+				A389CE661EAF7B4C004B3050 /* ModelRender.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
