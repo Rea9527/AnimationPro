@@ -1,0 +1,287 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A347746E1EA5AB1B00B136CF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A347746D1EA5AB1B00B136CF /* main.cpp */; };
+		A34774791EA5AB4600B136CF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A34774751EA5AB4600B136CF /* Cocoa.framework */; };
+		A347747A1EA5AB4600B136CF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A34774761EA5AB4600B136CF /* CoreVideo.framework */; };
+		A347747B1EA5AB4600B136CF /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A34774771EA5AB4600B136CF /* IOKit.framework */; };
+		A347747C1EA5AB4600B136CF /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A34774781EA5AB4600B136CF /* OpenGL.framework */; };
+		A347747F1EA5AB5F00B136CF /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A347747D1EA5AB5F00B136CF /* libglfw3.a */; };
+		A34774801EA5AB5F00B136CF /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A347747E1EA5AB5F00B136CF /* libSOIL.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A34774681EA5AB1B00B136CF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A347746A1EA5AB1B00B136CF /* AnimationPro */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AnimationPro; sourceTree = BUILT_PRODUCTS_DIR; };
+		A347746D1EA5AB1B00B136CF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		A34774751EA5AB4600B136CF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		A34774761EA5AB4600B136CF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		A34774771EA5AB4600B136CF /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		A34774781EA5AB4600B136CF /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		A347747D1EA5AB5F00B136CF /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglfw3.a; path = ../../../../../../usr/local/lib/libglfw3.a; sourceTree = "<group>"; };
+		A347747E1EA5AB5F00B136CF /* libSOIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSOIL.a; path = ../../../../../../usr/local/lib/libSOIL.a; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A34774671EA5AB1B00B136CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A347747F1EA5AB5F00B136CF /* libglfw3.a in Frameworks */,
+				A34774801EA5AB5F00B136CF /* libSOIL.a in Frameworks */,
+				A34774791EA5AB4600B136CF /* Cocoa.framework in Frameworks */,
+				A347747A1EA5AB4600B136CF /* CoreVideo.framework in Frameworks */,
+				A347747B1EA5AB4600B136CF /* IOKit.framework in Frameworks */,
+				A347747C1EA5AB4600B136CF /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A34774611EA5AB1B00B136CF = {
+			isa = PBXGroup;
+			children = (
+				A347746C1EA5AB1B00B136CF /* AnimationPro */,
+				A347746B1EA5AB1B00B136CF /* Products */,
+				A34774741EA5AB4600B136CF /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A347746B1EA5AB1B00B136CF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A347746A1EA5AB1B00B136CF /* AnimationPro */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A347746C1EA5AB1B00B136CF /* AnimationPro */ = {
+			isa = PBXGroup;
+			children = (
+				A347746D1EA5AB1B00B136CF /* main.cpp */,
+			);
+			path = AnimationPro;
+			sourceTree = "<group>";
+		};
+		A34774741EA5AB4600B136CF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A347747D1EA5AB5F00B136CF /* libglfw3.a */,
+				A347747E1EA5AB5F00B136CF /* libSOIL.a */,
+				A34774751EA5AB4600B136CF /* Cocoa.framework */,
+				A34774761EA5AB4600B136CF /* CoreVideo.framework */,
+				A34774771EA5AB4600B136CF /* IOKit.framework */,
+				A34774781EA5AB4600B136CF /* OpenGL.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A34774691EA5AB1B00B136CF /* AnimationPro */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A34774711EA5AB1B00B136CF /* Build configuration list for PBXNativeTarget "AnimationPro" */;
+			buildPhases = (
+				A34774661EA5AB1B00B136CF /* Sources */,
+				A34774671EA5AB1B00B136CF /* Frameworks */,
+				A34774681EA5AB1B00B136CF /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AnimationPro;
+			productName = AnimationPro;
+			productReference = A347746A1EA5AB1B00B136CF /* AnimationPro */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A34774621EA5AB1B00B136CF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "陈主润";
+				TargetAttributes = {
+					A34774691EA5AB1B00B136CF = {
+						CreatedOnToolsVersion = 8.3.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = A34774651EA5AB1B00B136CF /* Build configuration list for PBXProject "AnimationPro" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A34774611EA5AB1B00B136CF;
+			productRefGroup = A347746B1EA5AB1B00B136CF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A34774691EA5AB1B00B136CF /* AnimationPro */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A34774661EA5AB1B00B136CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A347746E1EA5AB1B00B136CF /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A347746F1EA5AB1B00B136CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A34774701EA5AB1B00B136CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A34774721EA5AB1B00B136CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A34774731EA5AB1B00B136CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A34774651EA5AB1B00B136CF /* Build configuration list for PBXProject "AnimationPro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A347746F1EA5AB1B00B136CF /* Debug */,
+				A34774701EA5AB1B00B136CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A34774711EA5AB1B00B136CF /* Build configuration list for PBXNativeTarget "AnimationPro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A34774721EA5AB1B00B136CF /* Debug */,
+				A34774731EA5AB1B00B136CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A34774621EA5AB1B00B136CF /* Project object */;
+}
