@@ -9,12 +9,11 @@
 #include "ModelRender.hpp"
 
 
-ModelRender::ModelRender(ModelShader shader, ObjModel objModel) {
+ModelRender::ModelRender(ModelShader shader) {
     this->Shader = shader;
-    this->Model = objModel;
 }
 
-void ModelRender::render(glm::mat4 projection, glm::mat4 view, glm::mat4 model, Camera camera) {
+void ModelRender::render(ObjModel objModel, glm::mat4 projection, glm::mat4 view, glm::mat4 model, Camera camera) {
     
     this->prepare();
     this->Shader.loadViewPos(camera.Pos.x, camera.Pos.y, camera.Pos.z);
@@ -22,7 +21,7 @@ void ModelRender::render(glm::mat4 projection, glm::mat4 view, glm::mat4 model, 
     this->Shader.loadProjectionMat(glm::value_ptr(projection));
     this->Shader.loadModelMat(glm::value_ptr(model));
     
-    this->Model.Draw(this->Shader);
+    objModel.Draw(this->Shader);
     this->Shader.Stop();
 }
 

@@ -14,12 +14,12 @@ Terrain::Terrain() {
     this->VERTEX_COUNT = 128;
 }
 
-Terrain::Terrain(int gridX, int gridZ, Loader loader, ModelTexture texture) {
+Terrain::Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, TerrainTexture blendMap) {
     
     this->SIZE = 800;
     this->VERTEX_COUNT = 128;
-    
-    this->Texture = texture;
+    this->TexturePack = texturePack;
+    this->BlendMap = blendMap;
     this->x = gridX * SIZE;
     this->z = gridZ * SIZE;
     this->Model = generateTerrain(loader);
@@ -74,8 +74,12 @@ RawModel Terrain::getModel() {
     return this->Model;
 }
 
-ModelTexture Terrain::getTexture() {
-    return this->Texture;
+TerrainTexture Terrain::getBlendMap() {
+    return this->BlendMap;
+}
+
+TerrainTexturePack Terrain::getTexturePack() {
+    return this->TexturePack;
 }
 
 GLfloat Terrain::getX() {

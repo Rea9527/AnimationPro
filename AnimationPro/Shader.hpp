@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 // glew
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -18,6 +19,7 @@
 #include "PointLight.hpp"
 #include "DirectionalLight.hpp"
 
+using namespace std;
 
 class Shader {
 public:
@@ -26,7 +28,7 @@ public:
     
     Shader();
     // create vertex and fragment shaders by paths
-    Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
+    Shader(string vertexPath, string fragmentPath);
     //getAllUniformLocations
     void getAllUniformLocations();
     

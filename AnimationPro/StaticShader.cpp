@@ -10,9 +10,7 @@
 
 
 
-StaticShader::StaticShader(const GLchar* vertexPath, const GLchar* fragmentPath) : Shader(vertexPath, fragmentPath) {
-    
-}
+StaticShader::StaticShader(string vertexPath, string fragmentPath) : Shader(vertexPath, fragmentPath) { }
 
 
 //LIGHT

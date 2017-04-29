@@ -11,13 +11,16 @@
 
 TerrainRender::TerrainRender(TerrainShader shader) {
     this->shader = shader;
-
-//    this->shader.Stop();
+    this->shader.Use();
+    this->shader.getAllUniformLocations();
+    this->shader.loadTextureLoc();
+    this->shader.connectTexture();
+    this->shader.Stop();
 }
 
 void TerrainRender::render(vector<Terrain> terrains, glm::mat4 projection, glm::mat4 view) {
     this->shader.Use();
-    this->shader.getAllUniformLocations();
+
     this->shader.loadViewMat(glm::value_ptr(view));
     this->shader.loadProjectionMat(glm::value_ptr(projection));
     for (Terrain terrain : terrains) {
@@ -30,18 +33,25 @@ void TerrainRender::render(vector<Terrain> terrains, glm::mat4 projection, glm::
 
 void TerrainRender::prepareTerrain(Terrain terrain) {
     RawModel model = terrain.getModel();
-    
-    ModelTexture texture = terrain.getTexture();
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture.getId());
+
+    this->bindTexture(terrain);
     glBindVertexArray(model.getVAO());
-    
 }
 
-void TerrainRender::loadModelMat(Terrain terrain) {
-    glm::mat4 model;
-    model = glm::translate(model, glm::vec3(0, 0, 0));
-    shader.loadModelMat(glm::value_ptr(model));
+void TerrainRender::bindTexture(Terrain terrain) {
+    TerrainTexturePack texturePack = terrain.getTexturePack();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texturePack.getBgTerrain().getTextureId());
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, texturePack.getRTerrain().getTextureId());
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, texturePack.getGTerrain().getTextureId());
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, texturePack.getBTerrain().getTextureId());
+    glActiveTexture(GL_TEXTURE4);
+    glBindTexture(GL_TEXTURE_2D, terrain.getBlendMap().getTextureId());
+    
+
 }
 
 void TerrainRender::unbindTextureModel() {
@@ -49,5 +59,20 @@ void TerrainRender::unbindTextureModel() {
     
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, 0);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glActiveTexture(GL_TEXTURE4);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+void TerrainRender::loadModelMat(Terrain terrain) {
+    glm::mat4 model;
+    model = glm::translate(model, glm::vec3(0, -0.3f, 0));
+    shader.loadModelMat(glm::value_ptr(model));
+}
+
 

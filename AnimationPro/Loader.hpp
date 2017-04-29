@@ -13,11 +13,14 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
+
 #include <GL/glew.h>
 #include <SOIL/SOIL.h>
 
 #include "RawModel.hpp"
 
+using namespace std;
 
 class Loader {
 public:
@@ -25,7 +28,7 @@ public:
     ~Loader();
     //load
     RawModel loadToVAO(GLfloat vertices[], GLsizei size, GLuint indices[], GLsizei isize);
-    GLuint loadTexture(GLchar path[]);
+    GLuint loadTexture(string path);
     void setAttribPointer(GLuint index, GLuint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid *pointer);
     // bind EBO
     void createEBO(GLuint indices[], GLsizei size);

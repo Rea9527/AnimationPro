@@ -32,6 +32,7 @@ private:
     
     void prepareTerrain(Terrain terrain);
     void loadModelMat(Terrain terrain);
+    void bindTexture(Terrain terrain);
     void unbindTextureModel();
 };
 

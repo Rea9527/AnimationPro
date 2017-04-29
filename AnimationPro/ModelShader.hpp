@@ -17,7 +17,7 @@ class ModelShader : public Shader {
     
 public:
     ModelShader();
-    ModelShader(const GLchar* vertexPath, const GLchar* fragmentPath);
+    ModelShader(string vertexPath, string fragmentPath);
 
     
     void addPointLight(PointLight light);

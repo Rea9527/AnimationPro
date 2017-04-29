@@ -26,9 +26,9 @@
 class ModelRender {
     
 public:
-    ModelRender(ModelShader shader, ObjModel objModel);
+    ModelRender(ModelShader shader);
     
-    void render(glm::mat4 projection, glm::mat4 view, glm::mat4 model, Camera camera);
+    void render(ObjModel objModel, glm::mat4 projection, glm::mat4 view, glm::mat4 model, Camera camera);
     
     void addLight(PointLight pointLight, DirectionalLight directionalLight);
     
@@ -37,7 +37,6 @@ public:
 
 private:
     ModelShader Shader;
-    ObjModel Model;
 };
 
 #endif /* ModelRender_hpp */

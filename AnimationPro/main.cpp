@@ -180,27 +180,43 @@ int main(int argc, const char * argv[]) {
     };
     //===============================
     
+    string root = "./shaderSources/";
     //===============================
     //build shader program
-    ModelShader nanoShader("./shaderSources/nanoVS.vs", "./shaderSources/nanoFS.frag");
-    StaticShader myShader("./shaderSources/vertexShader.vs", "./shaderSources/fragmentShader.frag");
-    TerrainShader terrainShader("./shaderSources/terrainVS.vs", "./shaderSources/terrainFS.frag");
+    ModelShader modelShader( root+"modelVS.vs", root+"modelFS.frag" );
+    StaticShader myShader( root+"vertexShader.vs", root+"fragmentShader.frag" );
+    TerrainShader terrainShader( root+"terrainVS.vs", root+"terrainFS.frag" );
     
-//    ObjModel nanoModel("./assets/oldhouse/oldhouse/oldhouse.obj");
-    ObjModel nanoModel("./assets/puss/Puss_in_Boots.obj");
-    ModelRender nanoRender(nanoShader, nanoModel);
+    ObjModel houseModel("./assets/oldhouse/oldhouse/oldhouse.obj");
+    ModelRender houseRender(modelShader);
+    ObjModel pussModel("./assets/puss/Puss_in_Boots.obj");
+    ModelRender pussRender(modelShader);
+    ObjModel treeModel("./assets/trees9/trees9.3ds");
+    ModelRender treeRender(modelShader);
     
     
     Loader loader;
     //==============================
-    Terrain terrain1 = Terrain(0, 0, loader, ModelTexture(loader.loadTexture("./assets/grass.png")));
-    Terrain terrain2 = Terrain(1, 0, loader, ModelTexture(loader.loadTexture("./assets/grass.png")));
+    root = "./assets/terrain/";
+    TerrainTexture bgTexture = TerrainTexture(loader.loadTexture(root+"grass.png"));
+    TerrainTexture rTexture = TerrainTexture(loader.loadTexture(root+"mud.png"));
+    TerrainTexture gTexture = TerrainTexture(loader.loadTexture(root+"flowers.png"));
+    TerrainTexture bTexture = TerrainTexture(loader.loadTexture(root+"path.png"));
+    
+    TerrainTexturePack texturePack = TerrainTexturePack(bgTexture, rTexture, gTexture, bTexture);
+    TerrainTexture blendMap = TerrainTexture(loader.loadTexture(root+"blendMap.png"));
+    
+    Terrain terrain1 = Terrain(0, 0, loader, texturePack, blendMap);
+    Terrain terrain2 = Terrain(1, 0, loader, texturePack, blendMap);
+    
     vector<Terrain> terrains;
     terrains.push_back(terrain1);
     terrains.push_back(terrain2);
     TerrainRender terrainRender(terrainShader);
+    //==============================
     
-                               
+    
+    //==============================
     //read texture image
     GLuint texture1 = loader.loadTexture("./assets/container2.png");
     GLuint texture2 = loader.loadTexture("./assets/specularMap.png");
@@ -228,6 +244,9 @@ int main(int argc, const char * argv[]) {
     
 //    myCamera.disable();
     glEnable(GL_DEPTH_TEST);
+    
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     // drawing loop
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
@@ -242,18 +261,35 @@ int main(int argc, const char * argv[]) {
         angle = glm::radians(myCamera.Zoom);
         projection = glm::perspective(angle, WIN_WIDTH / WIN_HEIGHT, 0.1f, 1000.0f);
         
-        
+        //terrain
         //==============================
         terrainRender.render(terrains, projection, view);
 
+        //puss
+        //==============================
+        model = glm::mat4();
+        model = glm::translate(model, glm::vec3(550.0f, 11.5f, 200.0f));
+        model = glm::scale(model, glm::vec3(15, 15, 15));
+        pussRender.addLight(pointLight, dirLight);
+        pussRender.render(pussModel, projection, view, model, myCamera);
+        
+        
+        //puss
         //==============================
         model = glm::mat4();
         model = glm::translate(model, glm::vec3(400.0f, 0, 200.0f));
-        model = glm::scale(model, glm::vec3(10.5, 10.5, 10.5));
-        nanoRender.addLight(pointLight, dirLight);
-        nanoRender.render(projection, view, model, myCamera);
+        model = glm::scale(model, glm::vec3(0.5, 0.5, 0.5));
+        houseRender.addLight(pointLight, dirLight);
+        houseRender.render(houseModel, projection, view, model, myCamera);
         
-
+        //tree
+        //==============================
+        model = glm::mat4();
+        model = glm::translate(model, glm::vec3(400.0f, 0.0f, 200.0f));
+        model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+        treeRender.addLight(pointLight, dirLight);
+        treeRender.render(treeModel, projection, view, model, myCamera);
+        
         
         //==============================
 //        myShader.Use();

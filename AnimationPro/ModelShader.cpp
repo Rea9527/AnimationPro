@@ -11,7 +11,7 @@
 
 ModelShader::ModelShader() {}
 
-ModelShader::ModelShader(const GLchar* vertexPath, const GLchar* fragmentPath) : Shader(vertexPath, fragmentPath) {
+ModelShader::ModelShader(string vertexPath, string fragmentPath) : Shader(vertexPath, fragmentPath) {
     
 }
 

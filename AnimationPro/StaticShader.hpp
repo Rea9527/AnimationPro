@@ -16,7 +16,7 @@
 class StaticShader : public Shader {
     
 public:
-    StaticShader(const GLchar* vertexPath, const GLchar* fragmentPath);
+    StaticShader(string vertexPath, string fragmentPath);
     
     
     void addPointLight(PointLight light);

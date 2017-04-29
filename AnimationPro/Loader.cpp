@@ -48,10 +48,10 @@ RawModel Loader::loadToVAO(GLfloat vertices[], GLsizei size, GLuint indices[], G
 
 
 
-GLuint Loader::loadTexture(GLchar path[]) {
+GLuint Loader::loadTexture(string path) {
     GLuint textureId;
     GLint texWidth, texHeight;
-    unsigned char* image = SOIL_load_image(path, &texWidth, &texHeight, 0, SOIL_LOAD_RGB);
+    unsigned char* image = SOIL_load_image(path.c_str(), &texWidth, &texHeight, 0, SOIL_LOAD_RGBA);
     //texture 1
     glGenTextures(1, &textureId);
     glBindTexture(GL_TEXTURE_2D, textureId);
@@ -63,7 +63,7 @@ GLuint Loader::loadTexture(GLchar path[]) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     // set tex image
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texWidth, texHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texWidth, texHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
     glGenerateMipmap(GL_TEXTURE_2D);
     SOIL_free_image_data(image);
     return textureId;

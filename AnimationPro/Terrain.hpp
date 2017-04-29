@@ -15,10 +15,10 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-#include "ModelTexture.hpp"
+#include "TerrainTexture.hpp"
+#include "TerrainTexturePack.hpp"
 #include "RawModel.hpp"
 #include "Loader.hpp"
-
 
 
 
@@ -27,12 +27,13 @@ class Terrain {
 public:
     
     Terrain();
-    Terrain(int gridX, int gridZ, Loader loader, ModelTexture texture);
+    Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, TerrainTexture blendMap);
     
     RawModel generateTerrain(Loader loader);
     
     RawModel getModel();
-    ModelTexture getTexture();
+    TerrainTexture getBlendMap();
+    TerrainTexturePack getTexturePack();
     
     GLfloat getX();
     GLfloat getZ();
@@ -42,7 +43,8 @@ private:
     GLfloat z;
     
     RawModel Model;
-    ModelTexture Texture;
+    TerrainTexture BlendMap;
+    TerrainTexturePack TexturePack;
     
     int SIZE;
     int VERTEX_COUNT;

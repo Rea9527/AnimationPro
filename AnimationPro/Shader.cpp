@@ -13,12 +13,12 @@
 
 Shader::Shader() {}
 
-Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath) {
+Shader::Shader(string vertexPath, string fragmentPath) {
     
     //create vertex shader
     std::ifstream vertexFile, fragmentFile;
-    vertexFile.open(vertexPath, std::ios::in);
-    fragmentFile.open(fragmentPath, std::ios::in);
+    vertexFile.open(vertexPath.c_str(), std::ios::in);
+    fragmentFile.open(fragmentPath.c_str(), std::ios::in);
     std::stringstream vertexSS, fragmentSS;
     vertexSS << vertexFile.rdbuf();
     fragmentSS << fragmentFile.rdbuf();

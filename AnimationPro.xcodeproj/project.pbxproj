@@ -34,6 +34,8 @@
 		A389CE621EAF2B76004B3050 /* libassimp.3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A389CE5F1EAF2B76004B3050 /* libassimp.3.3.1.dylib */; };
 		A389CE631EAF2B76004B3050 /* libassimp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A389CE601EAF2B76004B3050 /* libassimp.a */; };
 		A389CE661EAF7B4C004B3050 /* ModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A389CE641EAF7B4C004B3050 /* ModelRender.cpp */; };
+		A3F58DFA1EB3475A007175AD /* TerrainTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3F58DF81EB3475A007175AD /* TerrainTexture.cpp */; };
+		A3F58DFD1EB34DCD007175AD /* TerrainTexturePack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3F58DFB1EB34DCD007175AD /* TerrainTexturePack.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -96,6 +98,10 @@
 		A389CE601EAF2B76004B3050 /* libassimp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libassimp.a; path = ../../../../../../usr/local/lib/libassimp.a; sourceTree = "<group>"; };
 		A389CE641EAF7B4C004B3050 /* ModelRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelRender.cpp; sourceTree = "<group>"; };
 		A389CE651EAF7B4C004B3050 /* ModelRender.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ModelRender.hpp; sourceTree = "<group>"; };
+		A3F58DF81EB3475A007175AD /* TerrainTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainTexture.cpp; sourceTree = "<group>"; };
+		A3F58DF91EB3475A007175AD /* TerrainTexture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TerrainTexture.hpp; sourceTree = "<group>"; };
+		A3F58DFB1EB34DCD007175AD /* TerrainTexturePack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainTexturePack.cpp; sourceTree = "<group>"; };
+		A3F58DFC1EB34DCD007175AD /* TerrainTexturePack.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TerrainTexturePack.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +218,10 @@
 			children = (
 				A389CE301EAF2AD7004B3050 /* ModelTexture.cpp */,
 				A389CE311EAF2AD7004B3050 /* ModelTexture.hpp */,
+				A3F58DF81EB3475A007175AD /* TerrainTexture.cpp */,
+				A3F58DF91EB3475A007175AD /* TerrainTexture.hpp */,
+				A3F58DFB1EB34DCD007175AD /* TerrainTexturePack.cpp */,
+				A3F58DFC1EB34DCD007175AD /* TerrainTexturePack.hpp */,
 			);
 			name = texture;
 			sourceTree = "<group>";
@@ -328,6 +338,7 @@
 				A389CE4D1EAF2AD7004B3050 /* PointLight.cpp in Sources */,
 				A389CE491EAF2AD7004B3050 /* Mesh.cpp in Sources */,
 				A389CE541EAF2AD7004B3050 /* TextureModel.cpp in Sources */,
+				A3F58DFD1EB34DCD007175AD /* TerrainTexturePack.cpp in Sources */,
 				A389CE451EAF2AD7004B3050 /* Camera.cpp in Sources */,
 				A389CE4E1EAF2AD7004B3050 /* RawModel.cpp in Sources */,
 				A389CE4B1EAF2AD7004B3050 /* ModelTexture.cpp in Sources */,
@@ -338,6 +349,7 @@
 				A389CE4C1EAF2AD7004B3050 /* ObjModel.cpp in Sources */,
 				A389CE501EAF2AD7004B3050 /* StaticShader.cpp in Sources */,
 				A389CE471EAF2AD7004B3050 /* Light.cpp in Sources */,
+				A3F58DFA1EB3475A007175AD /* TerrainTexture.cpp in Sources */,
 				A389CE4F1EAF2AD7004B3050 /* Shader.cpp in Sources */,
 				A389CE531EAF2AD7004B3050 /* TerrainShader.cpp in Sources */,
 				A389CE461EAF2AD7004B3050 /* DirectionalLight.cpp in Sources */,

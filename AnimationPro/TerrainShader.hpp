@@ -19,7 +19,10 @@ class TerrainShader : public Shader {
     
 public:
     TerrainShader();
-    TerrainShader(const GLchar* vertexPath, const GLchar* fragmentPath);
+    TerrainShader(string vertexPath, string fragmentPath);
+    
+    void loadTextureLoc();
+    void connectTexture();
     
 private:
     //lights
@@ -27,6 +30,12 @@ private:
     GLint viewPosLoc;
     std::vector<PointLight> pointLights;
     std::vector<DirectionalLight> directionalLights;
+    
+    GLuint bgTextureLoc;
+    GLuint rTextureLoc;
+    GLuint gTextureLoc;
+    GLuint bTextureLoc;
+    GLuint blendMapLoc;
 };
 
 #endif /* TerrainShader_hpp */
