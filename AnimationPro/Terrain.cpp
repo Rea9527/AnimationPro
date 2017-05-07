@@ -10,14 +10,14 @@
 
 
 Terrain::Terrain() {
-    this->SIZE = 800;
-    this->VERTEX_COUNT = 128;
+    this->SIZE = 1600;
+    this->VERTEX_COUNT = 256;
 }
 
 Terrain::Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, TerrainTexture blendMap) {
     
-    this->SIZE = 800;
-    this->VERTEX_COUNT = 128;
+    this->SIZE = 1600;
+    this->VERTEX_COUNT = 256;
     this->TexturePack = texturePack;
     this->BlendMap = blendMap;
     this->x = gridX * SIZE;
@@ -29,8 +29,8 @@ Terrain::Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texture
 
 RawModel Terrain::generateTerrain(Loader loader) {
     
-    GLfloat vertices[8*128*128];
-    GLuint indices[6*127*127];
+    GLfloat vertices[8*256*256];
+    GLuint indices[6*255*255];
     
     int vertexPointer = 0;
     for (int i = 0;i < VERTEX_COUNT; i++) {

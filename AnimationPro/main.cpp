@@ -44,19 +44,6 @@ void updateMovement();
 
 GLfloat WIN_WIDTH = 640, WIN_HEIGHT = 480;
 
-glm::vec3 cubePositions[] = {
-    glm::vec3( 0.0f,  0.0f,  0.0f),
-    glm::vec3( 2.0f,  5.0f, -15.0f),
-    glm::vec3(-1.5f, -2.2f, -2.5f),
-    glm::vec3(-3.8f, -2.0f, -12.3f),
-    glm::vec3( 2.4f, -0.4f, -3.5f),
-    glm::vec3(-1.7f,  3.0f, -7.5f),
-    glm::vec3( 1.3f, -2.0f, -2.5f),
-    glm::vec3( 1.5f,  2.0f, -2.5f),
-    glm::vec3( 1.5f,  0.2f, -1.5f),
-    glm::vec3(-1.3f,  1.0f, -1.5f)
-};
-
 glm::vec3 dirLightAttrib[] {
     glm::vec3(1.0f, 1.0f, 1.0f),//ambient
     glm::vec3(0.0f, 0.0f, 0.0f),//diffuse
@@ -81,7 +68,7 @@ GLfloat lastFrame = 0.0f;
 GLfloat lastX = WIN_WIDTH/2, lastY = WIN_HEIGHT/2;
 bool firstMouse = true;
 
-glm::vec3 cameraPos   = glm::vec3(700.0f, 50.0f, 250.0f);
+glm::vec3 cameraPos   = glm::vec3(940.0f, 10.0f, 420.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 Camera myCamera(cameraPos, cameraUp, -180.0f, 0.0f);
 
@@ -274,8 +261,8 @@ int main(int argc, const char * argv[]) {
         //puss
         //==============================
         model = glm::mat4();
-        model = glm::translate(model, glm::vec3(550.0f, 11.5f, 200.0f));
-        model = glm::scale(model, glm::vec3(15, 15, 15));
+        model = glm::translate(model, glm::vec3(880.0f, 1.2f, 420.0f));
+        model = glm::scale(model, glm::vec3(2, 2, 2));
         pussRender.addLight(pointLight, dirLight);
         pussRender.render(pussModel, projection, view, model, myCamera);
         
@@ -283,8 +270,8 @@ int main(int argc, const char * argv[]) {
         //house
         //==============================
         model = glm::mat4();
-        model = glm::translate(model, glm::vec3(400.0f, 0, 200.0f));
-        model = glm::scale(model, glm::vec3(0.5, 0.5, 0.5));
+        model = glm::translate(model, glm::vec3(850.0f, 0, 420.0f));
+        model = glm::scale(model, glm::vec3(0.1, 0.1, 0.1));
         houseRender.addLight(pointLight, dirLight);
         houseRender.render(houseModel, projection, view, model, myCamera);
         
