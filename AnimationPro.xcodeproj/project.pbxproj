@@ -34,6 +34,8 @@
 		A389CE621EAF2B76004B3050 /* libassimp.3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A389CE5F1EAF2B76004B3050 /* libassimp.3.3.1.dylib */; };
 		A389CE631EAF2B76004B3050 /* libassimp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A389CE601EAF2B76004B3050 /* libassimp.a */; };
 		A389CE661EAF7B4C004B3050 /* ModelRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A389CE641EAF7B4C004B3050 /* ModelRender.cpp */; };
+		A3ACF83A1EB992A7005099A6 /* Skybox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3ACF8381EB992A7005099A6 /* Skybox.cpp */; };
+		A3ACF83D1EBC8AF4005099A6 /* SkyboxRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3ACF83B1EBC8AF4005099A6 /* SkyboxRender.cpp */; };
 		A3F58DFA1EB3475A007175AD /* TerrainTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3F58DF81EB3475A007175AD /* TerrainTexture.cpp */; };
 		A3F58DFD1EB34DCD007175AD /* TerrainTexturePack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3F58DFB1EB34DCD007175AD /* TerrainTexturePack.cpp */; };
 /* End PBXBuildFile section */
@@ -98,6 +100,10 @@
 		A389CE601EAF2B76004B3050 /* libassimp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libassimp.a; path = ../../../../../../usr/local/lib/libassimp.a; sourceTree = "<group>"; };
 		A389CE641EAF7B4C004B3050 /* ModelRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelRender.cpp; sourceTree = "<group>"; };
 		A389CE651EAF7B4C004B3050 /* ModelRender.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ModelRender.hpp; sourceTree = "<group>"; };
+		A3ACF8381EB992A7005099A6 /* Skybox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Skybox.cpp; sourceTree = "<group>"; };
+		A3ACF8391EB992A7005099A6 /* Skybox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Skybox.hpp; sourceTree = "<group>"; };
+		A3ACF83B1EBC8AF4005099A6 /* SkyboxRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkyboxRender.cpp; sourceTree = "<group>"; };
+		A3ACF83C1EBC8AF4005099A6 /* SkyboxRender.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SkyboxRender.hpp; sourceTree = "<group>"; };
 		A3F58DF81EB3475A007175AD /* TerrainTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainTexture.cpp; sourceTree = "<group>"; };
 		A3F58DF91EB3475A007175AD /* TerrainTexture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TerrainTexture.hpp; sourceTree = "<group>"; };
 		A3F58DFB1EB34DCD007175AD /* TerrainTexturePack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainTexturePack.cpp; sourceTree = "<group>"; };
@@ -144,6 +150,7 @@
 		A347746C1EA5AB1B00B136CF /* AnimationPro */ = {
 			isa = PBXGroup;
 			children = (
+				A3ACF8371EB99292005099A6 /* skybox */,
 				A389CE5D1EAF2B53004B3050 /* render */,
 				A389CE5C1EAF2B4A004B3050 /* mesh */,
 				A389CE5B1EAF2B3D004B3050 /* camera */,
@@ -273,8 +280,19 @@
 				A389CE401EAF2AD7004B3050 /* TerrainRender.hpp */,
 				A389CE641EAF7B4C004B3050 /* ModelRender.cpp */,
 				A389CE651EAF7B4C004B3050 /* ModelRender.hpp */,
+				A3ACF83B1EBC8AF4005099A6 /* SkyboxRender.cpp */,
+				A3ACF83C1EBC8AF4005099A6 /* SkyboxRender.hpp */,
 			);
 			name = render;
+			sourceTree = "<group>";
+		};
+		A3ACF8371EB99292005099A6 /* skybox */ = {
+			isa = PBXGroup;
+			children = (
+				A3ACF8381EB992A7005099A6 /* Skybox.cpp */,
+				A3ACF8391EB992A7005099A6 /* Skybox.hpp */,
+			);
+			name = skybox;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -336,6 +354,7 @@
 			files = (
 				A389CE4A1EAF2AD7004B3050 /* ModelShader.cpp in Sources */,
 				A389CE4D1EAF2AD7004B3050 /* PointLight.cpp in Sources */,
+				A3ACF83A1EB992A7005099A6 /* Skybox.cpp in Sources */,
 				A389CE491EAF2AD7004B3050 /* Mesh.cpp in Sources */,
 				A389CE541EAF2AD7004B3050 /* TextureModel.cpp in Sources */,
 				A3F58DFD1EB34DCD007175AD /* TerrainTexturePack.cpp in Sources */,
@@ -350,6 +369,7 @@
 				A389CE501EAF2AD7004B3050 /* StaticShader.cpp in Sources */,
 				A389CE471EAF2AD7004B3050 /* Light.cpp in Sources */,
 				A3F58DFA1EB3475A007175AD /* TerrainTexture.cpp in Sources */,
+				A3ACF83D1EBC8AF4005099A6 /* SkyboxRender.cpp in Sources */,
 				A389CE4F1EAF2AD7004B3050 /* Shader.cpp in Sources */,
 				A389CE531EAF2AD7004B3050 /* TerrainShader.cpp in Sources */,
 				A389CE461EAF2AD7004B3050 /* DirectionalLight.cpp in Sources */,

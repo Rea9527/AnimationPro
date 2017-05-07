@@ -16,20 +16,10 @@
 class StaticShader : public Shader {
     
 public:
+    
+    StaticShader();
     StaticShader(string vertexPath, string fragmentPath);
-    
-    
-    void addPointLight(PointLight light);
-    void addDirectionalLight(DirectionalLight light);
-    void loadViewPos(GLfloat x, GLfloat y, GLfloat z);
-    
-private:
-    
-    //lights
-    GLint matShineLoc;
-    GLint viewPosLoc;
-    std::vector<PointLight> pointLights;
-    std::vector<DirectionalLight> directionalLights;
+
     
 };
 

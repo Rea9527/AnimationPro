@@ -31,10 +31,7 @@ void Loader::cleanUp() {
 
 RawModel Loader::loadToVAO(GLfloat vertices[], GLsizei size, GLuint indices[], GLsizei isize) {
     
-//    std::cout << "to: " << vertices[15000] << " " << vertices[15001] << " " << vertices[15002] << " " << vertices[15003] <<std::endl;
-    
     GLuint vaoID = createVAO();
-//    std::cout << size / sizeof(GLfloat)/8 << std::endl;
     RawModel rawModel(vaoID, isize/sizeof(GLfloat));
     storeDataToArrayList(vertices, size);
     createEBO(indices, isize);
@@ -46,7 +43,14 @@ RawModel Loader::loadToVAO(GLfloat vertices[], GLsizei size, GLuint indices[], G
     return rawModel;
 }
 
-
+RawModel Loader::loadPosToVAO(GLfloat vertices[], GLsizei size, GLsizei count) {
+    GLuint vaoID = createVAO();
+    RawModel rawModel(vaoID, count);
+    storeDataToArrayList(vertices, size);
+    setAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+    unbind();
+    return rawModel;
+}
 
 GLuint Loader::loadTexture(string path) {
     GLuint textureId;

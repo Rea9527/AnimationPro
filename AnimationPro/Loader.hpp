@@ -26,8 +26,10 @@ class Loader {
 public:
     Loader();
     ~Loader();
-    //load
+    //load pos colors textures
     RawModel loadToVAO(GLfloat vertices[], GLsizei size, GLuint indices[], GLsizei isize);
+    //load pos
+    RawModel loadPosToVAO(GLfloat vertices[], GLsizei size, GLsizei count);
     GLuint loadTexture(string path);
     void setAttribPointer(GLuint index, GLuint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid *pointer);
     // bind EBO

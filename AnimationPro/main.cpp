@@ -28,6 +28,7 @@
 
 #include "TerrainRender.hpp"
 #include "ModelRender.hpp"
+#include "SkyboxRender.hpp"
 
 #include "Loader.hpp"
 #include "Camera.hpp"
@@ -57,17 +58,17 @@ glm::vec3 cubePositions[] = {
 };
 
 glm::vec3 dirLightAttrib[] {
-    glm::vec3(1.0f, 1.0f, 1.0f),
-    glm::vec3(1.0f, 1.0f, 1.0f),
-    glm::vec3(0.0f, 0.0f, 0.0f),
-    glm::vec3(-0.2f, -1.0f, -0.3f)
+    glm::vec3(1.0f, 1.0f, 1.0f),//ambient
+    glm::vec3(0.0f, 0.0f, 0.0f),//diffuse
+    glm::vec3(0.0f, 0.0f, 0.0f),//specular
+    glm::vec3(-0.2f, -1.0f, -0.3f)//direction
 };
 
 glm::vec3 pointLightAttrib[] {
-    glm::vec3(1.0f, 1.0f, 1.0f),
-    glm::vec3(0.0f, 0.0f, 1.0f),
-    glm::vec3(1.0f, 1.0f, 1.0f),
-    glm::vec3(0.0f, 0.0f, -4.0f)
+    glm::vec3(1.0f, 1.0f, 1.0f),//am
+    glm::vec3(0.0f, 0.0f, 0.0f),//di
+    glm::vec3(0.0f, 0.0f, 0.0f),//spec
+    glm::vec3(0.0f, 0.0f, -4.0f)//pos
     
 };
 
@@ -184,14 +185,14 @@ int main(int argc, const char * argv[]) {
     //===============================
     //build shader program
     ModelShader modelShader( root+"modelVS.vs", root+"modelFS.frag" );
-    StaticShader myShader( root+"vertexShader.vs", root+"fragmentShader.frag" );
+    StaticShader skyboxShader( root+"skyboxVS.vs", root+"skyboxFS.frag" );
     TerrainShader terrainShader( root+"terrainVS.vs", root+"terrainFS.frag" );
     
     ObjModel houseModel("./assets/oldhouse/oldhouse/oldhouse.obj");
     ModelRender houseRender(modelShader);
     ObjModel pussModel("./assets/puss/Puss_in_Boots.obj");
     ModelRender pussRender(modelShader);
-    ObjModel treeModel("./assets/trees9/trees9.3ds");
+    ObjModel treeModel("./assets/tree3/tree/tree.obj");
     ModelRender treeRender(modelShader);
     
     
@@ -217,19 +218,17 @@ int main(int argc, const char * argv[]) {
     
     
     //==============================
-    //read texture image
-    GLuint texture1 = loader.loadTexture("./assets/container2.png");
-    GLuint texture2 = loader.loadTexture("./assets/specularMap.png");
-    myShader.Use();
-    glUniform1i(glGetUniformLocation(myShader.Program, "material.diffuse"), 0);
-    glUniform1i(glGetUniformLocation(myShader.Program, "material.specular"), 1);
-    myShader.Stop();
-    //==============================
+    //skybox
+    SkyboxRender skyboxRender(skyboxShader);
+    vector<const char*> faces;
+    faces.push_back("./assets/skybox/cloudtop/right.jpg");
+    faces.push_back("./assets/skybox/cloudtop/left.jpg");
+    faces.push_back("./assets/skybox/cloudtop/top.jpg");
+    faces.push_back("./assets/skybox/cloudtop/bottom.jpg");
+    faces.push_back("./assets/skybox/cloudtop/back.jpg");
+    faces.push_back("./assets/skybox/cloudtop/front.jpg");
+    Skybox skybox = Skybox(loader, faces);
     
-    
-    //==============================
-    //rectangle
-    RawModel cube = loader.loadToVAO(points, sizeof(points), indices, sizeof(indices));
     //==============================
     
     //Lights
@@ -261,6 +260,13 @@ int main(int argc, const char * argv[]) {
         angle = glm::radians(myCamera.Zoom);
         projection = glm::perspective(angle, WIN_WIDTH / WIN_HEIGHT, 0.1f, 1000.0f);
         
+        
+        //skybox
+        //==============================
+        glDepthMask(GL_FALSE);
+        skyboxRender.render(skybox, view, projection);
+        glDepthMask(GL_TRUE);
+        
         //terrain
         //==============================
         terrainRender.render(terrains, projection, view);
@@ -274,7 +280,7 @@ int main(int argc, const char * argv[]) {
         pussRender.render(pussModel, projection, view, model, myCamera);
         
         
-        //puss
+        //house
         //==============================
         model = glm::mat4();
         model = glm::translate(model, glm::vec3(400.0f, 0, 200.0f));
@@ -285,46 +291,11 @@ int main(int argc, const char * argv[]) {
         //tree
         //==============================
         model = glm::mat4();
-        model = glm::translate(model, glm::vec3(400.0f, 0.0f, 200.0f));
+        model = glm::translate(model, glm::vec3(550.0f, 11.5f, 200.0f));
         model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
         treeRender.addLight(pointLight, dirLight);
         treeRender.render(treeModel, projection, view, model, myCamera);
         
-        
-        //==============================
-//        myShader.Use();
-//        myShader.getAllUniformLocations();
-//        
-//        //bind texture
-//        glActiveTexture(GL_TEXTURE0);
-//        glBindTexture(GL_TEXTURE_2D, texture1);
-//        glActiveTexture(GL_TEXTURE1);
-//        glBindTexture(GL_TEXTURE_2D, texture2);
-//        
-//        
-//        //model
-//        glm::mat4 baseModel;
-//        angle = glm::radians(-180.0f);
-//        baseModel = glm::rotate(baseModel, angle, glm::vec3(0.5f, 1.0f, 1.0f));
-////        //view
-//        myShader.loadViewMat(glm::value_ptr(view));
-////        //projection
-//        myShader.loadProjectionMat(glm::value_ptr(projection));
-//
-//        for (GLuint i = 0; i < 10; i++) {
-//            model = glm::translate(baseModel, cubePositions[i]);
-//            angle = glm::radians(-55.0f * (i+1) * (float)glfwGetTime() / 5);
-//            model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
-//            
-//            myShader.loadModelMat(glm::value_ptr(model));
-//            
-//            //draw
-//            glBindVertexArray(cube.getVAO());
-//            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-//            glBindVertexArray(0);
-//        }
-
-        //==============================
         
         
         glfwSwapBuffers(window);

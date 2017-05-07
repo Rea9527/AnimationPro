@@ -29,6 +29,8 @@ void TerrainRender::render(vector<Terrain> terrains, glm::mat4 projection, glm::
         glDrawElements(GL_TRIANGLES, terrain.getModel().getVertexCount(), GL_UNSIGNED_INT, 0);
         unbindTextureModel();
     }
+    
+    this->shader.Stop();
 }
 
 void TerrainRender::prepareTerrain(Terrain terrain) {

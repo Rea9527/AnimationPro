@@ -66,7 +66,6 @@ RawModel Terrain::generateTerrain(Loader loader) {
         }
     }
     
-//    std::cout << "from: " << vertices[15000] << " " << vertices[15001] << " " << vertices[15002] << " " << vertices[15003] <<std::endl;
     return loader.loadToVAO(vertices, sizeof(vertices), indices, sizeof(indices));
 }
 
