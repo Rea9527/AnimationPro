@@ -15,6 +15,10 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <SOIL/SOIL.h>
+//glm
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "TerrainTexture.hpp"
 #include "TerrainTexturePack.hpp"
@@ -41,7 +45,9 @@ public:
     
 private:
     
-    float getHeight(int x, int z, unsigned char r, unsigned char g, unsigned char b);
+    float getHeight(int x, int z, unsigned char (*pixels)[300][3]);
+    glm::vec3 calculateNormal(int x, int z, unsigned char (*pixels)[300][3]);
+
     GLfloat x;
     GLfloat z;
     
@@ -53,6 +59,7 @@ private:
     int VERTEX_COUNT;
     int MAX_HEIGHT;
     int MAX_PIXEL_COLOR;
+    
 };
 
 #endif /* Terrain_hpp */

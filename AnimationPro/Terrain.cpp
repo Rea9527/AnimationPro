@@ -45,11 +45,13 @@ RawModel Terrain::generateTerrain(Loader loader, string heightMap) {
         for (int j = 0; j < VERTEX_COUNT; j++) {
             int k = vertexPointer*8;
             vertices[k] = (float)j / ((float)VERTEX_COUNT - 1) * SIZE;
-            vertices[k+1] = getHeight(j, i, pixels[i][j][0], pixels[i][j][1], pixels[i][j][2]);
+            vertices[k+1] = getHeight(i, j, pixels);
             vertices[k+2] = (float)i / ((float)VERTEX_COUNT - 1) * SIZE;
-            vertices[k+3] = 0;
-            vertices[k+4] = 1;
-            vertices[k+5] = 0;
+            
+            glm::vec3 normal = calculateNormal(i, j, pixels);
+            vertices[k+3] = normal.x;
+            vertices[k+4] = normal.y;
+            vertices[k+5] = normal.z;
             vertices[k+6] = (float)j / ((float)VERTEX_COUNT - 1);
             vertices[k+7] = (float)i / ((float)VERTEX_COUNT - 1);
             vertexPointer++;
@@ -77,14 +79,24 @@ RawModel Terrain::generateTerrain(Loader loader, string heightMap) {
     return loader.loadToVAO(vertices, sizeof(vertices), indices, sizeof(indices));
 }
 
-float Terrain::getHeight(int x, int z, unsigned char r, unsigned char g, unsigned char b) {
-    if (x < 0 || x >= 256 || z >= 256 || z < 0) return 0;
-    
-    float height = (float)r * (float)g * (float)b;
+float Terrain::getHeight(int x, int z, unsigned char (*pixels)[300][3]) {
+    if (x < 0 || x >= 300 || z < 0 || z >= 300) return 0;
+    float height = (float)pixels[x][z][0] * (float)pixels[x][z][1] * (float)pixels[x][z][2];
     height /= this->MAX_PIXEL_COLOR;
     height *= this->MAX_HEIGHT;
     
     return height;
+}
+
+glm::vec3 Terrain::calculateNormal(int x, int z, unsigned char (*pixels)[300][3]) {
+    float heightL = getHeight(x-1, z, pixels);
+    float heightR = getHeight(x+1, z, pixels);
+    float heightU = getHeight(x, z-1, pixels);
+    float heightD = getHeight(x, z+1, pixels);
+    
+    glm::vec3 normal = glm::vec3(heightL-heightR, 2.0f, heightD-heightU);
+    normal = glm::normalize(normal);
+    return normal;
 }
 
 RawModel Terrain::getModel() {
