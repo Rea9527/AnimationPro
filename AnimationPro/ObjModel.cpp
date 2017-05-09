@@ -44,8 +44,7 @@ void ObjModel::processNode(aiNode *node, const aiScene *scene) {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
         this->Meshes.push_back(this->processMesh(mesh, scene));
     }
-    
-//    cout << directory << " " << endl;
+
     
     for (GLuint i = 0; i < node->mNumChildren; i++) {
         this->processNode(node->mChildren[i], scene);

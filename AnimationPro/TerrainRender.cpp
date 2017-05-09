@@ -18,9 +18,10 @@ TerrainRender::TerrainRender(TerrainShader shader) {
     this->shader.Stop();
 }
 
-void TerrainRender::render(vector<Terrain> terrains, glm::mat4 projection, glm::mat4 view) {
+void TerrainRender::render(vector<Terrain> terrains, glm::mat4 projection, glm::mat4 view, Camera camera) {
     this->shader.Use();
 
+    this->shader.loadViewPos(camera.getPos().x, camera.getPos().y, camera.getPos().z);
     this->shader.loadViewMat(glm::value_ptr(view));
     this->shader.loadProjectionMat(glm::value_ptr(projection));
     for (Terrain terrain : terrains) {
@@ -54,6 +55,12 @@ void TerrainRender::bindTexture(Terrain terrain) {
     glBindTexture(GL_TEXTURE_2D, terrain.getBlendMap().getTextureId());
     
 
+}
+
+void TerrainRender::addDirLight(DirectionalLight dirLight) {
+    this->shader.Use();
+    this->shader.addDirLight(dirLight);
+    this->shader.Stop();
 }
 
 void TerrainRender::unbindTextureModel() {

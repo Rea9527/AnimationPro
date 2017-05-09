@@ -46,9 +46,9 @@ GLfloat WIN_WIDTH = 640, WIN_HEIGHT = 480;
 
 glm::vec3 dirLightAttrib[] {
     glm::vec3(1.0f, 1.0f, 1.0f),//ambient
-    glm::vec3(0.0f, 0.0f, 0.0f),//diffuse
-    glm::vec3(0.0f, 0.0f, 0.0f),//specular
-    glm::vec3(-0.2f, -1.0f, -0.3f)//direction
+    glm::vec3(0.8f, 0.8f, 0.8f),//diffuse
+    glm::vec3(0.3f, 0.4f, 0.2f),//specular
+    glm::vec3(-800.0f, 200.0f, 600.0f)//direction
 };
 
 glm::vec3 pointLightAttrib[] {
@@ -194,8 +194,8 @@ int main(int argc, const char * argv[]) {
     TerrainTexturePack texturePack = TerrainTexturePack(bgTexture, rTexture, gTexture, bTexture);
     TerrainTexture blendMap = TerrainTexture(loader.loadTexture(root+"blendMap.png"));
     
-    Terrain terrain1 = Terrain(0, 0, loader, texturePack, blendMap);
-    Terrain terrain2 = Terrain(1, 0, loader, texturePack, blendMap);
+    Terrain terrain1 = Terrain(0, 0, loader, texturePack, blendMap, "./assets/heightMap2.jpg");
+    Terrain terrain2 = Terrain(1, 0, loader, texturePack, blendMap, "./assets/heightMap2.jpg");
     
     vector<Terrain> terrains;
     terrains.push_back(terrain1);
@@ -247,16 +247,10 @@ int main(int argc, const char * argv[]) {
         angle = glm::radians(myCamera.Zoom);
         projection = glm::perspective(angle, WIN_WIDTH / WIN_HEIGHT, 0.1f, 1000.0f);
         
-        
-        //skybox
-        //==============================
-        glDepthMask(GL_FALSE);
-        skyboxRender.render(skybox, view, projection);
-        glDepthMask(GL_TRUE);
-        
         //terrain
         //==============================
-        terrainRender.render(terrains, projection, view);
+        terrainRender.addDirLight(dirLight);
+        terrainRender.render(terrains, projection, view, myCamera);
 
         //puss
         //==============================
@@ -283,7 +277,11 @@ int main(int argc, const char * argv[]) {
         treeRender.addLight(pointLight, dirLight);
         treeRender.render(treeModel, projection, view, model, myCamera);
         
-        
+        //skybox
+        //==============================
+        glDepthFunc(GL_LEQUAL);
+        skyboxRender.render(skybox, view, projection);
+        glDepthFunc(GL_LESS);
         
         glfwSwapBuffers(window);
     }

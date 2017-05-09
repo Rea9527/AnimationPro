@@ -1,14 +1,30 @@
 #version 330 core
 
 in vec2 TexCoords;
-
+in vec3 Normal;
+in vec3 FragPos;
 out vec4 color;
+
+uniform vec3 viewPos;
+
+struct DirLight {
+    vec3 direction;
+    
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
+uniform DirLight dirLight;
+
+
+uniform float shininess;
 
 uniform sampler2D bgTexture;
 uniform sampler2D rTexture;
 uniform sampler2D gTexture;
 uniform sampler2D bTexture;
 uniform sampler2D blendMap;
+
 
 void main() {
     
@@ -22,8 +38,27 @@ void main() {
     vec4 bTextureColor = texture(bTexture, tiledCoords) * blendMapColor.b;
     
     vec4 totalColor = bgTextureColor + rTextureColor + gTextureColor + bTextureColor;
+//    color = totalColor;
     
-    color = totalColor;
+    // Properties
+    vec3 norm = normalize(Normal);
+    vec3 viewDir = normalize(viewPos - FragPos);
+    
+    vec3 lightDir = normalize(-dirLight.direction);
+    // Diffuse shading
+    float diff = max(dot(norm, lightDir), 0.2);
+    // Specular shading
+    vec3 reflectDir = reflect(-lightDir, norm);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
+    // Combine results
+    vec3 diffuse  = dirLight.diffuse  * diff;
+    vec3 specular = dirLight.specular * spec;
+    
+    color = totalColor * (vec4(diffuse, 1.0f) + vec4(dirLight.ambient, 1.0f) + vec4(specular, 1.0f));
+//    color = vec4(diffuse, 1.0f);
+    
     
 }
+
+
 

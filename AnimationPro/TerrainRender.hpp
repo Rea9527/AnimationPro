@@ -13,6 +13,7 @@
 #include <vector>
 #include "TerrainShader.hpp"
 #include "Terrain.hpp"
+#include "Camera.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -25,7 +26,9 @@ class TerrainRender {
 public:
     TerrainRender(TerrainShader shader);
     
-    void render(vector<Terrain> terrains, glm::mat4 projection, glm::mat4 view);
+    void render(vector<Terrain> terrains, glm::mat4 projection, glm::mat4 view, Camera camera);
+    
+    void addDirLight(DirectionalLight dirLight);
     
 private:
     TerrainShader shader;

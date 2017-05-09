@@ -14,6 +14,7 @@
 
 #define GLEW_STATIC
 #include <GL/glew.h>
+#include <SOIL/SOIL.h>
 
 #include "TerrainTexture.hpp"
 #include "TerrainTexturePack.hpp"
@@ -27,9 +28,9 @@ class Terrain {
 public:
     
     Terrain();
-    Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, TerrainTexture blendMap);
+    Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, TerrainTexture blendMap, string heightMap);
     
-    RawModel generateTerrain(Loader loader);
+    RawModel generateTerrain(Loader loader, string heightMap);
     
     RawModel getModel();
     TerrainTexture getBlendMap();
@@ -39,6 +40,8 @@ public:
     GLfloat getZ();
     
 private:
+    
+    float getHeight(int x, int z, unsigned char r, unsigned char g, unsigned char b);
     GLfloat x;
     GLfloat z;
     
@@ -48,6 +51,8 @@ private:
     
     int SIZE;
     int VERTEX_COUNT;
+    int MAX_HEIGHT;
+    int MAX_PIXEL_COLOR;
 };
 
 #endif /* Terrain_hpp */

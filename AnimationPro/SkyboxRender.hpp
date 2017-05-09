@@ -27,6 +27,7 @@ public:
     
     void render(Skybox skybox, glm::mat4 view, glm::mat4 projection);
     
+    
 private:
     
     vector<const char*> Faces;

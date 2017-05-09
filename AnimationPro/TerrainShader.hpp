@@ -21,6 +21,9 @@ public:
     TerrainShader();
     TerrainShader(string vertexPath, string fragmentPath);
     
+    void addDirLight(DirectionalLight light);
+    void loadViewPos(GLfloat x, GLfloat y, GLfloat z);
+    
     void loadTextureLoc();
     void connectTexture();
     

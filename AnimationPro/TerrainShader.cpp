@@ -13,6 +13,22 @@ TerrainShader::TerrainShader() {}
 
 TerrainShader::TerrainShader(string vertexPath, string fragmentPath) : Shader(vertexPath, fragmentPath) {}
 
+
+void TerrainShader::loadViewPos(GLfloat x, GLfloat y, GLfloat z) {
+    this->viewPosLoc = glGetUniformLocation(this->Program, "viewPos");
+    glUniform3f(this->viewPosLoc, x, y, z);
+}
+
+void TerrainShader::addDirLight(DirectionalLight light) {
+    glUniform3f(glGetUniformLocation(this->Program, "dirLight.direction"), light.getDirection().x, light.getDirection().y, light.getDirection().z);
+    glUniform3f(glGetUniformLocation(this->Program, "dirLight.ambient"), light.getAmbient().x, light.getAmbient().y, light.getAmbient().z);
+    glUniform3f(glGetUniformLocation(this->Program, "dirLight.diffuse"), light.getDiffuse().x, light.getDiffuse().y, light.getDiffuse().z);
+    glUniform3f(glGetUniformLocation(this->Program, "dirLight.specular"), light.getSpecular().x, light.getSpecular().y, light.getSpecular().z);
+    
+    glUniform1f(glGetUniformLocation(this->Program, "shininess"), 16.0f);
+}
+
+
 void TerrainShader::loadTextureLoc() {
     this->bgTextureLoc = glGetUniformLocation(this->Program, "bgTexture");
     this->rTextureLoc = glGetUniformLocation(this->Program, "rTexture");
