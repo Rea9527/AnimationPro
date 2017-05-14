@@ -12,9 +12,9 @@ newmtl Standard_2
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Plants 2.jpg
-	map_Kd Plants 2.jpg
-	map_d Plants 2 mask.jpg
+	map_Ka Plants2.png
+	map_Kd Plants2.png
+
 
 newmtl Standard_3
 	Ns 10.0000
@@ -27,9 +27,8 @@ newmtl Standard_3
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Plants1.jpg
-	map_Kd Plants1.jpg
-	map_d Plants 1 mask .jpg
+	map_Ka Plants1.png
+	map_Kd Plants1.png
 
 newmtl Standard_1
 	Ns 10.0000

@@ -22,17 +22,17 @@
 #include <string>
 #include <vector>
 
-#include "ModelShader.hpp"
-#include "StaticShader.hpp"
-#include "TerrainShader.hpp"
+#include "shaders/ModelShader.hpp"
+#include "shaders/StaticShader.hpp"
+#include "shaders/TerrainShader.hpp"
 
-#include "TerrainRender.hpp"
-#include "ModelRender.hpp"
-#include "SkyboxRender.hpp"
+#include "renderer/TerrainRender.hpp"
+#include "renderer/ModelRender.hpp"
+#include "renderer/SkyboxRender.hpp"
 
-#include "Loader.hpp"
-#include "Camera.hpp"
-#include "ObjModel.hpp"
+#include "loader/Loader.hpp"
+#include "camera/Camera.hpp"
+#include "models/ObjModel.hpp"
 
 using namespace std;
 
@@ -68,7 +68,7 @@ GLfloat lastFrame = 0.0f;
 GLfloat lastX = WIN_WIDTH/2, lastY = WIN_HEIGHT/2;
 bool firstMouse = true;
 
-glm::vec3 cameraPos   = glm::vec3(940.0f, 10.0f, 420.0f);
+glm::vec3 cameraPos   = glm::vec3(940.0f, 100.0f, 600.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 Camera myCamera(cameraPos, cameraUp, -180.0f, 0.0f);
 
@@ -107,85 +107,30 @@ int main(int argc, const char * argv[]) {
     glViewport(0, 0, width, height);
     //===============================
     
-    
-    // draw rectangle with two triangle
-    GLfloat points[] = {
-        //points(3)           //normal(3)       //texture
-        -0.5f, -0.5f, 0.5f,   0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-        0.5f,  -0.5f, 0.5f,   0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-        0.5f,   0.5f, 0.5f,   0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-        -0.5f,  0.5f, 0.5f,   0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-        
-        //points(3)           //colors(3)       //texture
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
-        0.5f,  -0.5f, -0.5f,  0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
-        0.5f,   0.5f, -0.5f,  0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
-        
-        //points(3)           //colors(3)       //texture
-        -0.5f, -0.5f, -0.5f,  -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-        -0.5f,  0.5f, 0.5f,   -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-        -0.5f, -0.5f, 0.5f,   -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        
-        //points(3)           //colors(3)       //texture
-        0.5f, -0.5f, -0.5f,   1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,   1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-        0.5f,  0.5f, 0.5f,    1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-        0.5f, -0.5f, 0.5f,    1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        
-        //points(3)           //colors(3)       //texture
-        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-        0.5f,  -0.5f,  0.5f,  0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-        0.5f,  -0.5f, -0.5f,  0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
-        
-        //points(3)           //colors(3)       //texture
-        -0.5f, 0.5f,  0.5f,   0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-        0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-        -0.5f, 0.5f, -0.5f,   0.0f, 1.0f, 0.0f, 0.0f, 1.0f
-        
-    };
-    GLuint indices[] = {
-        0, 1, 2,
-        0, 2, 3,
-        
-        4, 5, 6,
-        4, 6, 7,
-        
-        8, 9, 10,
-        8, 10, 11,
-        
-        12, 13, 14,
-        12, 14, 15,
-        
-        16, 17, 18,
-        16, 18, 19,
-        
-        20, 21, 22,
-        20, 22, 23
-    };
-    //===============================
-    
-    string root = "./shaderSources/";
+    string root = "shaders/shaderSources/";
     //===============================
     //build shader program
     ModelShader modelShader( root+"modelVS.vs", root+"modelFS.frag" );
     StaticShader skyboxShader( root+"skyboxVS.vs", root+"skyboxFS.frag" );
     TerrainShader terrainShader( root+"terrainVS.vs", root+"terrainFS.frag" );
     
-    ObjModel houseModel("./assets/oldhouse/oldhouse/oldhouse.obj");
+    //house
+    ObjModel houseModel("assets/oldhouse/oldhouse/oldhouse.obj");
     ModelRender houseRender(modelShader);
-    ObjModel pussModel("./assets/puss/Puss_in_Boots.obj");
+    ObjModel pussModel("assets/puss/Puss_in_Boots.obj");
     ModelRender pussRender(modelShader);
-    ObjModel treeModel("./assets/tree3/tree/tree.obj");
-    ModelRender treeRender(modelShader);
+    
+    //table chair
+    ObjModel chairModel("assets/chair_table/chair.obj");
+    ObjModel tableModel("assets/chair_table/table.obj");
+    ModelRender chairRender(modelShader);
+    ModelRender tableRender(modelShader);
     
     
     Loader loader;
     //==============================
-    root = "./assets/terrain/";
+    //terrain
+    root = "assets/terrain/";
     TerrainTexture bgTexture = TerrainTexture(loader.loadTexture(root+"grass.png"));
     TerrainTexture rTexture = TerrainTexture(loader.loadTexture(root+"mud.png"));
     TerrainTexture gTexture = TerrainTexture(loader.loadTexture(root+"flowers.png"));
@@ -194,12 +139,12 @@ int main(int argc, const char * argv[]) {
     TerrainTexturePack texturePack = TerrainTexturePack(bgTexture, rTexture, gTexture, bTexture);
     TerrainTexture blendMap = TerrainTexture(loader.loadTexture(root+"blendMap.png"));
     
-    Terrain terrain1 = Terrain(0, 0, loader, texturePack, blendMap, "./assets/heightMap2.jpg");
-    Terrain terrain2 = Terrain(1, 0, loader, texturePack, blendMap, "./assets/heightMap2.jpg");
+    Terrain terrain1 = Terrain(0, -1, loader, texturePack, blendMap, "assets/heightMap4.jpg");
+//    Terrain terrain2 = Terrain(1, 0, loader, texturePack, blendMap, "assets/heightMap4.jpg");
     
     vector<Terrain> terrains;
     terrains.push_back(terrain1);
-    terrains.push_back(terrain2);
+//    terrains.push_back(terrain2);
     TerrainRender terrainRender(terrainShader);
     //==============================
     
@@ -208,12 +153,12 @@ int main(int argc, const char * argv[]) {
     //skybox
     SkyboxRender skyboxRender(skyboxShader);
     vector<const char*> faces;
-    faces.push_back("./assets/skybox/cloudtop/right.jpg");
-    faces.push_back("./assets/skybox/cloudtop/left.jpg");
-    faces.push_back("./assets/skybox/cloudtop/top.jpg");
-    faces.push_back("./assets/skybox/cloudtop/bottom.jpg");
-    faces.push_back("./assets/skybox/cloudtop/back.jpg");
-    faces.push_back("./assets/skybox/cloudtop/front.jpg");
+    faces.push_back("assets/skybox/cloudtop/right.jpg");
+    faces.push_back("assets/skybox/cloudtop/left.jpg");
+    faces.push_back("assets/skybox/cloudtop/top.jpg");
+    faces.push_back("assets/skybox/cloudtop/bottom.jpg");
+    faces.push_back("assets/skybox/cloudtop/back.jpg");
+    faces.push_back("assets/skybox/cloudtop/front.jpg");
     Skybox skybox = Skybox(loader, faces);
     
     //==============================
@@ -255,27 +200,42 @@ int main(int argc, const char * argv[]) {
         //puss
         //==============================
         model = glm::mat4();
-        model = glm::translate(model, glm::vec3(880.0f, 1.2f, 420.0f));
+        GLfloat x = 880.0f, z = 640.0f;
+        GLfloat y = terrain1.getHeightOfTerrain(x, z);
+//        cout << y << endl;
+        model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(2, 2, 2));
         pussRender.addLight(pointLight, dirLight);
         pussRender.render(pussModel, projection, view, model, myCamera);
         
-        
         //house
         //==============================
         model = glm::mat4();
-        model = glm::translate(model, glm::vec3(850.0f, 0, 420.0f));
+        x = 850.0f, z = 640.0f;
+        y = terrain1.getHeightOfTerrain(x, z);
+        model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(0.1, 0.1, 0.1));
         houseRender.addLight(pointLight, dirLight);
         houseRender.render(houseModel, projection, view, model, myCamera);
         
-        //tree
-        //==============================
+//        table
+//        ==============================
         model = glm::mat4();
-        model = glm::translate(model, glm::vec3(550.0f, 11.5f, 200.0f));
-        model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
-        treeRender.addLight(pointLight, dirLight);
-        treeRender.render(treeModel, projection, view, model, myCamera);
+        x = 865.0f, z = 650.0f;
+        y = terrain1.getHeightOfTerrain(x, z);
+        model = glm::translate(model, glm::vec3(x, y, z));
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        chairRender.render(chairModel, projection, view, model, myCamera);
+        
+        model = glm::mat4();
+        x = 865.0f, z = 650.0f;
+        y = terrain1.getHeightOfTerrain(x, z);
+        model = glm::translate(model, glm::vec3(x, y, z));
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        tableRender.render(tableModel, projection, view, model, myCamera);
+        
         
         //skybox
         //==============================
