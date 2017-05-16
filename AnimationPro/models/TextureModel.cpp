@@ -9,6 +9,8 @@
 #include "TextureModel.hpp"
 
 
+TextureModel::TextureModel() { }
+
 TextureModel::TextureModel(RawModel raw, ModelTexture texture) {
     this->rawModel = raw;
     this->modelTexture = texture;

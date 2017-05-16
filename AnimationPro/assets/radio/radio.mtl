@@ -12,5 +12,5 @@ newmtl Material_0
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\models\PDLCIN_A1_Static\Texture2D\Radio_D.tga
-	map_Kd C:\models\PDLCIN_A1_Static\Texture2D\Radio_D.tga
+	map_Ka .\Radio_D.tga
+	map_Kd .\Radio_D.tga

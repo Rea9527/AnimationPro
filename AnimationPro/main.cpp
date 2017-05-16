@@ -126,6 +126,10 @@ int main(int argc, const char * argv[]) {
     ModelRender chairRender(modelShader);
     ModelRender tableRender(modelShader);
     
+    //window
+    ObjModel windowModel("assets/window/file.obj");
+    ModelRender windowRender(modelShader);
+    
     
     Loader loader;
     //==============================
@@ -202,7 +206,6 @@ int main(int argc, const char * argv[]) {
         model = glm::mat4();
         GLfloat x = 880.0f, z = 640.0f;
         GLfloat y = terrain1.getHeightOfTerrain(x, z);
-//        cout << y << endl;
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(2, 2, 2));
         pussRender.addLight(pointLight, dirLight);
@@ -218,8 +221,18 @@ int main(int argc, const char * argv[]) {
         houseRender.addLight(pointLight, dirLight);
         houseRender.render(houseModel, projection, view, model, myCamera);
         
-//        table
-//        ==============================
+        //window
+        //==============================
+        model = glm::mat4();
+        x = 872.f, z = 652.0f;
+        y = terrain1.getHeightOfTerrain(x, z) + 1.0f;
+        model = glm::translate(model, glm::vec3(x, y, z));
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
+        windowRender.render(windowModel, projection, view, model, myCamera);
+        
+        //table
+        //==============================
         model = glm::mat4();
         x = 865.0f, z = 650.0f;
         y = terrain1.getHeightOfTerrain(x, z);

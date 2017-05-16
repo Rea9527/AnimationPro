@@ -20,6 +20,7 @@
 class TextureModel {
     
 public:
+    TextureModel();
     TextureModel(RawModel raw, ModelTexture texture);
     RawModel getRawModel();
     ModelTexture getModelTexture();
