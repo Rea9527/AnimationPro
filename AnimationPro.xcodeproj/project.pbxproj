@@ -43,6 +43,7 @@
 		A39A754E1ECC1AA600AC9486 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A39A754C1ECC1AA600AC9486 /* Utils.cpp */; };
 		A39A75511ECC423C00AC9486 /* SkeletalRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A39A754F1ECC423C00AC9486 /* SkeletalRender.cpp */; };
 		A39A75551ECC767400AC9486 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A39A75531ECC767400AC9486 /* Bone.cpp */; };
+		A3B94A5E1ECD6074002461F5 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3B94A5C1ECD6074002461F5 /* Animation.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -123,6 +124,8 @@
 		A39A75501ECC423C00AC9486 /* SkeletalRender.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SkeletalRender.hpp; path = renderer/SkeletalRender.hpp; sourceTree = "<group>"; };
 		A39A75531ECC767400AC9486 /* Bone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Bone.cpp; path = animation/Bone.cpp; sourceTree = "<group>"; };
 		A39A75541ECC767400AC9486 /* Bone.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Bone.hpp; path = animation/Bone.hpp; sourceTree = "<group>"; };
+		A3B94A5C1ECD6074002461F5 /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Animation.cpp; path = animation/Animation.cpp; sourceTree = "<group>"; };
+		A3B94A5D1ECD6074002461F5 /* Animation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Animation.hpp; path = animation/Animation.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -331,6 +334,8 @@
 			children = (
 				A39A75531ECC767400AC9486 /* Bone.cpp */,
 				A39A75541ECC767400AC9486 /* Bone.hpp */,
+				A3B94A5C1ECD6074002461F5 /* Animation.cpp */,
+				A3B94A5D1ECD6074002461F5 /* Animation.hpp */,
 			);
 			name = animation;
 			sourceTree = "<group>";
@@ -411,6 +416,7 @@
 				A39A754A1ECB3A2900AC9486 /* AMesh.cpp in Sources */,
 				A34D8D651EC5694E00E08486 /* SkyboxRender.cpp in Sources */,
 				A39A754E1ECC1AA600AC9486 /* Utils.cpp in Sources */,
+				A3B94A5E1ECD6074002461F5 /* Animation.cpp in Sources */,
 				A34D8D731EC5699F00E08486 /* DirectionalLight.cpp in Sources */,
 				A34D8D6C1EC5698B00E08486 /* Loader.cpp in Sources */,
 				A34D8D691EC5697A00E08486 /* Camera.cpp in Sources */,

@@ -20,6 +20,8 @@ uniform Material material;
 
 
 void main() {
-    vec4 weightColor = vec4(Weights.xyz, 1.0);
-    color = weightColor;
+//    vec4 weightColor = vec4(Weights.xyz, 1.0);
+    vec4 texColor1 = texture(material.texture_diffuse1, TexCoords);
+    vec4 texColor2 = texture(material.texture_specular1, TexCoords);
+    color = texColor1 + texColor2;
 }

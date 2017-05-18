@@ -63,6 +63,11 @@ private:
     bool isAnimated;
     void updateSkeleton();
     Skeleton skeleton;
+    vector<Animation> animations;
+    void addAnimation(Animation& in_anim);
+    Animation* findAnimation(std::string anim_to_find);
+    void playAnimation(Animation& anim, bool loop = false, bool reset_to_start = false);
+    void stopAnimating();
 };
 
 

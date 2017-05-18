@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "../utils/Utils.hpp"
+#include "./Animation.hpp"
 
 using namespace std;
 
@@ -27,7 +28,12 @@ public:
     Skeleton();
     Skeleton(vector<Bone> bones, glm::mat4 globalInvTransform);
     
-    void init(vector<Bone> bones, glm::mat4 globalTransform);
+    void init(vector<Bone> bones, glm::mat4 globalInvTransform);
+    
+    void playAnimation(Animation &anim, bool loop, bool reset_to_start);
+    void stopAnimating();
+    void setIdleAnimation(Animation* anim);
+    
     Bone* findBone(string name);
     void updateBoneMatsVector();
     void update();
@@ -36,6 +42,17 @@ private:
     vector<Bone> bones;
     glm::mat4 globalInverseTransform;
     vector<glm::mat4> boneMats;
+    
+    float time;
+    
+    float start_time;
+    float end_time;
+    
+    Animation* active_animation;
+    Animation* idle_animation;
+    
+    bool anim_play;
+    bool anim_loop;
 };
 
 //bone
@@ -52,10 +69,14 @@ public:
     aiNode* getNode();
     aiNodeAnim* getNodeAnim();
     glm::mat4 getLocalTransform();
+    Skeleton* getParentSkeleton();
     
     void setNode(aiNode* node);
     void setNodeAnim(aiNodeAnim* nodeAnim);
     void setParentBone(Bone* parent);
+    void setParentSkeleton(Skeleton* skeleton);
+    
+    void updateKeyframeTransform(float time);
     
 private:
     string name;
@@ -70,6 +91,18 @@ private:
     glm::mat4 localTransform;
     
     Skeleton* parentSkeleton;
+    
+    //Keyframe Data
+    glm::vec3 pos;
+    glm::quat rot;
+    glm::vec3 scale;
+    glm::vec3 p1;
+    glm::vec3 p2;
+    
+    unsigned int findPosition(float time);
+    glm::vec3 calcInterpolatedPosition(float time);
+    unsigned int findRotation(float time);
+    glm::quat calcInterpolatedRotation(float time);
     
 };
 

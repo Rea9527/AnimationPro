@@ -250,6 +250,28 @@ void SkeletalModel::updateSkeleton() {
     this->skeleton.update();
 }
 
+//animation
+void SkeletalModel::addAnimation(Animation& in_anim) {
+    this->animations.push_back(in_anim);
+}
+
+Animation* SkeletalModel::findAnimation(std::string anim_to_find) {
+    for (Animation animation : this->animations) {
+        if (animation.name == anim_to_find) {
+            return &animation;
+        }
+    }
+    return nullptr;
+}
+
+void SkeletalModel::playAnimation(Animation& anim, bool loop, bool reset_to_start) {
+    this->skeleton.playAnimation(anim, loop, reset_to_start);
+}
+
+void SkeletalModel::stopAnimating() {
+    this->skeleton.stopAnimating();
+}
+
 vector<AnimatedTexture> SkeletalModel::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName) {
     vector<AnimatedTexture> textures;
     for (GLuint i = 0; i < mat->GetTextureCount(type); i++) {

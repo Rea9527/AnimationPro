@@ -36,6 +36,13 @@ public:
     static GLint loadTextureFromFile(const char* path, string directory);
     
     static glm::mat4 aiMatToGlmMat(aiMatrix4x4 mat);
+    static aiMatrix4x4 GlmMatToAiMat(glm::mat4 mat);
+    
+    static float timeToFrame(float time);
+    
+    static glm::vec2 framesToTime(glm::vec2 frames);
+    
+    static float frameTime;
 };
 
 #endif /* Utils_hpp */

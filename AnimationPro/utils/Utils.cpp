@@ -9,12 +9,17 @@
 #include "Utils.hpp"
 
 
+float Utils::frameTime = 0.0f;
+
 Utils::Utils() { }
 
 GLint Utils::loadTextureFromFile(const char* path, string directory) {
     //Generate texture ID and load texture data
     string filename = string(path);
     filename = directory + '/' + filename;
+    
+//    std::cout << "Texture Path: " << filename << std::endl;
+    
     GLuint textureID;
     glGenTextures(1, &textureID);
     int width,height;
@@ -44,4 +49,24 @@ glm::mat4 Utils::aiMatToGlmMat(aiMatrix4x4 mat) {
             glmMat[i][j] = mat[i][j];
     
     return glmMat;
+}
+
+aiMatrix4x4 Utils::GlmMatToAiMat(glm::mat4 mat) {
+    aiMatrix4x4 aiMat;
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            aiMat[i][j] = mat[i][j];
+    
+    return aiMat;
+}
+
+float Utils::timeToFrame(float time)
+{
+    float frame = 0.041666666667;
+    return time / frame;
+}
+
+glm::vec2 Utils::framesToTime(glm::vec2 frames) {
+    float frame = 0.041666666667;
+    return frames * frame;
 }
