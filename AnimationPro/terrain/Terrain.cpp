@@ -98,7 +98,6 @@ GLfloat Terrain::getHeightOfTerrain(GLfloat worldX, GLfloat worldZ) {
     
     GLfloat coordX = fmod(terrainX, gridSquareSize) / gridSquareSize;
     GLfloat coordZ = fmod(terrainZ, gridSquareSize) / gridSquareSize;
-    cout << coordX << " " << coordZ << endl;
     
     GLfloat result;
     if (coordX < (1 - coordZ)) {

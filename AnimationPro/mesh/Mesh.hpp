@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+
 #include "../shaders/Shader.hpp"
 
 #define GLEW_STATIC

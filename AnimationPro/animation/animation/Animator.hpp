@@ -15,7 +15,7 @@
 
 #include "KeyFrame.hpp"
 #include "Animation.hpp"
-#include "../animatedModel/AnimatedModel.hpp"
+#include "../../models/animatedModel/AnimatedModel.hpp"
 
 
 class Animator {

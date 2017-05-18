@@ -29,10 +29,12 @@
 #include "renderer/TerrainRender.hpp"
 #include "renderer/ModelRender.hpp"
 #include "renderer/SkyboxRender.hpp"
+#include "renderer/SkeletalRender.hpp"
 
 #include "loader/Loader.hpp"
 #include "camera/Camera.hpp"
 #include "models/ObjModel.hpp"
+#include "models/skeletalModel/SkeletalModel.hpp"
 
 using namespace std;
 
@@ -111,6 +113,7 @@ int main(int argc, const char * argv[]) {
     //===============================
     //build shader program
     ModelShader modelShader( root+"modelVS.vs", root+"modelFS.frag" );
+    ModelShader manShader ( root+"skeletalModelVS.vs", root+"skeletalModelFS.frag" );
     StaticShader skyboxShader( root+"skyboxVS.vs", root+"skyboxFS.frag" );
     TerrainShader terrainShader( root+"terrainVS.vs", root+"terrainFS.frag" );
     
@@ -129,6 +132,11 @@ int main(int argc, const char * argv[]) {
     //window
     ObjModel windowModel("assets/window/file.obj");
     ModelRender windowRender(modelShader);
+    
+    //man
+    SkeletalModel manModel("assets/man/model.dae");
+    SkeletalRender manRender(manShader);
+    
     
     
     Loader loader;
@@ -200,12 +208,23 @@ int main(int argc, const char * argv[]) {
         //==============================
         terrainRender.addDirLight(dirLight);
         terrainRender.render(terrains, projection, view, myCamera);
+        
+        //man
+        //==============================
+        model = glm::mat4();
+        GLfloat x = 880.0f, z = 650.0f;
+        GLfloat y = terrain1.getHeightOfTerrain(x, z);
+        model = glm::translate(model, glm::vec3(x, y, z));
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(1, 1, 1));
+        manRender.addLight(pointLight, dirLight);
+        manRender.render(manModel, projection, view, model, myCamera);
 
         //puss
         //==============================
         model = glm::mat4();
-        GLfloat x = 880.0f, z = 640.0f;
-        GLfloat y = terrain1.getHeightOfTerrain(x, z);
+        x = 880.0f, z = 640.0f;
+        y = terrain1.getHeightOfTerrain(x, z);
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(2, 2, 2));
         pussRender.addLight(pointLight, dirLight);

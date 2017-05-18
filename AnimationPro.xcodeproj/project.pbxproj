@@ -38,16 +38,11 @@
 		A389CE611EAF2B76004B3050 /* libassimp.3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A389CE5E1EAF2B76004B3050 /* libassimp.3.3.1.dylib */; };
 		A389CE621EAF2B76004B3050 /* libassimp.3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A389CE5F1EAF2B76004B3050 /* libassimp.3.3.1.dylib */; };
 		A389CE631EAF2B76004B3050 /* libassimp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A389CE601EAF2B76004B3050 /* libassimp.a */; };
-		A3FE34691EC988AC0042BF3A /* Animator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3FE34671EC988AC0042BF3A /* Animator.cpp */; };
-		A3FE346C1EC98A8F0042BF3A /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3FE346A1EC98A8F0042BF3A /* Animation.cpp */; };
-		A3FE34711EC9A46C0042BF3A /* AnimatedModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3FE346D1EC9A46C0042BF3A /* AnimatedModel.cpp */; };
-		A3FE34721EC9A46C0042BF3A /* Joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3FE346F1EC9A46C0042BF3A /* Joint.cpp */; };
-		A3FE34751EC9B0330042BF3A /* MeshData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3FE34731EC9B0330042BF3A /* MeshData.cpp */; };
-		A3FE34791EC9BBC40042BF3A /* AnimatedModelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3FE34771EC9BBC40042BF3A /* AnimatedModelLoader.cpp */; };
-		A3FE34821EC9CEEB0042BF3A /* JointTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3FE34801EC9CEEB0042BF3A /* JointTransform.cpp */; };
-		A3FE34851EC9CF130042BF3A /* KeyFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3FE34831EC9CF130042BF3A /* KeyFrame.cpp */; };
-		A3FE34881EC9CF240042BF3A /* AnimationLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3FE34861EC9CF240042BF3A /* AnimationLoader.cpp */; };
-		A3FE348B1EC9D6BA0042BF3A /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3FE34891EC9D6BA0042BF3A /* Quaternion.cpp */; };
+		A39A75441ECB372000AC9486 /* SkeletalModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A39A75421ECB372000AC9486 /* SkeletalModel.cpp */; };
+		A39A754A1ECB3A2900AC9486 /* AMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A39A75481ECB3A2900AC9486 /* AMesh.cpp */; };
+		A39A754E1ECC1AA600AC9486 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A39A754C1ECC1AA600AC9486 /* Utils.cpp */; };
+		A39A75511ECC423C00AC9486 /* SkeletalRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A39A754F1ECC423C00AC9486 /* SkeletalRender.cpp */; };
+		A39A75551ECC767400AC9486 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A39A75531ECC767400AC9486 /* Bone.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -118,26 +113,16 @@
 		A389CE5E1EAF2B76004B3050 /* libassimp.3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.3.1.dylib; path = ../../../../../../usr/local/lib/libassimp.3.3.1.dylib; sourceTree = "<group>"; };
 		A389CE5F1EAF2B76004B3050 /* libassimp.3.3.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.3.1.dylib; path = ../../../../../../usr/local/lib/libassimp.3.3.1.dylib; sourceTree = "<group>"; };
 		A389CE601EAF2B76004B3050 /* libassimp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libassimp.a; path = ../../../../../../usr/local/lib/libassimp.a; sourceTree = "<group>"; };
-		A3FE34671EC988AC0042BF3A /* Animator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Animator.cpp; path = animation/animation/Animator.cpp; sourceTree = "<group>"; };
-		A3FE34681EC988AC0042BF3A /* Animator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Animator.hpp; path = animation/animation/Animator.hpp; sourceTree = "<group>"; };
-		A3FE346A1EC98A8F0042BF3A /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Animation.cpp; path = animation/animation/Animation.cpp; sourceTree = "<group>"; };
-		A3FE346B1EC98A8F0042BF3A /* Animation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Animation.hpp; path = animation/animation/Animation.hpp; sourceTree = "<group>"; };
-		A3FE346D1EC9A46C0042BF3A /* AnimatedModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimatedModel.cpp; path = animation/animatedModel/AnimatedModel.cpp; sourceTree = "<group>"; };
-		A3FE346E1EC9A46C0042BF3A /* AnimatedModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AnimatedModel.hpp; path = animation/animatedModel/AnimatedModel.hpp; sourceTree = "<group>"; };
-		A3FE346F1EC9A46C0042BF3A /* Joint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Joint.cpp; path = animation/animatedModel/Joint.cpp; sourceTree = "<group>"; };
-		A3FE34701EC9A46C0042BF3A /* Joint.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Joint.hpp; path = animation/animatedModel/Joint.hpp; sourceTree = "<group>"; };
-		A3FE34731EC9B0330042BF3A /* MeshData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshData.cpp; path = animation/MeshData.cpp; sourceTree = "<group>"; };
-		A3FE34741EC9B0330042BF3A /* MeshData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MeshData.hpp; path = animation/MeshData.hpp; sourceTree = "<group>"; };
-		A3FE34771EC9BBC40042BF3A /* AnimatedModelLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimatedModelLoader.cpp; path = animation/loaders/AnimatedModelLoader.cpp; sourceTree = "<group>"; };
-		A3FE34781EC9BBC40042BF3A /* AnimatedModelLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AnimatedModelLoader.hpp; path = animation/loaders/AnimatedModelLoader.hpp; sourceTree = "<group>"; };
-		A3FE34801EC9CEEB0042BF3A /* JointTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JointTransform.cpp; path = animation/animation/JointTransform.cpp; sourceTree = "<group>"; };
-		A3FE34811EC9CEEB0042BF3A /* JointTransform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JointTransform.hpp; path = animation/animation/JointTransform.hpp; sourceTree = "<group>"; };
-		A3FE34831EC9CF130042BF3A /* KeyFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = KeyFrame.cpp; path = animation/animation/KeyFrame.cpp; sourceTree = "<group>"; };
-		A3FE34841EC9CF130042BF3A /* KeyFrame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = KeyFrame.hpp; path = animation/animation/KeyFrame.hpp; sourceTree = "<group>"; };
-		A3FE34861EC9CF240042BF3A /* AnimationLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimationLoader.cpp; path = animation/loaders/AnimationLoader.cpp; sourceTree = "<group>"; };
-		A3FE34871EC9CF240042BF3A /* AnimationLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AnimationLoader.hpp; path = animation/loaders/AnimationLoader.hpp; sourceTree = "<group>"; };
-		A3FE34891EC9D6BA0042BF3A /* Quaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Quaternion.cpp; path = animation/animation/Quaternion.cpp; sourceTree = "<group>"; };
-		A3FE348A1EC9D6BA0042BF3A /* Quaternion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Quaternion.hpp; path = animation/animation/Quaternion.hpp; sourceTree = "<group>"; };
+		A39A75421ECB372000AC9486 /* SkeletalModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SkeletalModel.cpp; path = models/skeletalModel/SkeletalModel.cpp; sourceTree = "<group>"; };
+		A39A75431ECB372000AC9486 /* SkeletalModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SkeletalModel.hpp; path = models/skeletalModel/SkeletalModel.hpp; sourceTree = "<group>"; };
+		A39A75481ECB3A2900AC9486 /* AMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AMesh.cpp; path = mesh/AMesh.cpp; sourceTree = "<group>"; };
+		A39A75491ECB3A2900AC9486 /* AMesh.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AMesh.hpp; path = mesh/AMesh.hpp; sourceTree = "<group>"; };
+		A39A754C1ECC1AA600AC9486 /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utils.cpp; path = utils/Utils.cpp; sourceTree = "<group>"; };
+		A39A754D1ECC1AA600AC9486 /* Utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Utils.hpp; path = utils/Utils.hpp; sourceTree = "<group>"; };
+		A39A754F1ECC423C00AC9486 /* SkeletalRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SkeletalRender.cpp; path = renderer/SkeletalRender.cpp; sourceTree = "<group>"; };
+		A39A75501ECC423C00AC9486 /* SkeletalRender.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SkeletalRender.hpp; path = renderer/SkeletalRender.hpp; sourceTree = "<group>"; };
+		A39A75531ECC767400AC9486 /* Bone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Bone.cpp; path = animation/Bone.cpp; sourceTree = "<group>"; };
+		A39A75541ECC767400AC9486 /* Bone.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Bone.hpp; path = animation/Bone.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,7 +165,8 @@
 		A347746C1EA5AB1B00B136CF /* AnimationPro */ = {
 			isa = PBXGroup;
 			children = (
-				A3FE345E1EC982F50042BF3A /* animation */,
+				A39A75521ECC765900AC9486 /* animation */,
+				A39A754B1ECC1A9100AC9486 /* utils */,
 				A3ACF8371EB99292005099A6 /* skybox */,
 				A389CE5D1EAF2B53004B3050 /* render */,
 				A389CE5C1EAF2B4A004B3050 /* mesh */,
@@ -241,6 +227,7 @@
 		A389CE571EAF2B00004B3050 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				A39A753E1ECB36E500AC9486 /* skeletalModel */,
 				A34D8D7F1EC569CF00E08486 /* ObjModel.cpp */,
 				A34D8D801EC569CF00E08486 /* ObjModel.hpp */,
 				A34D8D811EC569CF00E08486 /* RawModel.cpp */,
@@ -300,6 +287,8 @@
 			children = (
 				A34D8D5A1EC568EA00E08486 /* Mesh.hpp */,
 				A34D8D581EC568E000E08486 /* Mesh.cpp */,
+				A39A75481ECB3A2900AC9486 /* AMesh.cpp */,
+				A39A75491ECB3A2900AC9486 /* AMesh.hpp */,
 			);
 			name = mesh;
 			sourceTree = "<group>";
@@ -313,31 +302,37 @@
 				A34D8D611EC5694E00E08486 /* SkyboxRender.hpp */,
 				A34D8D621EC5694E00E08486 /* TerrainRender.cpp */,
 				A34D8D631EC5694E00E08486 /* TerrainRender.hpp */,
+				A39A754F1ECC423C00AC9486 /* SkeletalRender.cpp */,
+				A39A75501ECC423C00AC9486 /* SkeletalRender.hpp */,
 			);
 			name = render;
 			sourceTree = "<group>";
 		};
-		A39A752D1ECACF9300AC9486 /* colladaParser */ = {
+		A39A753E1ECB36E500AC9486 /* skeletalModel */ = {
 			isa = PBXGroup;
 			children = (
-				A39A752F1ECACFF600AC9486 /* dataStructures */,
-				A39A752E1ECACFEE00AC9486 /* colladaLoader */,
+				A39A75421ECB372000AC9486 /* SkeletalModel.cpp */,
+				A39A75431ECB372000AC9486 /* SkeletalModel.hpp */,
 			);
-			name = colladaParser;
+			name = skeletalModel;
 			sourceTree = "<group>";
 		};
-		A39A752E1ECACFEE00AC9486 /* colladaLoader */ = {
+		A39A754B1ECC1A9100AC9486 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				A39A754C1ECC1AA600AC9486 /* Utils.cpp */,
+				A39A754D1ECC1AA600AC9486 /* Utils.hpp */,
 			);
-			name = colladaLoader;
+			name = utils;
 			sourceTree = "<group>";
 		};
-		A39A752F1ECACFF600AC9486 /* dataStructures */ = {
+		A39A75521ECC765900AC9486 /* animation */ = {
 			isa = PBXGroup;
 			children = (
+				A39A75531ECC767400AC9486 /* Bone.cpp */,
+				A39A75541ECC767400AC9486 /* Bone.hpp */,
 			);
-			name = dataStructures;
+			name = animation;
 			sourceTree = "<group>";
 		};
 		A3ACF8371EB99292005099A6 /* skybox */ = {
@@ -347,58 +342,6 @@
 				A34D8D5C1EC5690300E08486 /* Skybox.hpp */,
 			);
 			name = skybox;
-			sourceTree = "<group>";
-		};
-		A3FE345E1EC982F50042BF3A /* animation */ = {
-			isa = PBXGroup;
-			children = (
-				A39A752D1ECACF9300AC9486 /* colladaParser */,
-				A3FE34761EC9BBA10042BF3A /* loaders */,
-				A3FE34661EC9889B0042BF3A /* animation */,
-				A3FE345F1EC982FD0042BF3A /* animatedModel */,
-				A3FE34731EC9B0330042BF3A /* MeshData.cpp */,
-				A3FE34741EC9B0330042BF3A /* MeshData.hpp */,
-			);
-			name = animation;
-			sourceTree = "<group>";
-		};
-		A3FE345F1EC982FD0042BF3A /* animatedModel */ = {
-			isa = PBXGroup;
-			children = (
-				A3FE346D1EC9A46C0042BF3A /* AnimatedModel.cpp */,
-				A3FE346E1EC9A46C0042BF3A /* AnimatedModel.hpp */,
-				A3FE346F1EC9A46C0042BF3A /* Joint.cpp */,
-				A3FE34701EC9A46C0042BF3A /* Joint.hpp */,
-			);
-			name = animatedModel;
-			sourceTree = "<group>";
-		};
-		A3FE34661EC9889B0042BF3A /* animation */ = {
-			isa = PBXGroup;
-			children = (
-				A3FE34831EC9CF130042BF3A /* KeyFrame.cpp */,
-				A3FE34841EC9CF130042BF3A /* KeyFrame.hpp */,
-				A3FE34671EC988AC0042BF3A /* Animator.cpp */,
-				A3FE34681EC988AC0042BF3A /* Animator.hpp */,
-				A3FE346A1EC98A8F0042BF3A /* Animation.cpp */,
-				A3FE346B1EC98A8F0042BF3A /* Animation.hpp */,
-				A3FE34801EC9CEEB0042BF3A /* JointTransform.cpp */,
-				A3FE34811EC9CEEB0042BF3A /* JointTransform.hpp */,
-				A3FE34891EC9D6BA0042BF3A /* Quaternion.cpp */,
-				A3FE348A1EC9D6BA0042BF3A /* Quaternion.hpp */,
-			);
-			name = animation;
-			sourceTree = "<group>";
-		};
-		A3FE34761EC9BBA10042BF3A /* loaders */ = {
-			isa = PBXGroup;
-			children = (
-				A3FE34861EC9CF240042BF3A /* AnimationLoader.cpp */,
-				A3FE34871EC9CF240042BF3A /* AnimationLoader.hpp */,
-				A3FE34771EC9BBC40042BF3A /* AnimatedModelLoader.cpp */,
-				A3FE34781EC9BBC40042BF3A /* AnimatedModelLoader.hpp */,
-			);
-			name = loaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -458,37 +401,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A3FE34721EC9A46C0042BF3A /* Joint.cpp in Sources */,
-				A3FE34691EC988AC0042BF3A /* Animator.cpp in Sources */,
-				A3FE34881EC9CF240042BF3A /* AnimationLoader.cpp in Sources */,
+				A39A75551ECC767400AC9486 /* Bone.cpp in Sources */,
 				A34D8D7D1EC569BC00E08486 /* TerrainTexture.cpp in Sources */,
 				A34D8D741EC5699F00E08486 /* Light.cpp in Sources */,
-				A3FE348B1EC9D6BA0042BF3A /* Quaternion.cpp in Sources */,
 				A34D8D941EC569E300E08486 /* TerrainShader.cpp in Sources */,
 				A34D8D591EC568E000E08486 /* Mesh.cpp in Sources */,
 				A34D8D871EC569CF00E08486 /* TextureModel.cpp in Sources */,
 				A34D8D851EC569CF00E08486 /* ObjModel.cpp in Sources */,
+				A39A754A1ECB3A2900AC9486 /* AMesh.cpp in Sources */,
 				A34D8D651EC5694E00E08486 /* SkyboxRender.cpp in Sources */,
+				A39A754E1ECC1AA600AC9486 /* Utils.cpp in Sources */,
 				A34D8D731EC5699F00E08486 /* DirectionalLight.cpp in Sources */,
-				A3FE34821EC9CEEB0042BF3A /* JointTransform.cpp in Sources */,
 				A34D8D6C1EC5698B00E08486 /* Loader.cpp in Sources */,
 				A34D8D691EC5697A00E08486 /* Camera.cpp in Sources */,
+				A39A75441ECB372000AC9486 /* SkeletalModel.cpp in Sources */,
 				A34D8D861EC569CF00E08486 /* RawModel.cpp in Sources */,
 				A34D8D641EC5694E00E08486 /* ModelRender.cpp in Sources */,
 				A34D8D7E1EC569BC00E08486 /* TerrainTexturePack.cpp in Sources */,
-				A3FE34791EC9BBC40042BF3A /* AnimatedModelLoader.cpp in Sources */,
 				A34D8D931EC569E300E08486 /* StaticShader.cpp in Sources */,
-				A3FE34711EC9A46C0042BF3A /* AnimatedModel.cpp in Sources */,
 				A34D8D7C1EC569BC00E08486 /* ModelTexture.cpp in Sources */,
 				A34D8D971EC569F200E08486 /* Terrain.cpp in Sources */,
 				A347746E1EA5AB1B00B136CF /* main.cpp in Sources */,
+				A39A75511ECC423C00AC9486 /* SkeletalRender.cpp in Sources */,
 				A34D8D911EC569E300E08486 /* ModelShader.cpp in Sources */,
 				A34D8D751EC5699F00E08486 /* PointLight.cpp in Sources */,
 				A34D8D5D1EC5690300E08486 /* Skybox.cpp in Sources */,
-				A3FE346C1EC98A8F0042BF3A /* Animation.cpp in Sources */,
 				A34D8D921EC569E300E08486 /* Shader.cpp in Sources */,
-				A3FE34851EC9CF130042BF3A /* KeyFrame.cpp in Sources */,
-				A3FE34751EC9B0330042BF3A /* MeshData.cpp in Sources */,
 				A34D8D661EC5694E00E08486 /* TerrainRender.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

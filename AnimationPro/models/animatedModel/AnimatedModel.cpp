@@ -1,28 +1,57 @@
 //
-//  ObjModel.cpp
-//  glfwTest
+//  AnimatedModel.cpp
+//  AnimationPro
 //
-//  Created by 陈主润 on 23/04/2017.
+//  Created by 陈主润 on 15/05/2017.
 //  Copyright © 2017 陈主润. All rights reserved.
 //
 
-#include "ObjModel.hpp"
+#include "AnimatedModel.hpp"
 
 
-ObjModel::ObjModel() {}
+GLint loadTextureFromFile(const char* path, string directory);
 
-ObjModel::ObjModel(GLchar* path) {
+AnimatedModel::AnimatedModel() { }
+
+AnimatedModel::AnimatedModel(GLchar* path, TextureModel model, Joint rootJoint, int jointCount) {
+    this->textureModel = model;
+    this->rootJoint = rootJoint;
+    this->jointCount = jointCount;
+    
     this->loadModel(path);
 }
 
-void ObjModel::Draw(Shader shader) {
-    for (GLuint i = 0; i < this->Meshes.size(); i++) {
-        this->Meshes[i].Draw(shader);
+TextureModel AnimatedModel::getTextureModel() {
+    return this->textureModel;
+}
+
+Joint AnimatedModel::getRootJoint() {
+    return this->rootJoint;
+}
+
+glm::mat4* AnimatedModel::getJointTransforms() {
+    glm::mat4 *mats = new glm::mat4[this->jointCount];
+    
+    addJointToArray(this->rootJoint, mats);
+    return mats;
+}
+
+void AnimatedModel::clean() {
+    
+}
+
+void AnimatedModel::update() {
+    
+}
+
+void AnimatedModel::addJointToArray(Joint headJoint, glm::mat4 *jointMats) {
+    jointMats[headJoint.getIndex()] = headJoint.getAnimatedTransform();
+    for (Joint joint : headJoint.getChildren()) {
+        addJointToArray(joint, jointMats);
     }
 }
 
-
-void ObjModel::loadModel(string path) {
+void AnimatedModel::loadModel(string path) {
     Assimp::Importer importor;
     const aiScene* scene = importor.ReadFile(path, aiProcess_FlipUVs | aiProcess_Triangulate);
     
@@ -31,24 +60,25 @@ void ObjModel::loadModel(string path) {
         return;
     }
     
+    
     this->directory = path.substr(0, path.find_last_of("/"));
     this->processNode(scene->mRootNode, scene);
 }
 
-void ObjModel::processNode(aiNode *node, const aiScene *scene) {
+void AnimatedModel::processNode(aiNode *node, const aiScene *scene) {
     
     for (GLuint i = 0; i < node->mNumMeshes; i++) {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
         this->Meshes.push_back(this->processMesh(mesh, scene));
     }
-
+    
     
     for (GLuint i = 0; i < node->mNumChildren; i++) {
         this->processNode(node->mChildren[i], scene);
     }
 }
 
-Mesh ObjModel::processMesh(aiMesh *mesh, const aiScene *scene) {
+Mesh AnimatedModel::processMesh(aiMesh *mesh, const aiScene *scene) {
     vector<Vertex> vertices;
     vector<GLuint> indices;
     vector<Texture> textures;
@@ -103,7 +133,7 @@ Mesh ObjModel::processMesh(aiMesh *mesh, const aiScene *scene) {
     return Mesh(vertices, textures, indices);
 }
 
-vector<Texture> ObjModel::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName) {
+vector<Texture> AnimatedModel::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName) {
     vector<Texture> textures;
     for (GLuint i = 0; i < mat->GetTextureCount(type); i++) {
         aiString path;
@@ -120,7 +150,7 @@ vector<Texture> ObjModel::loadMaterialTextures(aiMaterial *mat, aiTextureType ty
         }
         if (!skip) {
             Texture texture;
-            texture.id = Utils::loadTextureFromFile(path.C_Str(), this->directory);
+            texture.id = loadTextureFromFile(path.C_Str(), this->directory);
             texture.type = typeName;
             texture.path = path;
             textures.push_back(texture);
@@ -131,3 +161,30 @@ vector<Texture> ObjModel::loadMaterialTextures(aiMaterial *mat, aiTextureType ty
     return textures;
 }
 
+
+GLint loadTextureFromFile(const char* path, string directory)
+{
+    //Generate texture ID and load texture data
+    string filename = string(path);
+    filename = directory + '/' + filename;
+    GLuint textureID;
+    glGenTextures(1, &textureID);
+    int width,height;
+    unsigned char* image = SOIL_load_image(filename.c_str(), &width, &height, 0, SOIL_LOAD_RGBA);
+    if (!image) {
+        cout << "SOIL_LOAD_IMAGE: FILE NOT FOUND" << endl;
+    }
+    // Assign texture to ID
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    
+    // Parameters
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    SOIL_free_image_data(image);
+    return textureID;
+}

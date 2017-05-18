@@ -10,6 +10,8 @@
 #define ObjModel_hpp
 
 #include <iostream>
+
+#include "../utils/Utils.hpp"
 #include "../mesh/Mesh.hpp"
 
 #include <SOIL/SOIL.h>
@@ -29,6 +31,7 @@ public:
 private:
     vector<Texture> Loaded_textures;
     vector<Mesh> Meshes;
+    
     string directory;
     
     void loadModel(string path);
