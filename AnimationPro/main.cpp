@@ -135,6 +135,11 @@ int main(int argc, const char * argv[]) {
     
     //man
     SkeletalModel manModel("assets/man/model.dae");
+    static Animation idle("anim", Utils::framesToTime(glm::vec2(21, 40)), 2);
+    static Animation walk("anim", Utils::framesToTime(glm::vec2(1, 20)), 2);
+    manModel.addAnimation(walk);
+    manModel.setIdleAnimation(idle);
+    manModel.playAnimation(walk, true, false);
     SkeletalRender manRender(manShader);
     
     
@@ -215,7 +220,7 @@ int main(int argc, const char * argv[]) {
         GLfloat x = 880.0f, z = 650.0f;
         GLfloat y = terrain1.getHeightOfTerrain(x, z);
         model = glm::translate(model, glm::vec3(x, y, z));
-        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+//        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::scale(model, glm::vec3(1, 1, 1));
         manRender.addLight(pointLight, dirLight);
         manRender.render(manModel, projection, view, model, myCamera);

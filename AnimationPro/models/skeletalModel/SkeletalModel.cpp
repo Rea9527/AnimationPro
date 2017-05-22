@@ -13,23 +13,28 @@ SkeletalModel::SkeletalModel() {
     this->isAnimated = false;
 }
 
+SkeletalModel::~SkeletalModel() {
+    cout << "skeletal model destroy..." << endl;
+}
+
 SkeletalModel::SkeletalModel(GLchar* path) {
     this->isAnimated = false;
     this->loadModel(path);
 }
 
 void SkeletalModel::Draw(Shader shader) {
-    if (this->Meshes.size() != 0) {
-        skeleton = this->Meshes[0].sceneLoaderSkeleton;
-    }
     
-    if (isAnimated) {
+    if (!this->Meshes.empty())
+        this->skeleton = this->Meshes[0].sceneLoaderSkeleton;
+
+    if (this->skeleton.isPlaying()) {
         this->updateSkeleton();
     }
     
     for (GLuint i = 0; i < this->Meshes.size(); i++) {
-        this->Meshes[i].Draw(shader);
+        this->Meshes[i].Draw(shader, this->skeleton);
     }
+    
 }
 
 
@@ -42,19 +47,27 @@ void SkeletalModel::loadModel(string path) {
         return;
     }
     
-    this->recursiveNodeProcess(scene->mRootNode);
-    this->animNodeProcess();
-    
     globalInverseTransform = Utils::aiMatToGlmMat(scene->mRootNode->mTransformation);
     globalInverseTransform = glm::inverse(globalInverseTransform);
-    
+//    globalInverseTransform = glm::transpose(globalInverseTransform);
+
     this->directory = path.substr(0, path.find_last_of("/"));
     this->processNode(scene->mRootNode, scene);
+    
+    this->loadNode(scene->mRootNode);
     this->processBone();
+    if (scene->HasAnimations()) {
+        this->Meshes[0].sceneLoaderSkeleton.m_animations.resize(scene->mNumAnimations);
+        for(unsigned int i=0; i < scene->mNumAnimations; i++){
+            this->loadNodeAnim(scene->mAnimations[i], this->Meshes[0].sceneLoaderSkeleton.m_animations[i]);
+            
+            if(this->Meshes[0].sceneLoaderSkeleton.m_animations[i].m_name.empty())
+                this->Meshes[0].sceneLoaderSkeleton.m_animations[i].m_name = "anim";
+        }
+    }
 }
 
 void SkeletalModel::processNode(aiNode *node, const aiScene *scene) {
-    
     for (GLuint i = 0; i < node->mNumMeshes; i++) {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
         this->Meshes.push_back(this->processMesh(mesh, scene));
@@ -68,13 +81,14 @@ void SkeletalModel::processNode(aiNode *node, const aiScene *scene) {
 
 AMesh SkeletalModel::processMesh(aiMesh *mesh, const aiScene *scene) {
     vector<BoneVertex> vertices;
+    
     vector<GLuint> indices;
     vector<AnimatedTexture> textures;
     vector<glm::vec4> weights(mesh->mNumVertices, glm::vec4(0, 0, 0, 0));
-    vector<glm::vec4> ids;
+    vector<glm::vec4> ids(mesh->mNumVertices, glm::vec4(0, 0, 0, 0));
 
-    
     for (GLuint i = 0; i < mesh->mNumVertices; i++) {
+        
         BoneVertex vertex;
         
         glm::vec3 vector;
@@ -111,143 +125,180 @@ AMesh SkeletalModel::processMesh(aiMesh *mesh, const aiScene *scene) {
     //bones
     for (GLuint i = 0; i < mesh->mNumBones; i++) {
         int WEIGHTS_PER_VERTEX = 4;
-        
         aiBone* bone = mesh->mBones[i];
+        
         for (int j = 0; j < bone->mNumWeights; j++) {
             aiVertexWeight weight = bone->mWeights[j];
-            unsigned int vertexStart = weight.mVertexId;
-            
+            unsigned int vertexID = weight.mVertexId;
             for (int k = 0; k < WEIGHTS_PER_VERTEX; k++) {
-//                cout << k << endl;
-                if (weights.at(vertexStart)[k] == 0) {
-                    weights.at(vertexStart)[k] = weight.mWeight;
-                    weights.at(vertexStart)[k] = i;
-                    vertices.at(weight.mVertexId).Weights[k] = i;
-                    vertices.at(weight.mVertexId).IDs[k] = weight.mWeight;
+                if (weights.at(vertexID)[k] == 0) {
+                    weights.at(vertexID)[k] = weight.mWeight;
+                    ids.at(vertexID)[k] = i;
+                    vertices.at(vertexID).IDs[k] = i;
+                    vertices.at(vertexID).Weights[k] = weight.mWeight;
                     break;
                 }
             }
         }
         
     }
+    
+    
     //materials
-    if (mesh->mMaterialIndex >= 0)
-    {
+    if (mesh->mMaterialIndex >= 0) {
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+        cout << material->GetTextureCount(aiTextureType_AMBIENT) << endl;
+        cout << material->GetTextureCount(aiTextureType_DIFFUSE) << endl;
+        cout << material->GetTextureCount(aiTextureType_SPECULAR) << endl;
+        cout <<endl;
+        vector<AnimatedTexture> ambientMaps = this->loadMaterialTextures(material,
+                                                                         aiTextureType_AMBIENT, "texture_ambient");
+        textures.insert(textures.end(), ambientMaps.begin(), ambientMaps.end());
         vector<AnimatedTexture> diffuseMaps = this->loadMaterialTextures(material,
                                                                  aiTextureType_DIFFUSE, "texture_diffuse");
         textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
         vector<AnimatedTexture> specularMaps = this->loadMaterialTextures(material,
                                                                   aiTextureType_SPECULAR, "texture_specular");
-        textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+        textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());;
     }
     
     return AMesh(vertices, textures, indices);
 }
 
-void SkeletalModel::recursiveNodeProcess(aiNode *node) {
-    Nodes.push_back(node);
+unsigned int SkeletalModel::loadNode(aiNode *node) {
+
+    string nodeName = (string)node->mName.data;
+    if (this->nodeNameMap.find(nodeName) != this->nodeNameMap.end()) return 0;
     
-    for(int i = 0; i < node->mNumChildren; i++)
-        recursiveNodeProcess(node->mChildren[i]);
+    unsigned int index = (unsigned int)this->Nodes.size();
+    this->Nodes.push_back(BoneNodeData());
+    this->Nodes[index].m_name = nodeName;
+    this->Nodes[index].m_id = (unsigned int)this->Nodes.size();
+    this->Nodes[index].m_parentID = (node->mParent ? nodeNameMap[node->mParent->mName.data] : 0);
+    
+    auto tempMat = node->mTransformation;
+    tempMat.Transpose();
+    this->Nodes[index].m_transform = Utils::aiMatToGlmMat(tempMat);
+    
+    unsigned int childIndex;
+    this->nodeNameMap.insert(pair<string, unsigned int>(this->Nodes[index].m_name, this->Nodes[index].m_id));
+    this->Nodes[index].m_childNameList.resize(node->mNumChildren);
+    for(unsigned int i=0; i<node->mNumChildren; i++) {
+        childIndex = this->loadNode(node->mChildren[i]);
+        this->Nodes[index].m_childNameList[i] = childIndex;
+    }
+    
+    return index;
 }
 
-// multiple animations ?????
-void SkeletalModel::animNodeProcess() {
-    if(scene->mNumAnimations == 0)
-        return;
+
+void SkeletalModel::loadNodeAnim(aiAnimation *ptrAiAnimation, AnimationData &animation) {
     
-    for(int i = 0; i < scene->mAnimations[0]->mNumChannels; i++)
-        NodesAnima.push_back(scene->mAnimations[0]->mChannels[i]);
+    unsigned int i,j;
+    animation.m_name = ptrAiAnimation->mName.data;
+    animation.m_duration = ptrAiAnimation->mDuration;
+    animation.m_ticksPerSecond = ptrAiAnimation->mTicksPerSecond;
+    cout << animation.m_duration << " " << animation.m_ticksPerSecond << endl;
+    
+    unsigned int npos = ptrAiAnimation->mChannels[0]->mNumPositionKeys;
+    unsigned int nrot = ptrAiAnimation->mChannels[0]->mNumRotationKeys;
+    
+    animation.m_node.resize(ptrAiAnimation->mNumChannels);
+    for (i=0; i<ptrAiAnimation->mNumChannels; i++) {
+        animation.m_node[i].m_equalFrames = (ptrAiAnimation->mChannels[i]->mNumPositionKeys ==
+                                             ptrAiAnimation->mChannels[i]->mNumRotationKeys);
+        
+        if(npos != ptrAiAnimation->mChannels[i]->mNumPositionKeys) animation.m_node[i].m_equalFrames = false;
+        if(nrot != ptrAiAnimation->mChannels[i]->mNumRotationKeys) animation.m_node[i].m_equalFrames = false;
+        
+        animation.m_node[i].m_name = string(ptrAiAnimation->mChannels[i]->mNodeName.data);
+        animation.m_nodeNameToIndexMap.insert(pair<string,unsigned int>(animation.m_node[i].m_name,i));
+        
+        animation.m_node[i].m_positionFrame.resize(ptrAiAnimation->mChannels[i]->mNumPositionKeys);
+        for (j=0; j<ptrAiAnimation->mChannels[i]->mNumPositionKeys; j++) {
+            
+            animation.m_node[i].m_positionFrame[j].first = ptrAiAnimation->mChannels[i]->mPositionKeys[j].mTime;
+            animation.m_node[i].m_positionFrame[j].second.x = ptrAiAnimation->mChannels[i]->mPositionKeys[j].mValue.x;
+            animation.m_node[i].m_positionFrame[j].second.y = ptrAiAnimation->mChannels[i]->mPositionKeys[j].mValue.y;
+            animation.m_node[i].m_positionFrame[j].second.z = ptrAiAnimation->mChannels[i]->mPositionKeys[j].mValue.z;
+        }
+        
+        animation.m_node[i].m_rotationFrame.resize(ptrAiAnimation->mChannels[i]->mNumRotationKeys);
+        for (j=0; j<ptrAiAnimation->mChannels[i]->mNumRotationKeys; j++) {
+            
+            animation.m_node[i].m_rotationFrame[j].first = ptrAiAnimation->mChannels[i]->mRotationKeys[j].mTime;
+            animation.m_node[i].m_rotationFrame[j].second.w = ptrAiAnimation->mChannels[i]->mRotationKeys[j].mValue.w;
+            animation.m_node[i].m_rotationFrame[j].second.x = ptrAiAnimation->mChannels[i]->mRotationKeys[j].mValue.x;
+            animation.m_node[i].m_rotationFrame[j].second.y = ptrAiAnimation->mChannels[i]->mRotationKeys[j].mValue.y;
+            animation.m_node[i].m_rotationFrame[j].second.z = ptrAiAnimation->mChannels[i]->mRotationKeys[j].mValue.z;
+            
+        }
+        
+    }
+    
 }
 
 //bones processing
 void SkeletalModel::processBone() {
-    for(int i = 0; i < scene->mNumMeshes; i++)
-    {
-        for(int j = 0; j < scene->mMeshes[i]->mNumBones; j++)
-        {
-            //Here we're just storing the bone information that we loaded
-            //with ASSIMP into the formats our Bone class will recognize.
-            std::string b_name = scene->mMeshes[i]->mBones[j]->mName.data;
-            glm::mat4 b_mat = glm::transpose(Utils::aiMatToGlmMat(scene->mMeshes[i]->mBones[j]->mOffsetMatrix));
+    for(int i = 0; i < scene->mNumMeshes; i++) {
+        for(int j = 0; j < scene->mMeshes[i]->mNumBones; j++) {
+            //get bone name
+            string b_name = scene->mMeshes[i]->mBones[j]->mName.data;
             
-            std::cout<<"Bone "<<j<<" "<<b_name<<std::endl;
+            glm::mat4 b_mat;
+            auto tempMat = scene->mMeshes[i]->mBones[j]->mOffsetMatrix;
+            b_mat = Utils::aiMatToGlmMat(tempMat);
+            b_mat = glm::transpose(b_mat);
 
-            Bone bone(&this->Meshes.at(i), i, b_name, b_mat);
-            bone.setNode(this->findAiNode(b_name));
-            bone.setNodeAnim(this->findAiNodeAnim(b_name));
+            cout << "Bone " << i << " " << j << " " << b_name << endl;
             
-            if(bone.getNodeAnim() == nullptr)
-                std::cout<<"No Animations were found for " + b_name<<std::endl;
+            BoneNodeData node = this->findBoneNode(b_name);
+            this->boneNameMap[node.m_name] = j;
+            //create bone using node
+            Bone bone(node);
+            
+            bone.localTransform = b_mat;
             
             //Finally, we push the Bone into our vector. Yay.
             this->Bones.push_back(bone);
         }
     }
     
-    
-    for(int i = 0; i < this->Bones.size(); i++) {
-        //Here we cycle through the existing bones and match them up with
-        //their parents, the code here is pretty self explanatory.
-        std::string b_name = this->Bones.at(i).getName();
-        if (this->findAiNode(b_name)) {
-            string parent_name = this->findAiNode(b_name)->mParent->mName.data;
-            if (this->findBone(parent_name)) {
-                Bone* p_bone = this->findBone(parent_name);
-                this->Bones.at(i).setParentBone(p_bone);
-                
-                if(p_bone == nullptr)
-                    std::cout<<"Parent Bone for "<<b_name<<" does not exist (is nullptr)"<<std::endl;
-            }
+    for (int i = 0; i < this->Bones.size(); i++) {
+        for (int j = 0; j < this->Bones[i].m_childId.size(); j++) {
             
+            this->Bones[i].m_childId[j] = this->boneNameMap[this->Nodes[this->Bones[i].m_childId[j]].m_name];
         }
-        
     }
     
-    if(this->Meshes.size() > 0)
-        this->Meshes.at(0).sceneLoaderSkeleton.init(Bones, globalInverseTransform);
+    if(this->Meshes.size() > 0) {
+        this->Meshes[0].sceneLoaderSkeleton.init(Bones, globalInverseTransform);
+    }
+    
 }
 
-Bone* SkeletalModel::findBone(string name) {
-    for (Bone bone : this->Bones) {
-        if (bone.getName() == name) {
-            return &bone;
+Bone* SkeletalModel::findBone(unsigned int id) {
+    for (int i = 0; i < this->Bones.size(); i++) {
+        if (this->nodeNameMap[this->Bones[i].name] == id) {
+            return &this->Bones.at(i);
         }
     }
     return nullptr;
 }
 
-aiNode* SkeletalModel::findAiNode(string name) {
-    for (aiNode* node : this->Nodes) {
-        if (node->mName.data == name) {
-            return node;
+BoneNodeData SkeletalModel::findBoneNode(string name) {
+    for (int i = 0; i < this->Nodes.size(); i++) {
+        if (this->Nodes[i].m_name == name) {
+            return this->Nodes.at(i);
         }
     }
-    return nullptr;
+    return BoneNodeData();
 }
 
-aiNodeAnim* SkeletalModel::findAiNodeAnim(string name) {
-    for (aiNodeAnim* nodeAnim : this->NodesAnima) {
-        if (nodeAnim->mNodeName.data == name) {
-            return nodeAnim;
-        }
-    }
-    return nullptr;
-}
-
-int SkeletalModel::findBoneIdByName(string name) {
-    for (int i = 0; i < Bones.size(); i++) {
-        if (Bones[i].getName() == name) {
-            return i;
-        }
-    }
-    return -1;
-}
 
 //skeleton
 void SkeletalModel::updateSkeleton() {
-    this->skeleton.update();
+    this->Meshes[0].sceneLoaderSkeleton.update();
 }
 
 //animation
@@ -256,20 +307,24 @@ void SkeletalModel::addAnimation(Animation& in_anim) {
 }
 
 Animation* SkeletalModel::findAnimation(std::string anim_to_find) {
-    for (Animation animation : this->animations) {
-        if (animation.name == anim_to_find) {
-            return &animation;
+    for (int i = 0; i < this->animations.size(); i++) {
+        if (this->animations[i].name == anim_to_find) {
+            return &this->animations[i];
         }
     }
     return nullptr;
 }
 
+void SkeletalModel::setIdleAnimation(Animation animation) {
+    this->Meshes[0].sceneLoaderSkeleton.setIdleAnimation(&animation);
+}
+
 void SkeletalModel::playAnimation(Animation& anim, bool loop, bool reset_to_start) {
-    this->skeleton.playAnimation(anim, loop, reset_to_start);
+    this->Meshes[0].sceneLoaderSkeleton.playAnimation(anim, loop, reset_to_start);
 }
 
 void SkeletalModel::stopAnimating() {
-    this->skeleton.stopAnimating();
+    this->Meshes[0].sceneLoaderSkeleton.stopAnimating();
 }
 
 vector<AnimatedTexture> SkeletalModel::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName) {

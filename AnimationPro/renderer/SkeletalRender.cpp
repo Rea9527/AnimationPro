@@ -16,7 +16,7 @@ SkeletalRender::SkeletalRender(ModelShader shader) {
     this->Shader.Stop();
 }
 
-void SkeletalRender::render(SkeletalModel skeletalModel, glm::mat4 projection, glm::mat4 view, glm::mat4 model, Camera camera) {
+void SkeletalRender::render(SkeletalModel &skeletalModel, glm::mat4 projection, glm::mat4 view, glm::mat4 model, Camera camera) {
     this->Shader.Use();
     this->Shader.loadViewPos(camera.Pos.x, camera.Pos.y, camera.Pos.z);
     this->Shader.loadViewMat(glm::value_ptr(view));

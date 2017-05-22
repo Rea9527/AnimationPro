@@ -14,163 +14,14 @@ Bone::Bone() {
     id = -1;
 }
 
-Bone::Bone(AMesh* in_mesh, uint in_id, string in_name, glm::mat4 in_o_mat) {
-    id = in_id;
-    name = in_name;
-    localTransform = in_o_mat;
-    
-    mesh = in_mesh;
-    
-    parentBone = nullptr;
-    node = nullptr;
+Bone::Bone(const BoneNodeData &node) {
+    this->name = node.m_name;
+    this->m_parentId = node.m_parentID;
+    this->m_childId = node.m_childNameList;
+    this->m_transform = node.m_transform;
 }
 
-glm::mat4 Bone::GetParentTransforms() {
-    Bone* b = parentBone;
-    vector<glm::mat4> mats;
-    
-    while(b != nullptr) {
-        glm::mat4 tmp_mat = Utils::aiMatToGlmMat(b->node->mTransformation);
-        mats.push_back(tmp_mat);
-        
-        b = b->parentBone;
-    }
-    
-    glm::mat4 concatenated_transforms;
-    for(int i = (int)mats.size()-1; i >= 0; i--)
-        concatenated_transforms *= mats.at(i);
-    
-    return concatenated_transforms;
-}
-
-//key frames
-void Bone::updateKeyframeTransform(float time) {
-    if(this->nodeAnim == nullptr)
-        return;
-    
-    pos = this->calcInterpolatedPosition(time);
-    rot = this->calcInterpolatedRotation(time);
-    scale = glm::vec3(1.0);
-    
-    glm::mat4 mat;
-    mat = glm::translate(mat, pos);
-    mat *= glm::mat4_cast(rot);
-    mat = glm::scale(mat, scale);
-    
-    node->mTransformation = Utils::GlmMatToAiMat(mat);
-}
-
-unsigned int Bone::findPosition(float time) {
-    for(unsigned int i = 0 ; i < this->nodeAnim->mNumPositionKeys - 1 ; i++) {
-        //If the time passed in is less than the time of the next
-        //keyframe, then this is the keyframe we want!
-        if(time < (float)this->nodeAnim->mPositionKeys[i + 1].mTime)
-            return i;
-    }
-    return 0;
-}
-
-unsigned int Bone::findRotation(float time) {
-    for(unsigned int i = 0 ; i < this->nodeAnim->mNumRotationKeys - 1 ; i++)
-    {
-        //Same as with the position.
-        if(time < (float)this->nodeAnim->mRotationKeys[i + 1].mTime)
-            return i;
-    }
-    return 0;
-}
-
-glm::vec3 Bone::calcInterpolatedPosition(float time) {
-    if(this->nodeAnim->mNumPositionKeys == 1) {
-        aiVector3D assimp_val = this->nodeAnim->mPositionKeys[0].mValue;
-        glm::vec3 val(assimp_val.x, assimp_val.y, assimp_val.z);
-        return val;
-    }
-    
-    //The index of our current position, as well as the index that follows.
-    //This will allow us to interpolate between the two values.
-    unsigned int PositionIndex = this->findPosition(time);
-    unsigned int NextPositionIndex = (PositionIndex + 1);
-    
-    //DeltaTime is the amount of time between the two keyframes.
-    float DeltaTime = this->nodeAnim->mPositionKeys[NextPositionIndex].mTime - this->nodeAnim->mPositionKeys[PositionIndex].mTime;
-    //the percentage
-    float Factor = (time - (float)this->nodeAnim->mPositionKeys[PositionIndex].mTime) / DeltaTime;
-    
-    //The start and end positions (the position values of each of the keyframes)
-    const aiVector3D StartPosition = this->nodeAnim->mPositionKeys[PositionIndex].mValue;
-    const aiVector3D EndPosition = this->nodeAnim->mPositionKeys[NextPositionIndex].mValue;
-    
-    //Here we convert them to glm matrices...
-    glm::vec3 p1(StartPosition.x,StartPosition.y,StartPosition.z);
-    glm::vec3 p2(EndPosition.x,EndPosition.y,EndPosition.z);
-    
-    
-    //and here we linearly interpolate between the two keyframes.
-    glm::vec3 val = glm::mix(p1,p2,Factor);
-    
-    return val;
-}
-
-glm::quat Bone::calcInterpolatedRotation(float time) {
-    if(this->nodeAnim->mNumRotationKeys == 1)
-    {
-        aiQuaternion assimp_val = this->nodeAnim->mRotationKeys[0].mValue;
-        glm::quat val(assimp_val.w,assimp_val.x,assimp_val.y,assimp_val.z);
-        return val;
-    }
-    
-    unsigned int RotationIndex = this->findRotation(time);
-    unsigned int NextRotationIndex = (RotationIndex + 1);
-    
-    float DeltaTime = this->nodeAnim->mRotationKeys[NextRotationIndex].mTime - this->nodeAnim->mRotationKeys[RotationIndex].mTime;
-    float Factor = (time - (float)this->nodeAnim->mRotationKeys[RotationIndex].mTime) / DeltaTime;
-    
-    const aiQuaternion& StartRotationQ = this->nodeAnim->mRotationKeys[RotationIndex].mValue;
-    const aiQuaternion& EndRotationQ = this->nodeAnim->mRotationKeys[NextRotationIndex].mValue;
-    
-    glm::quat r1(StartRotationQ.w,StartRotationQ.x,StartRotationQ.y,StartRotationQ.z);
-    glm::quat r2(EndRotationQ.w,EndRotationQ.x,EndRotationQ.y,EndRotationQ.z);
-    
-    glm::quat val = glm::slerp(r1, r2, Factor);
-    return val;
-}
-
-string Bone::getName() {
-    return this->name;
-}
-
-aiNode* Bone::getNode() {
-    return this->node;
-}
-
-aiNodeAnim* Bone::getNodeAnim() {
-    return this->nodeAnim;
-}
-
-glm::mat4 Bone::getLocalTransform() {
-    return this->localTransform;
-}
-
-Skeleton* Bone::getParentSkeleton() {
-    return this->parentSkeleton;
-}
-
-void Bone::setNode(aiNode* node) {
-    this->node = node;
-}
-
-void Bone::setNodeAnim(aiNodeAnim* nodeAnim) {
-    this->nodeAnim = nodeAnim;
-}
-
-void Bone::setParentBone(Bone *parent) {
-    this->parentBone = parent;
-}
-
-void Bone::setParentSkeleton(Skeleton* skeleton) {
-    this->parentSkeleton = skeleton;
-}
+Bone::~Bone() { }
 
 
 
@@ -181,10 +32,15 @@ Skeleton::Skeleton() {
     active_animation = nullptr;
     
     anim_loop = false;
+    anim_play = false;
 }
 
 Skeleton::Skeleton(vector<Bone> bones, glm::mat4 globalInvTransform) {
     this->init(bones, globalInvTransform);
+}
+
+Skeleton::~Skeleton() {
+
 }
 
 void Skeleton::init(vector<Bone> bones, glm::mat4 globalInvTransform) {
@@ -197,9 +53,8 @@ void Skeleton::init(vector<Bone> bones, glm::mat4 globalInvTransform) {
     idle_animation = nullptr;
     
     anim_loop = false;
-    
-    for(int i = 0; i < bones.size(); i++)
-        bones.at(i).setParentSkeleton(this);
+    anim_play = false;
+
 }
 
 void Skeleton::playAnimation(Animation& anim, bool loop, bool reset_to_start)
@@ -214,15 +69,12 @@ void Skeleton::playAnimation(Animation& anim, bool loop, bool reset_to_start)
         active_animation = &anim;
     }
     
-    
     start_time = active_animation->start_time;
     end_time = active_animation->end_time;
     
     anim_play = true;
     anim_loop = loop;
-    
-    //The reset_to_start variable determines whether or not the animation
-    //should restart upon playing.
+
     if(reset_to_start)
         time = active_animation->start_time;
 }
@@ -238,44 +90,30 @@ void Skeleton::setIdleAnimation(Animation* in_anim) {
     this->idle_animation = in_anim;
 }
 
-Bone* Skeleton::findBone(string name) {
-    for (Bone bone : this->bones) {
-        if (bone.getName() == name)
-            return &bone;
-    }
-    return nullptr;
-}
-
-void Skeleton::updateBoneMatsVector() {
-
-    if(bones.size() == 0)
-        return;
+void Skeleton::transformBone(unsigned int boneId, const glm::mat4 &parentTransform, float time) {
+    if (bones.size() == 0) return;
     
-    boneMats.clear();
-
-    for (int i = 0; i < 100; i++) {
-        //If we are past the number of bones in the actual skeleton, we simply
-        //pass in an identity matrix.
-        if(i > bones.size() - 1) {
-            boneMats.push_back(glm::mat4(1.0));
-        } else {
-            glm::mat4 concatenated_transformation = bones.at(i).GetParentTransforms()
-                                        * Utils::aiMatToGlmMat(bones.at(i).getNode()->mTransformation);
-
-            boneMats.push_back(globalInverseTransform * concatenated_transformation
-                               * bones.at(i).getLocalTransform());
+    if (boneId > this->bones.size() - 1) {
+        return;
+    } else {
+        glm::mat4 localFinalTransform = parentTransform * this->bones.at(boneId).m_transform;
+        
+        glm::mat4 boneMatrix = this->globalInverseTransform * localFinalTransform
+        * this->bones.at(boneId).localTransform;
+        
+        this->boneMats.at(boneId) = boneMatrix;
+        
+        for (unsigned int i = 0; i < this->bones.at(boneId).m_childId.size(); i++) {
+            transformBone(this->bones.at(boneId).m_childId[i], localFinalTransform, time);
         }
     }
 }
 
 void Skeleton::update() {
-    this->updateBoneMatsVector();
     
-    if(!anim_play)
-        //If we're not playing an animation, then just give up, do nothing.
-        return;
+    if (!anim_play) return;
     
-    time += Utils::frameTime * 0.001f;
+    time += Utils::frameTime;
     
     if(time < start_time)
         time = start_time;
@@ -285,6 +123,123 @@ void Skeleton::update() {
         else this->stopAnimating();
     }
     
-    for(int i = 0; i < bones.size(); i++)
-        bones.at(i).updateKeyframeTransform(time);
+    glm::mat4 identity(1.0f);
+    this->boneMats.clear();
+    this->boneMats.resize(100, identity);
+    this->transformBone(0, identity, time);
+    
+    
+    this->updateKeyframeTransform(time);
+    
 }
+
+bool Skeleton::isPlaying() {
+    return this->anim_play;
+}
+
+//key frames
+void Skeleton::updateKeyframeTransform(float time) {
+    for (AnimationData animation : this->m_animations) {
+        if (animation.m_name == this->active_animation->name) {
+            for (AnimationNodeData animationNode : animation.m_node) {
+                pos = this->calcInterpolatedPosition(animationNode, time);
+                rot = this->calcInterpolatedRotation(animationNode, time);
+                scale = glm::vec3(1.0);
+                
+                glm::mat4 mat;
+                mat = glm::translate(mat, pos);
+                mat *= glm::mat4_cast(rot);
+                mat = glm::scale(mat, scale);
+
+                for (int i = 0; i < this->bones.size(); i++) {
+                    if (this->bones[i].name == animationNode.m_name) {
+                        this->bones[i].m_transform = mat;
+                        break;
+                    }
+                    
+
+                }
+            }
+        }
+    }
+
+}
+
+unsigned int Skeleton::findPosition(AnimationNodeData animationNode, float time) {
+    for(unsigned int i = 0 ; i < animationNode.m_positionFrame.size() - 1 ; i++) {
+        //If the time passed in is less than the time of the next
+        //keyframe, then this is the keyframe we want!
+        if (!animationNode.m_positionFrame.empty()){
+            //            cout << (float)this->nodeAnim->mPositionKeys[i + 1].mTime << endl;
+            if(time < (float)animationNode.m_positionFrame[i + 1].first)
+                return i;
+        }
+        
+    }
+    return 0;
+}
+
+unsigned int Skeleton::findRotation(AnimationNodeData animationNode, float time) {
+    for(unsigned int i = 0 ; i < animationNode.m_rotationFrame.size() - 1 ; i++)
+    {
+        //Same as with the position.
+        if (!animationNode.m_rotationFrame.empty()){
+            
+            if(time < (float)animationNode.m_rotationFrame[i + 1].first)
+                return i;
+        }
+    }
+    return 0;
+}
+
+glm::vec3 Skeleton::calcInterpolatedPosition(AnimationNodeData animationNode, float time) {
+    if(animationNode.m_positionFrame.size() == 1) {
+        glm::vec3 val = animationNode.m_positionFrame[0].second;
+        val = glm::normalize(val);
+        return val;
+    }
+    
+    unsigned int PositionIndex = this->findPosition(animationNode, time);
+    unsigned int NextPositionIndex = (PositionIndex + 1);
+    
+    //DeltaTime is the amount of time between the two keyframes.
+    float DeltaTime = animationNode.m_positionFrame[NextPositionIndex].first - animationNode.m_positionFrame[PositionIndex].first;
+    //the percentage
+    float Factor = (time - (float)animationNode.m_positionFrame[PositionIndex].first) / DeltaTime;
+    
+    //The start and end positions (the position values of each of the keyframes)
+    const glm::vec3 StartPosition = animationNode.m_positionFrame[PositionIndex].second;
+    const glm::vec3 EndPosition = animationNode.m_positionFrame[NextPositionIndex].second;
+    
+    //and here we linearly interpolate between the two keyframes.
+    glm::vec3 val = glm::mix(StartPosition, EndPosition, Factor);
+    val = glm::normalize(val);
+    
+    return val;
+}
+
+glm::quat Skeleton::calcInterpolatedRotation(AnimationNodeData animationNode, float time) {
+    if(animationNode.m_rotationFrame.size() == 1) {
+        glm::vec4 assimp_val = animationNode.m_rotationFrame[0].second;
+        glm::quat val(assimp_val.w, assimp_val.x, assimp_val.y, assimp_val.z);
+        return val;
+    }
+    
+    unsigned int RotationIndex = this->findRotation(animationNode, time);
+    unsigned int NextRotationIndex = (RotationIndex + 1);
+    
+    float DeltaTime = animationNode.m_rotationFrame[NextRotationIndex].first - animationNode.m_rotationFrame[RotationIndex].first;
+    float Factor = (time - (float)animationNode.m_rotationFrame[RotationIndex].first) / DeltaTime;
+    
+    const glm::vec4& StartRotationQ = animationNode.m_rotationFrame[RotationIndex].second;
+    const glm::vec4& EndRotationQ = animationNode.m_rotationFrame[NextRotationIndex].second;
+    
+    glm::quat r1(StartRotationQ.w, StartRotationQ.x, StartRotationQ.y, StartRotationQ.z);
+    glm::quat r2(EndRotationQ.w, EndRotationQ.x, EndRotationQ.y, EndRotationQ.z);
+    
+    glm::quat val = glm::slerp(r1, r2, Factor);
+    val = glm::normalize(val);
+    
+    return val;
+}
+

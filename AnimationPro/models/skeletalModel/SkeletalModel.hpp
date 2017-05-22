@@ -10,6 +10,7 @@
 #define SkeletalModel_hpp
 
 #include <iostream>
+#include <map>
 
 #include "../../utils/Utils.hpp"
 #include "../../mesh/AMesh.hpp"
@@ -26,17 +27,29 @@ class SkeletalModel {
     
 public:
     SkeletalModel();
+    ~SkeletalModel();
     SkeletalModel(GLchar* path);
     
     void Draw(Shader shader);
+    
+    void setIdleAnimation(Animation animtion);
+    void addAnimation(Animation& in_anim);
+    Animation* findAnimation(std::string anim_to_find);
+    void playAnimation(Animation& anim, bool loop = false, bool reset_to_start = false);
+    void stopAnimating();
     
 private:
     vector<AnimatedTexture> Loaded_textures;
     vector<AMesh> Meshes;
     
-    vector<aiNode*> Nodes;
-    vector<aiNodeAnim*> NodesAnima;
+    vector<BoneNodeData> Nodes;
+    vector<vector<AnimationData>> NodesAnima;
+    map<string, unsigned int> nodeNameMap;
+    unsigned int loadNode(aiNode *node);
+    void loadNodeAnim(aiAnimation *AiAnimation, AnimationData &animation);
+    
     vector<Bone> Bones;
+    map<string, unsigned int> boneNameMap;
     
     const aiScene* scene;
     
@@ -46,28 +59,19 @@ private:
     void processNode(aiNode* node, const aiScene* scene);
     AMesh processMesh(aiMesh* mesh, const aiScene* scene);
     void processBone();
-    
-    void recursiveNodeProcess(aiNode* node);
-    void animNodeProcess();
+
     
     vector<AnimatedTexture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
     
     //bones
     glm::mat4 globalInverseTransform;
-    Bone* findBone(string name);
-    aiNode* findAiNode(string name);
-    aiNodeAnim* findAiNodeAnim(string name);
-    int findBoneIdByName(string name);
-    
+    Bone* findBone(unsigned int id);
+    BoneNodeData findBoneNode(string name);
     
     bool isAnimated;
-    void updateSkeleton();
+    virtual void updateSkeleton();
     Skeleton skeleton;
     vector<Animation> animations;
-    void addAnimation(Animation& in_anim);
-    Animation* findAnimation(std::string anim_to_find);
-    void playAnimation(Animation& anim, bool loop = false, bool reset_to_start = false);
-    void stopAnimating();
 };
 
 

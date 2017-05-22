@@ -9,7 +9,7 @@
 #include "Utils.hpp"
 
 
-float Utils::frameTime = 0.0f;
+float Utils::frameTime = 1.0f / 60.0f;
 
 Utils::Utils() { }
 
@@ -43,21 +43,35 @@ GLint Utils::loadTextureFromFile(const char* path, string directory) {
 }
 
 glm::mat4 Utils::aiMatToGlmMat(aiMatrix4x4 mat) {
-    glm::mat4 glmMat;
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            glmMat[i][j] = mat[i][j];
+    glm::mat4 tmp;
+    tmp[0][0] = mat.a1;
+    tmp[1][0] = mat.b1;
+    tmp[2][0] = mat.c1;
+    tmp[3][0] = mat.d1;
     
-    return glmMat;
+    tmp[0][1] = mat.a2;
+    tmp[1][1] = mat.b2;
+    tmp[2][1] = mat.c2;
+    tmp[3][1] = mat.d2;
+    
+    tmp[0][2] = mat.a3;
+    tmp[1][2] = mat.b3;
+    tmp[2][2] = mat.c3;
+    tmp[3][2] = mat.d3;
+    
+    tmp[0][3] = mat.a4;
+    tmp[1][3] = mat.b4;
+    tmp[2][3] = mat.c4;
+    tmp[3][3] = mat.d4;
+    
+    return tmp;
 }
 
 aiMatrix4x4 Utils::GlmMatToAiMat(glm::mat4 mat) {
-    aiMatrix4x4 aiMat;
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            aiMat[i][j] = mat[i][j];
-    
-    return aiMat;
+    return aiMatrix4x4(mat[0][0],mat[0][1],mat[0][2],mat[0][3],
+                       mat[1][0],mat[1][1],mat[1][2],mat[1][3],
+                       mat[2][0],mat[2][1],mat[2][2],mat[2][3],
+                       mat[3][0],mat[3][1],mat[3][2],mat[3][3]);
 }
 
 float Utils::timeToFrame(float time)

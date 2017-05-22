@@ -26,7 +26,7 @@ class SkeletalRender {
     
 public:
     SkeletalRender(ModelShader shader);
-    void render(SkeletalModel skeletalModel, glm::mat4 projection, glm::mat4 view, glm::mat4 model, Camera camera);
+    void render(SkeletalModel &skeletalModel, glm::mat4 projection, glm::mat4 view, glm::mat4 model, Camera camera);
     
     void addLight(PointLight pointLight, DirectionalLight directionalLight);
     

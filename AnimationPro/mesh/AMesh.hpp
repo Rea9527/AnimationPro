@@ -67,23 +67,11 @@ public:
     
     AMesh();
     AMesh(vector<BoneVertex> vertices, vector<AnimatedTexture> textures, vector<GLuint> indices);
-
     
-    bool loadMesh(string filepath);
-    bool initFromScene(const aiScene* pScene, const string& Filename);
-    void loadBones(uint MeshIndex, const aiMesh* pMesh, vector<BoneVertex>& Bones);
-    aiMatrix4x4 boneTransform(float TimeInSeconds, vector<aiMatrix4x4>& Transforms);
-    void readNodeHeirarchy(float AnimationTime, const aiNode* pNode, const aiMatrix4x4& ParentTransform);
-    void calcInterpolatedRotation(aiQuaternion& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
-    
-    uint findRotation(float AnimationTime, const aiNodeAnim* pNodeAnim);
-    
-    void Draw(Shader shader);
+    void Draw(Shader shader, Skeleton skeleton);
     
 private:
     GLuint VAO, VBO, EBO;
-    
-    const aiScene* scene;
     
     void setUp();
     

@@ -53,8 +53,8 @@ void AMesh::setUp() {
     glBindVertexArray(0);
 }
 
-void AMesh::Draw(Shader shader) {
-    GLuint diffuseNr = 1, specularNr = 1;
+void AMesh::Draw(Shader shader, Skeleton skeleton) {
+    GLuint diffuseNr = 1, specularNr = 1, ambientNr = 1;
     
     for (GLuint i = 0; i < this->Textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
@@ -66,129 +66,28 @@ void AMesh::Draw(Shader shader) {
             ss << diffuseNr++;
         else if (name == "texture_specular")
             ss << specularNr++;
+        else if (name == "texture_ambient")
+            ss << ambientNr;
         number = ss.str();
         
+        cout << name << endl;
         glUniform1f(glGetUniformLocation(shader.Program, ("material." + name + number).c_str()), i);
         glBindTexture(GL_TEXTURE_2D, this->Textures[i].id);
     }
-
     
     glUniform1f(glGetUniformLocation(shader.Program, "material.shininess"), 16.0f);
-    
-//    glUniformMatrix4fv(glGetUniformLocation(shaderID,"gBones"),
-//                       parentGObj->skeleton.boneMats.size(),
-//                       GL_FALSE,
-//                       glm::value_ptr(parentGObj->skeleton.boneMats[0]));
+
+    glUniformMatrix4fv(glGetUniformLocation(shader.Program, "gBones"),
+                       (GLsizei)skeleton.boneMats.size(),
+                       GL_FALSE,
+                       glm::value_ptr(skeleton.boneMats[0]));
     
     glBindVertexArray(this->VAO);
     glDrawElements(GL_TRIANGLES, GLsizei(this->Indices.size()), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
     
-    for (GLuint i = 0; i < this->Textures.size(); i++)
-    {
+    for (GLuint i = 0; i < this->Textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
         glBindTexture(GL_TEXTURE_2D, 0);
     }
-}
-
-
-
-
-
-
-//aiMatrix4x4 AMesh::boneTransform(float TimeInSeconds, vector<aiMatrix4x4>& Transforms) {
-//    aiMatrix4x4 Identity;
-//    Identity.InitIdentity();
-//    
-//    float TicksPerSecond = m_pScene->mAnimations[0]->mTicksPerSecond != 0 ?
-//    m_pScene->mAnimations[0]->mTicksPerSecond : 25.0f;
-//    float TimeInTicks = TimeInSeconds * TicksPerSecond;
-//    float AnimationTime = fmod(TimeInTicks, m_pScene->mAnimations[0]->mDuration);
-//    
-//    ReadNodeHeirarchy(AnimationTime, m_pScene->mRootNode, Identity);
-//    
-//    Transforms.resize(m_NumBones);
-//    
-//    for (uint i = 0 ; i < m_NumBones ; i++) {
-//        Transforms[i] = m_BoneInfo[i].FinalTransformation;
-//    }
-//}
-
-
-//void AMesh::readNodeHeirarchy(float AnimationTime, const aiNode* pNode, const Matrix4f& ParentTransform)
-//{
-//    string NodeName(pNode->mName.data);
-//    
-//    const aiAnimation* pAnimation = m_pScene->mAnimations[0];
-//    
-//    Matrix4f NodeTransformation(pNode->mTransformation);
-//    
-//    const aiNodeAnim* pNodeAnim = FindNodeAnim(pAnimation, NodeName);
-//    
-//    if (pNodeAnim) {
-//        // Interpolate scaling and generate scaling transformation matrix
-//        aiVector3D Scaling;
-//        CalcInterpolatedScaling(Scaling, AnimationTime, pNodeAnim);
-//        Matrix4f ScalingM;
-//        ScalingM.InitScaleTransform(Scaling.x, Scaling.y, Scaling.z);
-//        
-//        // Interpolate rotation and generate rotation transformation matrix
-//        aiQuaternion RotationQ;
-//        CalcInterpolatedRotation(RotationQ, AnimationTime, pNodeAnim);
-//        Matrix4f RotationM = Matrix4f(RotationQ.GetMatrix());
-//        
-//        // Interpolate translation and generate translation transformation matrix
-//        aiVector3D Translation;
-//        CalcInterpolatedPosition(Translation, AnimationTime, pNodeAnim);
-//        Matrix4f TranslationM;
-//        TranslationM.InitTranslationTransform(Translation.x, Translation.y, Translation.z);
-//        
-//        // Combine the above transformations
-//        NodeTransformation = TranslationM * RotationM * ScalingM;
-//    }
-//    
-//    Matrix4f GlobalTransformation = ParentTransform * NodeTransformation;
-//    
-//    if (m_BoneMapping.find(NodeName) != m_BoneMapping.end()) {
-//        uint BoneIndex = m_BoneMapping[NodeName];
-//        m_BoneInfo[BoneIndex].FinalTransformation = m_GlobalInverseTransform * GlobalTransformation *
-//        m_BoneInfo[BoneIndex].BoneOffset;
-//    }
-//    
-//    for (uint i = 0 ; i < pNode->mNumChildren ; i++) {
-//        ReadNodeHeirarchy(AnimationTime, pNode->mChildren[i], GlobalTransformation);
-//    }
-//}
-
-void AMesh::calcInterpolatedRotation(aiQuaternion& Out, float AnimationTime, const aiNodeAnim* pNodeAnim)
-{
-    // we need at least two values to interpolate...
-    if (pNodeAnim->mNumRotationKeys == 1) {
-        Out = pNodeAnim->mRotationKeys[0].mValue;
-        return;
-    }
-    
-    uint RotationIndex = findRotation(AnimationTime, pNodeAnim);
-    uint NextRotationIndex = (RotationIndex + 1);
-    assert(NextRotationIndex < pNodeAnim->mNumRotationKeys);
-    float DeltaTime = pNodeAnim->mRotationKeys[NextRotationIndex].mTime - pNodeAnim->mRotationKeys[RotationIndex].mTime;
-    float Factor = (AnimationTime - (float)pNodeAnim->mRotationKeys[RotationIndex].mTime) / DeltaTime;
-    assert(Factor >= 0.0f && Factor <= 1.0f);
-    const aiQuaternion& StartRotationQ = pNodeAnim->mRotationKeys[RotationIndex].mValue;
-    const aiQuaternion& EndRotationQ = pNodeAnim->mRotationKeys[NextRotationIndex].mValue;
-    aiQuaternion::Interpolate(Out, StartRotationQ, EndRotationQ, Factor);
-    Out = Out.Normalize();
-}
-
-uint AMesh::findRotation(float AnimationTime, const aiNodeAnim* pNodeAnim)
-{
-    assert(pNodeAnim->mNumRotationKeys > 0);
-    
-    for (uint i = 0 ; i < pNodeAnim->mNumRotationKeys - 1 ; i++) {
-        if (AnimationTime < (float)pNodeAnim->mRotationKeys[i + 1].mTime) {
-            return i;
-        }
-    }
-    
-    assert(0);
 }
