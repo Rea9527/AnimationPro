@@ -154,6 +154,10 @@ int main(int argc, const char * argv[]) {
     tile.load("assets/tile/1.jpg");
     RectangleRender tileRenderer(modelShader);
     
+    //trees
+    ObjModel treeModel("assets/trees/1/file.obj");
+    ModelRender treeRenderer(modelShader);
+    
     
     
     Loader loader;
@@ -293,19 +297,6 @@ int main(int argc, const char * argv[]) {
         model = glm::scale(model, glm::vec3(0.03f, 0.03f, 0.03f));
         radioRender.render(radioModel, projection, view, model, myCamera);
         
-        //window
-        //==============================
-//        model = glm::mat4();
-//        x = 872.5f, z = 652.0f;
-//        y = terrain1.getHeightOfTerrain(x, z) + 1.0f;
-//        model = glm::translate(model, glm::vec3(x, y, z));
-//        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-//        model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
-//        glStencilFunc(GL_ALWAYS, 1, 0xff);
-//        glStencilMask(0xff);
-//        windowRender.render(windowModel, projection, view, model, myCamera);
-//        glDisable(GL_STENCIL_TEST);
-        
         
         //table
         //==============================
@@ -324,6 +315,15 @@ int main(int argc, const char * argv[]) {
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::scale(model, glm::vec3(1.2f, 1.2f, 1.2f));
         tableRender.render(tableModel, projection, view, model, myCamera);
+        
+        //tree
+        //==============================
+        model = glm::mat4();
+        x = 875.0f, z = 652.0f;
+        y = terrain1.getHeightOfTerrain(x, z);
+        model = glm::translate(model, glm::vec3(x, y, z));
+        model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
+        treeRenderer.render(treeModel, projection, view, model, myCamera);
         
         
         //skybox

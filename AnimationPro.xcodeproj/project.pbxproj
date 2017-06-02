@@ -46,7 +46,6 @@
 		A3B94A5E1ECD6074002461F5 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3B94A5C1ECD6074002461F5 /* Animation.cpp */; };
 		A3B96C7D1EE1201B003C0DE3 /* RectangleModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3B96C7B1EE1201B003C0DE3 /* RectangleModel.cpp */; };
 		A3B96C801EE1249A003C0DE3 /* RectangleRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3B96C7E1EE1249A003C0DE3 /* RectangleRender.cpp */; };
-		A3B96C841EE1307B003C0DE3 /* TileGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3B96C821EE1307B003C0DE3 /* TileGenerator.cpp */; };
 		A3E66A641ED6695A00FCA639 /* cubeRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3E66A621ED6695A00FCA639 /* cubeRender.cpp */; };
 		A3E66A671ED712BE00FCA639 /* PolygonModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3E66A651ED712BE00FCA639 /* PolygonModel.cpp */; };
 /* End PBXBuildFile section */
@@ -463,7 +462,6 @@
 				A34D8D7C1EC569BC00E08486 /* ModelTexture.cpp in Sources */,
 				A34D8D971EC569F200E08486 /* Terrain.cpp in Sources */,
 				A347746E1EA5AB1B00B136CF /* main.cpp in Sources */,
-				A3B96C841EE1307B003C0DE3 /* TileGenerator.cpp in Sources */,
 				A39A75511ECC423C00AC9486 /* SkeletalRender.cpp in Sources */,
 				A3B96C801EE1249A003C0DE3 /* RectangleRender.cpp in Sources */,
 				A34D8D911EC569E300E08486 /* ModelShader.cpp in Sources */,
