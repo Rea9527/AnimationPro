@@ -32,9 +32,21 @@ void Loader::cleanUp() {
 RawModel Loader::loadToVAO(GLfloat vertices[], GLsizei size, GLuint indices[], GLsizei isize) {
     
     GLuint vaoID = createVAO();
-    RawModel rawModel(vaoID, isize/sizeof(GLfloat));
+    RawModel rawModel(vaoID, isize/sizeof(GLuint));
     storeDataToArrayList(vertices, size);
     createEBO(indices, isize);
+    setAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+    setAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3* sizeof(GLfloat)));
+    setAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6* sizeof(GLfloat)));
+    unbind();
+    
+    return rawModel;
+}
+
+RawModel Loader::loadToVAO(GLfloat vertices[], GLsizei size, GLsizei count) {
+    GLuint vaoID = createVAO();
+    RawModel rawModel(vaoID, count);
+    storeDataToArrayList(vertices, size);
     setAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
     setAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3* sizeof(GLfloat)));
     setAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6* sizeof(GLfloat)));

@@ -41,7 +41,7 @@ newmtl Standard_1
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka House body .jpg
-	map_Kd House body .jpg
+	map_Ka House body .png
+	map_Kd House body .png
 	map_bump House Bump.jpg
 	bump House Bump.jpg

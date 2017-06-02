@@ -43,6 +43,7 @@ public:
     static glm::vec2 framesToTime(glm::vec2 frames);
     
     static float frameTime;
+
 };
 
 #endif /* Utils_hpp */

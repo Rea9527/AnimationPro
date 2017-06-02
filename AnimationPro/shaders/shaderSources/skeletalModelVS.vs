@@ -26,7 +26,7 @@ void main() {
     vec4 Tpos = boneTransform * vec4(position, 1.0f);
     gl_Position = projection * view * model * Tpos;
     vec4 BNormal = boneTransform * vec4(normal, 1.0f);
-    Normal = vec3(transpose(inverse(model))) * BNormal.xyz;
+    Normal = mat3(transpose(inverse(model))) * BNormal.xyz;
     FragPos = vec3(model * vec4(position, 1.0));
     TexCoords = texCoord;
 }

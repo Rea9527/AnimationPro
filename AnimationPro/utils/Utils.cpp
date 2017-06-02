@@ -11,6 +11,8 @@
 
 float Utils::frameTime = 1.0f / 60.0f;
 
+
+
 Utils::Utils() { }
 
 GLint Utils::loadTextureFromFile(const char* path, string directory) {

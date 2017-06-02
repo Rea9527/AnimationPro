@@ -19,6 +19,8 @@ SkyboxRender::SkyboxRender(StaticShader shader) {
 }
 
 void SkyboxRender::render(Skybox skybox, glm::mat4 view, glm::mat4 projection) {
+    glStencilMask(0x00);
+    
     this->Shader.Use();
     this->Shader.loadProjectionMat(glm::value_ptr(projection));
     glm::mat4 _view = glm::mat4(glm::mat3(view));

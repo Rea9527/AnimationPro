@@ -9,9 +9,10 @@
 #include "Mesh.hpp"
 
 
-Mesh::Mesh(vector<Vertex> vertices, vector<Texture> textures, vector<GLuint> indices) {
+Mesh::Mesh(vector<Vertex> vertices, vector<Texture> textures, vector<Material> materials, vector<GLuint> indices) {
     this->Vertices = vertices;
     this->Textures = textures;
+    this->Materials = materials;
     this->Indices = indices;
     
     this->setUp();
@@ -43,7 +44,7 @@ void Mesh::setUp() {
 }
 
 void Mesh::Draw(Shader shader) {
-    GLuint diffuseNr = 1, specularNr = 1;
+    GLuint diffuseNr = 1;
     
     for (GLuint i = 0; i < this->Textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
@@ -53,15 +54,18 @@ void Mesh::Draw(Shader shader) {
         string name = this->Textures[i].type;
         if (name == "texture_diffuse")
             ss << diffuseNr++;
-        else if (name == "texture_specular")
-            ss << specularNr++;
         number = ss.str();
         
-        glUniform1f(glGetUniformLocation(shader.Program, ("material." + name + number).c_str()), i);
+        glUniform1f(glGetUniformLocation(shader.Program, "tex"), i);
         glBindTexture(GL_TEXTURE_2D, this->Textures[i].id);
     }
     
-    glUniform1f(glGetUniformLocation(shader.Program, "material.shininess"), 16.0f);
+    
+    glUniform3fv(glGetUniformLocation(shader.Program, "material.ambient"), 1, glm::value_ptr(this->Materials[0].ambient));
+    glUniform3fv(glGetUniformLocation(shader.Program, "material.diffuse"), 1, glm::value_ptr(this->Materials[0].diffuse));
+    glUniform3fv(glGetUniformLocation(shader.Program, "material.specular"), 1, glm::value_ptr(this->Materials[0].specular));
+    
+    glUniform1f(glGetUniformLocation(shader.Program, "material.shininess"), 32.0f);
     
     glBindVertexArray(this->VAO);
     glDrawElements(GL_TRIANGLES, GLsizei(this->Indices.size()), GL_UNSIGNED_INT, 0);

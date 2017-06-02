@@ -84,6 +84,7 @@ AMesh SkeletalModel::processMesh(aiMesh *mesh, const aiScene *scene) {
     
     vector<GLuint> indices;
     vector<AnimatedTexture> textures;
+    vector<AnimatedMaterial> materials;
     vector<glm::vec4> weights(mesh->mNumVertices, glm::vec4(0, 0, 0, 0));
     vector<glm::vec4> ids(mesh->mNumVertices, glm::vec4(0, 0, 0, 0));
 
@@ -146,23 +147,39 @@ AMesh SkeletalModel::processMesh(aiMesh *mesh, const aiScene *scene) {
     
     //materials
     if (mesh->mMaterialIndex >= 0) {
-        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        cout << material->GetTextureCount(aiTextureType_AMBIENT) << endl;
-        cout << material->GetTextureCount(aiTextureType_DIFFUSE) << endl;
-        cout << material->GetTextureCount(aiTextureType_SPECULAR) << endl;
-        cout <<endl;
-        vector<AnimatedTexture> ambientMaps = this->loadMaterialTextures(material,
-                                                                         aiTextureType_AMBIENT, "texture_ambient");
-        textures.insert(textures.end(), ambientMaps.begin(), ambientMaps.end());
-        vector<AnimatedTexture> diffuseMaps = this->loadMaterialTextures(material,
+        aiMaterial* AiMaterial = scene->mMaterials[mesh->mMaterialIndex];
+        
+        aiColor4D color;
+        AnimatedMaterial material;
+        if (AI_SUCCESS == aiGetMaterialColor(AiMaterial, AI_MATKEY_COLOR_AMBIENT, &color)) {
+            material.ambient.r = color.r;
+            material.ambient.g = color.g;
+            material.ambient.b = color.b;
+        }
+        
+        if (AI_SUCCESS == aiGetMaterialColor(AiMaterial, AI_MATKEY_COLOR_DIFFUSE, &color)) {
+            material.diffuse.r = color.r;
+            material.diffuse.g = color.g;
+            material.diffuse.b = color.b;
+        }
+        
+        if (AI_SUCCESS == aiGetMaterialColor(AiMaterial, AI_MATKEY_COLOR_SPECULAR, &color)) {
+            material.specular.r = color.r;
+            material.specular.g = color.g;
+            material.specular.b = color.b;
+        }
+        
+        materials.push_back(material);
+        
+
+
+        vector<AnimatedTexture> diffuseMaps = this->loadMaterialTextures(AiMaterial,
                                                                  aiTextureType_DIFFUSE, "texture_diffuse");
         textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-        vector<AnimatedTexture> specularMaps = this->loadMaterialTextures(material,
-                                                                  aiTextureType_SPECULAR, "texture_specular");
-        textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());;
+
     }
     
-    return AMesh(vertices, textures, indices);
+    return AMesh(vertices, textures, materials, indices);
 }
 
 unsigned int SkeletalModel::loadNode(aiNode *node) {

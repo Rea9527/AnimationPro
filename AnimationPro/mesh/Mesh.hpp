@@ -19,7 +19,11 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
+//glm
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -39,13 +43,22 @@ struct Texture {
     aiString path;
 };
 
+struct Material {
+    glm::vec3 ambient;
+    glm::vec3 diffuse;
+    glm::vec3 specular;
+    
+    float shininess;
+};
+
 class Mesh {
 public:
     vector<Vertex> Vertices;
     vector<Texture> Textures;
+    vector<Material> Materials;
     vector<GLuint> Indices;
     
-    Mesh(vector<Vertex> vertices, vector<Texture> textures, vector<GLuint> indices);
+    Mesh(vector<Vertex> vertices, vector<Texture> textures, vector<Material> materials, vector<GLuint> indices);
     void Draw(Shader shader);
     
 private:

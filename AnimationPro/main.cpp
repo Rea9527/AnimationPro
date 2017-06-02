@@ -30,11 +30,13 @@
 #include "renderer/ModelRender.hpp"
 #include "renderer/SkyboxRender.hpp"
 #include "renderer/SkeletalRender.hpp"
+#include "renderer/cubeRender.hpp"
+#include "renderer/RectangleRender.hpp"
+
+#include "generator/TileGenerator.hpp"
 
 #include "loader/Loader.hpp"
 #include "camera/Camera.hpp"
-#include "models/ObjModel.hpp"
-#include "models/skeletalModel/SkeletalModel.hpp"
 
 using namespace std;
 
@@ -50,14 +52,14 @@ glm::vec3 dirLightAttrib[] {
     glm::vec3(1.0f, 1.0f, 1.0f),//ambient
     glm::vec3(0.8f, 0.8f, 0.8f),//diffuse
     glm::vec3(0.3f, 0.4f, 0.2f),//specular
-    glm::vec3(-800.0f, 200.0f, 600.0f)//direction
+    glm::vec3(-1.0f, 1.0f, 0.0f)//direction
 };
 
 glm::vec3 pointLightAttrib[] {
     glm::vec3(1.0f, 1.0f, 1.0f),//am
-    glm::vec3(0.0f, 0.0f, 0.0f),//di
-    glm::vec3(0.0f, 0.0f, 0.0f),//spec
-    glm::vec3(0.0f, 0.0f, -4.0f)//pos
+    glm::vec3(1.0f, 1.0f, 1.0f),//di
+    glm::vec3(0.4f, 0.4f, 0.4f),//spec
+    glm::vec3(870.0f, 3.0f, 650.0f)//pos
     
 };
 
@@ -116,6 +118,7 @@ int main(int argc, const char * argv[]) {
     ModelShader manShader ( root+"skeletalModelVS.vs", root+"skeletalModelFS.frag" );
     StaticShader skyboxShader( root+"skyboxVS.vs", root+"skyboxFS.frag" );
     TerrainShader terrainShader( root+"terrainVS.vs", root+"terrainFS.frag" );
+    StaticShader staticShader( root+"emptyVS.vs", root+"emptyFS.frag" );
     
     //house
     ObjModel houseModel("assets/oldhouse/oldhouse/oldhouse.obj");
@@ -129,9 +132,9 @@ int main(int argc, const char * argv[]) {
     ModelRender chairRender(modelShader);
     ModelRender tableRender(modelShader);
     
-    //window
-    ObjModel windowModel("assets/window/file.obj");
-    ModelRender windowRender(modelShader);
+    //radio
+    ObjModel radioModel("assets/radio/radio.obj");
+    ModelRender radioRender(modelShader);
     
     //man
     SkeletalModel manModel("assets/man/model.dae");
@@ -141,6 +144,16 @@ int main(int argc, const char * argv[]) {
     manModel.setIdleAnimation(idle);
     manModel.playAnimation(walk, true, false);
     SkeletalRender manRender(manShader);
+    
+    //mask
+    PolygonModel cube;
+    cube.load();
+    CubeRender cubeRender(staticShader);
+    
+    //tile
+    RectangleModel tile;
+    tile.load("assets/tile/1.jpg");
+    RectangleRender tileRenderer(modelShader);
     
     
     
@@ -192,13 +205,16 @@ int main(int argc, const char * argv[]) {
     
 //    myCamera.disable();
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_STENCIL_TEST);
+    glStencilFunc(GL_NOTEQUAL, 1, 0xff);
+    glStencilOp(GL_KEEP, GL_REPLACE, GL_REPLACE);
     
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     // drawing loop
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
         glfwPollEvents();
         
         updateMovement();
@@ -235,8 +251,21 @@ int main(int argc, const char * argv[]) {
         pussRender.addLight(pointLight, dirLight);
         pussRender.render(pussModel, projection, view, model, myCamera);
         
+        //mask cube
+        //==============================
+//        glStencilFunc(GL_ALWAYS, 1, 0xff);
+//        glStencilMask(0xff);
+        model = glm::mat4();
+        x = 871.5f, z = 637.5f;
+        y = terrain1.getHeightOfTerrain(x, z) + 2.5f;
+        model = glm::translate(model, glm::vec3(x, y, z));
+        model = glm::scale(model, glm::vec3(0.3f, 4.8f, 3.1f));
+        cubeRender.render(cube, projection, view, model);
+        
         //house
         //==============================
+//        glStencilFunc(GL_NOTEQUAL, 1, 0xff);
+//        glStencilMask(0x00);
         model = glm::mat4();
         x = 850.0f, z = 640.0f;
         y = terrain1.getHeightOfTerrain(x, z);
@@ -245,32 +274,56 @@ int main(int argc, const char * argv[]) {
         houseRender.addLight(pointLight, dirLight);
         houseRender.render(houseModel, projection, view, model, myCamera);
         
-        //window
+        //tile
         //==============================
         model = glm::mat4();
-        x = 872.f, z = 652.0f;
-        y = terrain1.getHeightOfTerrain(x, z) + 1.0f;
+        x = 864.5f, z = 644.8f;
+        y = terrain1.getHeightOfTerrain(x, z) + 0.05f;
         model = glm::translate(model, glm::vec3(x, y, z));
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
-        windowRender.render(windowModel, projection, view, model, myCamera);
+        model = glm::scale(model, glm::vec3(14.0f, 1.0f, 25.0f));
+        tileRenderer.addLight(pointLight, dirLight);
+        tileRenderer.render(tile, projection, view, model, myCamera);
+        
+        //radio
+        //==============================
+        model = glm::mat4();
+        x = 870.0f, z = 651.0f;
+        y = terrain1.getHeightOfTerrain(x, z) + 2.0f;
+        model = glm::translate(model, glm::vec3(x, y, z));
+        model = glm::rotate(model, glm::radians(-70.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.03f, 0.03f, 0.03f));
+        radioRender.render(radioModel, projection, view, model, myCamera);
+        
+        //window
+        //==============================
+//        model = glm::mat4();
+//        x = 872.5f, z = 652.0f;
+//        y = terrain1.getHeightOfTerrain(x, z) + 1.0f;
+//        model = glm::translate(model, glm::vec3(x, y, z));
+//        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+//        model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
+//        glStencilFunc(GL_ALWAYS, 1, 0xff);
+//        glStencilMask(0xff);
+//        windowRender.render(windowModel, projection, view, model, myCamera);
+//        glDisable(GL_STENCIL_TEST);
+        
         
         //table
         //==============================
         model = glm::mat4();
-        x = 865.0f, z = 650.0f;
+        x = 870.0f, z = 652.0f;
         y = terrain1.getHeightOfTerrain(x, z);
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        model = glm::scale(model, glm::vec3(1.2f, 1.2f, 1.2f));
         chairRender.render(chairModel, projection, view, model, myCamera);
         
         model = glm::mat4();
-        x = 865.0f, z = 650.0f;
+        x = 870.0f, z = 652.0f;
         y = terrain1.getHeightOfTerrain(x, z);
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        model = glm::scale(model, glm::vec3(1.2f, 1.2f, 1.2f));
         tableRender.render(tableModel, projection, view, model, myCamera);
         
         

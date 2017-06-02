@@ -55,6 +55,14 @@ struct AnimatedTexture {
     aiString path;
 };
 
+struct AnimatedMaterial {
+    glm::vec3 ambient;
+    glm::vec3 diffuse;
+    glm::vec3 specular;
+    
+    float shininess;
+};
+
 
 class AMesh {
 public:
@@ -63,10 +71,11 @@ public:
     
     vector<BoneVertex> Vertices;
     vector<AnimatedTexture> Textures;
+    vector<AnimatedMaterial> Materials;
     vector<GLuint> Indices;
     
     AMesh();
-    AMesh(vector<BoneVertex> vertices, vector<AnimatedTexture> textures, vector<GLuint> indices);
+    AMesh(vector<BoneVertex> vertices, vector<AnimatedTexture> textures, vector<AnimatedMaterial> materials, vector<GLuint> indices);
     
     void Draw(Shader shader, Skeleton skeleton);
     

@@ -44,6 +44,11 @@
 		A39A75511ECC423C00AC9486 /* SkeletalRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A39A754F1ECC423C00AC9486 /* SkeletalRender.cpp */; };
 		A39A75551ECC767400AC9486 /* Bone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A39A75531ECC767400AC9486 /* Bone.cpp */; };
 		A3B94A5E1ECD6074002461F5 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3B94A5C1ECD6074002461F5 /* Animation.cpp */; };
+		A3B96C7D1EE1201B003C0DE3 /* RectangleModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3B96C7B1EE1201B003C0DE3 /* RectangleModel.cpp */; };
+		A3B96C801EE1249A003C0DE3 /* RectangleRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3B96C7E1EE1249A003C0DE3 /* RectangleRender.cpp */; };
+		A3B96C841EE1307B003C0DE3 /* TileGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3B96C821EE1307B003C0DE3 /* TileGenerator.cpp */; };
+		A3E66A641ED6695A00FCA639 /* cubeRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3E66A621ED6695A00FCA639 /* cubeRender.cpp */; };
+		A3E66A671ED712BE00FCA639 /* PolygonModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3E66A651ED712BE00FCA639 /* PolygonModel.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -126,6 +131,16 @@
 		A39A75541ECC767400AC9486 /* Bone.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Bone.hpp; path = animation/Bone.hpp; sourceTree = "<group>"; };
 		A3B94A5C1ECD6074002461F5 /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Animation.cpp; path = animation/Animation.cpp; sourceTree = "<group>"; };
 		A3B94A5D1ECD6074002461F5 /* Animation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Animation.hpp; path = animation/Animation.hpp; sourceTree = "<group>"; };
+		A3B96C7B1EE1201B003C0DE3 /* RectangleModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RectangleModel.cpp; path = models/RectangleModel.cpp; sourceTree = "<group>"; };
+		A3B96C7C1EE1201B003C0DE3 /* RectangleModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RectangleModel.hpp; path = models/RectangleModel.hpp; sourceTree = "<group>"; };
+		A3B96C7E1EE1249A003C0DE3 /* RectangleRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RectangleRender.cpp; path = renderer/RectangleRender.cpp; sourceTree = "<group>"; };
+		A3B96C7F1EE1249A003C0DE3 /* RectangleRender.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RectangleRender.hpp; path = renderer/RectangleRender.hpp; sourceTree = "<group>"; };
+		A3B96C821EE1307B003C0DE3 /* TileGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileGenerator.cpp; path = generator/TileGenerator.cpp; sourceTree = "<group>"; };
+		A3B96C831EE1307B003C0DE3 /* TileGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TileGenerator.hpp; path = generator/TileGenerator.hpp; sourceTree = "<group>"; };
+		A3E66A621ED6695A00FCA639 /* cubeRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cubeRender.cpp; path = renderer/cubeRender.cpp; sourceTree = "<group>"; };
+		A3E66A631ED6695A00FCA639 /* cubeRender.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = cubeRender.hpp; path = renderer/cubeRender.hpp; sourceTree = "<group>"; };
+		A3E66A651ED712BE00FCA639 /* PolygonModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PolygonModel.cpp; path = models/PolygonModel.cpp; sourceTree = "<group>"; };
+		A3E66A661ED712BE00FCA639 /* PolygonModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PolygonModel.hpp; path = models/PolygonModel.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +183,7 @@
 		A347746C1EA5AB1B00B136CF /* AnimationPro */ = {
 			isa = PBXGroup;
 			children = (
+				A3B96C811EE12CD5003C0DE3 /* generator */,
 				A39A75521ECC765900AC9486 /* animation */,
 				A39A754B1ECC1A9100AC9486 /* utils */,
 				A3ACF8371EB99292005099A6 /* skybox */,
@@ -237,6 +253,10 @@
 				A34D8D821EC569CF00E08486 /* RawModel.hpp */,
 				A34D8D831EC569CF00E08486 /* TextureModel.cpp */,
 				A34D8D841EC569CF00E08486 /* TextureModel.hpp */,
+				A3E66A651ED712BE00FCA639 /* PolygonModel.cpp */,
+				A3E66A661ED712BE00FCA639 /* PolygonModel.hpp */,
+				A3B96C7B1EE1201B003C0DE3 /* RectangleModel.cpp */,
+				A3B96C7C1EE1201B003C0DE3 /* RectangleModel.hpp */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -307,6 +327,10 @@
 				A34D8D631EC5694E00E08486 /* TerrainRender.hpp */,
 				A39A754F1ECC423C00AC9486 /* SkeletalRender.cpp */,
 				A39A75501ECC423C00AC9486 /* SkeletalRender.hpp */,
+				A3E66A621ED6695A00FCA639 /* cubeRender.cpp */,
+				A3E66A631ED6695A00FCA639 /* cubeRender.hpp */,
+				A3B96C7E1EE1249A003C0DE3 /* RectangleRender.cpp */,
+				A3B96C7F1EE1249A003C0DE3 /* RectangleRender.hpp */,
 			);
 			name = render;
 			sourceTree = "<group>";
@@ -347,6 +371,15 @@
 				A34D8D5C1EC5690300E08486 /* Skybox.hpp */,
 			);
 			name = skybox;
+			sourceTree = "<group>";
+		};
+		A3B96C811EE12CD5003C0DE3 /* generator */ = {
+			isa = PBXGroup;
+			children = (
+				A3B96C821EE1307B003C0DE3 /* TileGenerator.cpp */,
+				A3B96C831EE1307B003C0DE3 /* TileGenerator.hpp */,
+			);
+			name = generator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -406,12 +439,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3B96C7D1EE1201B003C0DE3 /* RectangleModel.cpp in Sources */,
 				A39A75551ECC767400AC9486 /* Bone.cpp in Sources */,
 				A34D8D7D1EC569BC00E08486 /* TerrainTexture.cpp in Sources */,
 				A34D8D741EC5699F00E08486 /* Light.cpp in Sources */,
 				A34D8D941EC569E300E08486 /* TerrainShader.cpp in Sources */,
 				A34D8D591EC568E000E08486 /* Mesh.cpp in Sources */,
 				A34D8D871EC569CF00E08486 /* TextureModel.cpp in Sources */,
+				A3E66A671ED712BE00FCA639 /* PolygonModel.cpp in Sources */,
 				A34D8D851EC569CF00E08486 /* ObjModel.cpp in Sources */,
 				A39A754A1ECB3A2900AC9486 /* AMesh.cpp in Sources */,
 				A34D8D651EC5694E00E08486 /* SkyboxRender.cpp in Sources */,
@@ -428,9 +463,12 @@
 				A34D8D7C1EC569BC00E08486 /* ModelTexture.cpp in Sources */,
 				A34D8D971EC569F200E08486 /* Terrain.cpp in Sources */,
 				A347746E1EA5AB1B00B136CF /* main.cpp in Sources */,
+				A3B96C841EE1307B003C0DE3 /* TileGenerator.cpp in Sources */,
 				A39A75511ECC423C00AC9486 /* SkeletalRender.cpp in Sources */,
+				A3B96C801EE1249A003C0DE3 /* RectangleRender.cpp in Sources */,
 				A34D8D911EC569E300E08486 /* ModelShader.cpp in Sources */,
 				A34D8D751EC5699F00E08486 /* PointLight.cpp in Sources */,
+				A3E66A641ED6695A00FCA639 /* cubeRender.cpp in Sources */,
 				A34D8D5D1EC5690300E08486 /* Skybox.cpp in Sources */,
 				A34D8D921EC569E300E08486 /* Shader.cpp in Sources */,
 				A34D8D661EC5694E00E08486 /* TerrainRender.cpp in Sources */,

@@ -52,6 +52,7 @@ Mesh ObjModel::processMesh(aiMesh *mesh, const aiScene *scene) {
     vector<Vertex> vertices;
     vector<GLuint> indices;
     vector<Texture> textures;
+    vector<Material> materials;
     
     for (GLuint i = 0; i < mesh->mNumVertices; i++) {
         Vertex vertex;
@@ -88,19 +89,40 @@ Mesh ObjModel::processMesh(aiMesh *mesh, const aiScene *scene) {
             indices.push_back(face.mIndices[j]);
     }
     //materials
-    if (mesh->mMaterialIndex >= 0)
-    {
-        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        vector<Texture> diffuseMaps = this->loadMaterialTextures(material,
-                                                                 aiTextureType_DIFFUSE, "texture_diffuse");
+    if (mesh->mMaterialIndex >= 0) {
+        aiMaterial* AiMaterial = scene->mMaterials[mesh->mMaterialIndex];
+        
+        aiColor4D color;
+        Material material;
+        if (AI_SUCCESS == aiGetMaterialColor(AiMaterial, AI_MATKEY_COLOR_AMBIENT, &color)) {
+            material.ambient.r = color.r;
+            material.ambient.g = color.g;
+            material.ambient.b = color.b;
+        }
+        
+        if (AI_SUCCESS == aiGetMaterialColor(AiMaterial, AI_MATKEY_COLOR_DIFFUSE, &color)) {
+            material.diffuse.r = color.r;
+            material.diffuse.g = color.g;
+            material.diffuse.b = color.b;
+        }
+        
+        if (AI_SUCCESS == aiGetMaterialColor(AiMaterial, AI_MATKEY_COLOR_SPECULAR, &color)) {
+            material.specular.r = color.r;
+            material.specular.g = color.g;
+            material.specular.b = color.b;
+        }
+        
+        materials.push_back(material);
+        
+        
+        
+        vector<Texture> diffuseMaps = this->loadMaterialTextures(AiMaterial,
+                                                                         aiTextureType_DIFFUSE, "texture_diffuse");
         textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-        vector<Texture> specularMaps = this->loadMaterialTextures(material,
-                                                                  aiTextureType_SPECULAR, "texture_specular");
-        textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
     }
     
     
-    return Mesh(vertices, textures, indices);
+    return Mesh(vertices, textures, materials, indices);
 }
 
 vector<Texture> ObjModel::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName) {

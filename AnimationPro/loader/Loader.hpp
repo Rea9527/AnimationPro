@@ -28,6 +28,7 @@ public:
     ~Loader();
     //load pos colors textures
     RawModel loadToVAO(GLfloat vertices[], GLsizei size, GLuint indices[], GLsizei isize);
+    RawModel loadToVAO(GLfloat vertices[], GLsizei size, GLsizei count);
     //load pos
     RawModel loadPosToVAO(GLfloat vertices[], GLsizei size, GLsizei count);
 

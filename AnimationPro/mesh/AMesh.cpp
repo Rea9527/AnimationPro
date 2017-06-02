@@ -11,9 +11,10 @@
 
 AMesh::AMesh() { }
 
-AMesh::AMesh(vector<BoneVertex> vertices, vector<AnimatedTexture> textures, vector<GLuint> indices) {
+AMesh::AMesh(vector<BoneVertex> vertices, vector<AnimatedTexture> textures, vector<AnimatedMaterial> materials, vector<GLuint> indices) {
     this->Vertices = vertices;
     this->Textures = textures;
+    this->Materials = materials;
     this->Indices = indices;
     
     this->setUp();
@@ -54,7 +55,7 @@ void AMesh::setUp() {
 }
 
 void AMesh::Draw(Shader shader, Skeleton skeleton) {
-    GLuint diffuseNr = 1, specularNr = 1, ambientNr = 1;
+    GLuint diffuseNr = 1;
     
     for (GLuint i = 0; i < this->Textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
@@ -64,16 +65,15 @@ void AMesh::Draw(Shader shader, Skeleton skeleton) {
         string name = this->Textures[i].type;
         if (name == "texture_diffuse")
             ss << diffuseNr++;
-        else if (name == "texture_specular")
-            ss << specularNr++;
-        else if (name == "texture_ambient")
-            ss << ambientNr;
         number = ss.str();
         
-        cout << name << endl;
-        glUniform1f(glGetUniformLocation(shader.Program, ("material." + name + number).c_str()), i);
+        glUniform1f(glGetUniformLocation(shader.Program, "tex"), i);
         glBindTexture(GL_TEXTURE_2D, this->Textures[i].id);
     }
+    
+    glUniform3fv(glGetUniformLocation(shader.Program, "material.ambient"), 1, glm::value_ptr(this->Materials[0].ambient));
+    glUniform3fv(glGetUniformLocation(shader.Program, "material.diffuse"), 1, glm::value_ptr(this->Materials[0].diffuse));
+    glUniform3fv(glGetUniformLocation(shader.Program, "material.specular"), 1, glm::value_ptr(this->Materials[0].specular));
     
     glUniform1f(glGetUniformLocation(shader.Program, "material.shininess"), 16.0f);
 

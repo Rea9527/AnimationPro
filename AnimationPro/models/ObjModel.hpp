@@ -39,6 +39,8 @@ private:
     Mesh processMesh(aiMesh* mesh, const aiScene* scene);
     vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
     
+    string name;
+    
 };
 
 #endif /* ObjModel_hpp */

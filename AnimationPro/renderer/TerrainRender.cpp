@@ -19,6 +19,8 @@ TerrainRender::TerrainRender(TerrainShader shader) {
 }
 
 void TerrainRender::render(vector<Terrain> terrains, glm::mat4 projection, glm::mat4 view, Camera camera) {
+    glStencilMask(0x00);
+    
     this->shader.Use();
 
     this->shader.loadViewPos(camera.getPos().x, camera.getPos().y, camera.getPos().z);
