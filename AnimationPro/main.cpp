@@ -33,7 +33,6 @@
 #include "renderer/cubeRender.hpp"
 #include "renderer/RectangleRender.hpp"
 
-#include "generator/TileGenerator.hpp"
 
 #include "loader/Loader.hpp"
 #include "camera/Camera.hpp"
