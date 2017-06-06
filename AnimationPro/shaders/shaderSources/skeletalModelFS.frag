@@ -57,7 +57,7 @@ void main() {
     
     vec4 texColor = texture(tex, TexCoords);
     if (texColor.a < 0.1) discard;
-    color = vec4(ambientSum + diffuseSum, 1.0f) + vec4(specularSum, 1.0f);
+    color = texColor * vec4(ambientSum + diffuseSum, 1.0f) + vec4(specularSum, 1.0f);
 //    color = texColor;
 }
 

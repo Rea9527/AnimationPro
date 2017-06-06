@@ -104,11 +104,10 @@ AMesh SkeletalModel::processMesh(aiMesh *mesh, const aiScene *scene) {
         vector.z = mesh->mNormals[i].z;
         vertex.Normal = vector;
         
-        if(mesh->mTextureCoords[0])
-        {
+        if(mesh->mTextureCoords[0]) {
             glm::vec2 vec;
             vec.x = mesh->mTextureCoords[0][i].x;
-            vec.y = mesh->mTextureCoords[0][i].y;
+            vec.y = 1 - mesh->mTextureCoords[0][i].y;
             vertex.TexCoords = vec;
         }
         else
@@ -267,7 +266,7 @@ void SkeletalModel::processBone() {
             b_mat = Utils::aiMatToGlmMat(tempMat);
             b_mat = glm::transpose(b_mat);
 
-            cout << "Bone " << i << " " << j << " " << b_name << endl;
+//            cout << "Bone " << i << " " << j << " " << b_name << endl;
             
             BoneNodeData node = this->findBoneNode(b_name);
             this->boneNameMap[node.m_name] = j;
@@ -362,6 +361,7 @@ vector<AnimatedTexture> SkeletalModel::loadMaterialTextures(aiMaterial *mat, aiT
         if (!skip) {
             AnimatedTexture texture;
             texture.id = Utils::loadTextureFromFile(path.C_Str(), this->directory);
+            cout << texture.id << " " << path.C_Str() << endl;
             texture.type = typeName;
             texture.path = path;
             textures.push_back(texture);

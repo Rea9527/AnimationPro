@@ -71,10 +71,16 @@ Shader::Shader(string vertexPath, string fragmentPath) {
     glDeleteShader(fragmentShader);
 }
 
+GLint Shader::getUniformLocation(string name) {
+    return glGetUniformLocation(this->Program, name.c_str());
+}
+
 void Shader::getAllUniformLocations() {
     this->projectionLoc = glGetUniformLocation(this->Program, "projection");
     this->viewLoc = glGetUniformLocation(this->Program, "view");
     this->modelLoc = glGetUniformLocation(this->Program, "model");
+    
+    this->mvpLoc = glGetUniformLocation(this->Program, "MVP");
 }
 
 void Shader::loadProjectionMat(const GLfloat* projectionPtr) {
@@ -87,6 +93,10 @@ void Shader::loadViewMat(const GLfloat *viewPtr) {
 
 void Shader::loadModelMat(const GLfloat *modelPtr) {
     glUniformMatrix4fv(this->modelLoc, 1, GL_FALSE, modelPtr);
+}
+
+void Shader::loadMVP(glm::mat4 mvp) {
+    glUniformMatrix4fv(this->mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
 }
 
 void Shader::Use() {

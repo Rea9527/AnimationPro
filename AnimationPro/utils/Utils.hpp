@@ -43,6 +43,13 @@ public:
     static glm::vec2 framesToTime(glm::vec2 frames);
     
     static float frameTime;
+    
+    static float WIN_WIDTH;
+    static float WIN_HEIGHT;
+    
+    //camera
+    static float NEAR_PLANE;
+    static float FOV;
 
 };
 

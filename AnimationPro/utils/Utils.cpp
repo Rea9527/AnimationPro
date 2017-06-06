@@ -11,7 +11,11 @@
 
 float Utils::frameTime = 1.0f / 60.0f;
 
+float Utils::WIN_WIDTH = 640.0f;
+float Utils::WIN_HEIGHT = 480.0f;
 
+float Utils::NEAR_PLANE = 0.1f;
+float Utils::FOV = 45.0f;
 
 Utils::Utils() { }
 

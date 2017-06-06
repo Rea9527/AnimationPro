@@ -9,6 +9,18 @@
 #include "Camera.hpp"
 
 
+Camera::Camera() {
+    this->STATE = ACTIVE;
+    this->Pos = glm::vec3(0.0f, 0.0f, 4.0f);
+    this->initUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    this->Yaw = 0.0f;
+    this->Pitch = 0.0f;
+    this->Speed = 40.0f;
+    this->Sensitivity = 0.25f;
+    this->Zoom = 45.0f;
+    this->updateCameraPos();
+}
+
 Camera::Camera(glm::vec3 pos, glm::vec3 up, GLfloat yaw, GLfloat pitch) {
     this->STATE = ACTIVE;
     this->Pos = pos;
@@ -87,6 +99,14 @@ void Camera::disable() {
 
 glm::vec3 Camera::getPos() {
     return this->Pos;
+}
+
+float Camera::getYaw() {
+    return this->Yaw;
+}
+
+float Camera::getPitch() {
+    return this->Pitch;
 }
 
 void Camera::setTarget(glm::vec3 target) {

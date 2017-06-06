@@ -19,6 +19,11 @@
 #include "../lights/PointLight.hpp"
 #include "../lights/DirectionalLight.hpp"
 
+//glm
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 using namespace std;
 
 class Shader {
@@ -29,12 +34,16 @@ public:
     Shader();
     // create vertex and fragment shaders by paths
     Shader(string vertexPath, string fragmentPath);
+    
+    GLint getUniformLocation(string name);
     //getAllUniformLocations
     void getAllUniformLocations();
     
     void loadProjectionMat(const GLfloat* projectionPtr);
     void loadViewMat(const GLfloat* viewPtr);
     void loadModelMat(const GLfloat* modelPtr);
+    
+    void loadMVP(glm::mat4 mvp);
 
     // run and stop program
     void Use();
@@ -45,7 +54,8 @@ private:
     GLint projectionLoc;
     GLint modelLoc;
     GLint viewLoc;
-
+    
+    GLint mvpLoc;
 };
 
 #endif /* shader_hpp */

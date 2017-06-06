@@ -1,0 +1,137 @@
+//
+//  ShadowBox.cpp
+//  AnimationPro
+//
+//  Created by 陈主润 on 06/06/2017.
+//  Copyright © 2017 陈主润. All rights reserved.
+//
+
+#include "ShadowBox.hpp"
+
+
+ShadowBox::ShadowBox() {
+    this->OFFSET = 10;
+    this->UP = glm::vec4(0, 1.0f, 0, 0);
+    this->FORWARD = glm::vec4(0, 0, -1.0f, 0);
+    this->SHADOW_DISTANCE = 100;
+}
+
+ShadowBox::ShadowBox(glm::mat4 lightViewMat, Camera camera) : ShadowBox() {
+    this->lightViewMatrix = lightViewMat;
+    this->cam = camera;
+    this->calculateWidthsAndHeights();
+}
+
+void ShadowBox::update() {
+    glm::mat4 rotation = calculateCameraRotationMatrix();
+    glm::vec3 forwardVector = glm::vec3(rotation * this->FORWARD);
+    
+    glm::vec3 toFar = glm::vec3(forwardVector) * SHADOW_DISTANCE;
+    glm::vec3 toNear = glm::vec3(forwardVector) * Utils::NEAR_PLANE;
+    glm::vec3 centerNear = toNear + this->cam.getPos();
+    glm::vec3 centerFar = toFar + this->cam.getPos();
+    
+    vector<glm::vec4> points = calculateFrustumVertices(rotation, forwardVector, centerNear,
+                                                 centerFar);
+    
+    bool first = true;
+    for (glm::vec4 point : points) {
+        if (first) {
+            minX = point.x;
+            maxX = point.x;
+            minY = point.y;
+            maxY = point.y;
+            minZ = point.z;
+            maxZ = point.z;
+            first = false;
+            continue;
+        }
+        if (point.x > maxX) {
+            maxX = point.x;
+        } else if (point.x < minX) {
+            minX = point.x;
+        }
+        if (point.y > maxY) {
+            maxY = point.y;
+        } else if (point.y < minY) {
+            minY = point.y;
+        }
+        if (point.z > maxZ) {
+            maxZ = point.z;
+        } else if (point.z < minZ) {
+            minZ = point.z;
+        }
+    }
+    maxZ += OFFSET;
+}
+
+glm::vec3 ShadowBox::getCenter() {
+    float x = (minX + maxX) / 2.0f;
+    float y = (minY + maxY) / 2.0f;
+    float z = (minZ + maxZ) / 2.0f;
+    glm::vec4 cen(x, y, z, 1);
+    glm::mat4 invertedLight = glm::inverse(this->lightViewMatrix);
+    return glm::vec3(invertedLight * cen);
+}
+
+float ShadowBox::getWidth() {
+    return maxX - minX;
+}
+
+float ShadowBox::getHeight() {
+    return maxX - minX;
+}
+
+float ShadowBox::getLength() {
+    return maxX - minX;
+}
+
+vector<glm::vec4> ShadowBox::calculateFrustumVertices(glm::mat4 rotation, glm::vec3 forwardVector, glm::vec3 centerNear, glm::vec3 centerFar) {
+    glm::vec3 upVector = glm::vec3(rotation * this->UP);
+    glm::vec3 rightVector = glm::cross(forwardVector, upVector);
+    glm::vec3 downVector = glm::vec3(-upVector.x, -upVector.y, -upVector.z);
+    glm::vec3 leftVector = glm::vec3(-rightVector.x, -rightVector.y, -rightVector.z);
+    glm::vec3 farTop = centerFar + glm::vec3(upVector.x * farHeight,
+                                                           upVector.y * farHeight, upVector.z * farHeight);
+    glm::vec3 farBottom = centerFar + glm::vec3(downVector.x * farHeight,
+                                                        downVector.y * farHeight, downVector.z * farHeight);
+    glm::vec3 nearTop = centerNear + glm::vec3(upVector.x * nearHeight,
+                                                            upVector.y * nearHeight, upVector.z * nearHeight);
+    glm::vec3 nearBottom = centerNear + glm::vec3(downVector.x * nearHeight,
+                                                        downVector.y * nearHeight, downVector.z * nearHeight);
+    vector<glm::vec4> points;
+    points[0] = calculateLightSpaceFrustumCorner(farTop, rightVector, farWidth);
+    points[1] = calculateLightSpaceFrustumCorner(farTop, leftVector, farWidth);
+    points[2] = calculateLightSpaceFrustumCorner(farBottom, rightVector, farWidth);
+    points[3] = calculateLightSpaceFrustumCorner(farBottom, leftVector, farWidth);
+    points[4] = calculateLightSpaceFrustumCorner(nearTop, rightVector, nearWidth);
+    points[5] = calculateLightSpaceFrustumCorner(nearTop, leftVector, nearWidth);
+    points[6] = calculateLightSpaceFrustumCorner(nearBottom, rightVector, nearWidth);
+    points[7] = calculateLightSpaceFrustumCorner(nearBottom, leftVector, nearWidth);
+    return points;
+}
+
+glm::vec4 ShadowBox::calculateLightSpaceFrustumCorner(glm::vec3 startPoint, glm::vec3 direction, float width) {
+    glm::vec3 point = startPoint + glm::vec3(direction.x * width, direction.y * width, direction.z * width);
+    glm::vec4 pointz = glm::vec4(point, 1.0f);
+    pointz = lightViewMatrix * pointz;
+    return pointz;
+}
+
+glm::mat4 ShadowBox::calculateCameraRotationMatrix() {
+    glm::mat4 rotation = glm::mat4(1.0f);
+    rotation = glm::rotate(rotation, glm::radians(-cam.getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
+    rotation = glm::rotate(rotation, glm::radians(-cam.getPitch()), glm::vec3(1.0f, 0.0f, 0.0f));
+    return rotation;
+}
+
+void ShadowBox::calculateWidthsAndHeights() {
+    farWidth = (float) (SHADOW_DISTANCE * tan(glm::radians(cam.Zoom)));
+    nearWidth = (float) (Utils::NEAR_PLANE * tan(glm::radians(cam.Zoom)));
+    farHeight = farWidth / getAspectRatio();
+    nearHeight = nearWidth / getAspectRatio();
+}
+
+float ShadowBox::getAspectRatio() {
+    return Utils::WIN_WIDTH / Utils::WIN_HEIGHT;
+}

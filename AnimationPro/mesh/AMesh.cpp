@@ -75,7 +75,7 @@ void AMesh::Draw(Shader shader, Skeleton skeleton) {
     glUniform3fv(glGetUniformLocation(shader.Program, "material.diffuse"), 1, glm::value_ptr(this->Materials[0].diffuse));
     glUniform3fv(glGetUniformLocation(shader.Program, "material.specular"), 1, glm::value_ptr(this->Materials[0].specular));
     
-    glUniform1f(glGetUniformLocation(shader.Program, "material.shininess"), 16.0f);
+    glUniform1f(glGetUniformLocation(shader.Program, "material.shininess"), 32.0f);
 
     glUniformMatrix4fv(glGetUniformLocation(shader.Program, "gBones"),
                        (GLsizei)skeleton.boneMats.size(),

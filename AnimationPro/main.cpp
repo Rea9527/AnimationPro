@@ -222,7 +222,7 @@ int main(int argc, const char * argv[]) {
         
         updateMovement();
         
-        glm::mat4 model = glm::mat4(), view, projection;
+        glm::mat4 model, view, projection, mvp;
         GLfloat angle;
         view = myCamera.getViewMat();
         angle = glm::radians(myCamera.Zoom);

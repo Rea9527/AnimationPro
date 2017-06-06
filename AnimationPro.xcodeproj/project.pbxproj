@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A33D0FC31EE69ACB00FF3E55 /* ShadowShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A33D0FC11EE69ACB00FF3E55 /* ShadowShader.cpp */; };
+		A33D0FC81EE69C5100FF3E55 /* ShadowFrameBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A33D0FC61EE69C5100FF3E55 /* ShadowFrameBuffer.cpp */; };
+		A33D0FCB1EE6ADFD00FF3E55 /* ShadowBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A33D0FC91EE6ADFD00FF3E55 /* ShadowBox.cpp */; };
+		A33D0FCE1EE6D2F600FF3E55 /* ShadowMapRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A33D0FCC1EE6D2F600FF3E55 /* ShadowMapRenderer.cpp */; };
 		A347746E1EA5AB1B00B136CF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A347746D1EA5AB1B00B136CF /* main.cpp */; };
 		A34774791EA5AB4600B136CF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A34774751EA5AB4600B136CF /* Cocoa.framework */; };
 		A347747A1EA5AB4600B136CF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A34774761EA5AB4600B136CF /* CoreVideo.framework */; };
@@ -63,6 +67,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A33D0FC11EE69ACB00FF3E55 /* ShadowShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShadowShader.cpp; path = shadows/ShadowShader.cpp; sourceTree = "<group>"; };
+		A33D0FC21EE69ACB00FF3E55 /* ShadowShader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ShadowShader.hpp; path = shadows/ShadowShader.hpp; sourceTree = "<group>"; };
+		A33D0FC41EE69BF400FF3E55 /* shadow.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shadow.frag; path = shadows/shadow.frag; sourceTree = "<group>"; };
+		A33D0FC51EE69BF400FF3E55 /* shadow.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = shadow.vs; path = shadows/shadow.vs; sourceTree = "<group>"; };
+		A33D0FC61EE69C5100FF3E55 /* ShadowFrameBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShadowFrameBuffer.cpp; path = shadows/ShadowFrameBuffer.cpp; sourceTree = "<group>"; };
+		A33D0FC71EE69C5100FF3E55 /* ShadowFrameBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ShadowFrameBuffer.hpp; path = shadows/ShadowFrameBuffer.hpp; sourceTree = "<group>"; };
+		A33D0FC91EE6ADFD00FF3E55 /* ShadowBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShadowBox.cpp; path = shadows/ShadowBox.cpp; sourceTree = "<group>"; };
+		A33D0FCA1EE6ADFD00FF3E55 /* ShadowBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ShadowBox.hpp; path = shadows/ShadowBox.hpp; sourceTree = "<group>"; };
+		A33D0FCC1EE6D2F600FF3E55 /* ShadowMapRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShadowMapRenderer.cpp; path = shadows/ShadowMapRenderer.cpp; sourceTree = "<group>"; };
+		A33D0FCD1EE6D2F600FF3E55 /* ShadowMapRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ShadowMapRenderer.hpp; path = shadows/ShadowMapRenderer.hpp; sourceTree = "<group>"; };
 		A347746A1EA5AB1B00B136CF /* AnimationPro */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AnimationPro; sourceTree = BUILT_PRODUCTS_DIR; };
 		A347746D1EA5AB1B00B136CF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A34774751EA5AB4600B136CF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -134,8 +148,6 @@
 		A3B96C7C1EE1201B003C0DE3 /* RectangleModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RectangleModel.hpp; path = models/RectangleModel.hpp; sourceTree = "<group>"; };
 		A3B96C7E1EE1249A003C0DE3 /* RectangleRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RectangleRender.cpp; path = renderer/RectangleRender.cpp; sourceTree = "<group>"; };
 		A3B96C7F1EE1249A003C0DE3 /* RectangleRender.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RectangleRender.hpp; path = renderer/RectangleRender.hpp; sourceTree = "<group>"; };
-		A3B96C821EE1307B003C0DE3 /* TileGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileGenerator.cpp; path = generator/TileGenerator.cpp; sourceTree = "<group>"; };
-		A3B96C831EE1307B003C0DE3 /* TileGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TileGenerator.hpp; path = generator/TileGenerator.hpp; sourceTree = "<group>"; };
 		A3E66A621ED6695A00FCA639 /* cubeRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cubeRender.cpp; path = renderer/cubeRender.cpp; sourceTree = "<group>"; };
 		A3E66A631ED6695A00FCA639 /* cubeRender.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = cubeRender.hpp; path = renderer/cubeRender.hpp; sourceTree = "<group>"; };
 		A3E66A651ED712BE00FCA639 /* PolygonModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PolygonModel.cpp; path = models/PolygonModel.cpp; sourceTree = "<group>"; };
@@ -162,6 +174,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A346E2FB1EE69AA0000B899E /* shadows */ = {
+			isa = PBXGroup;
+			children = (
+				A33D0FC41EE69BF400FF3E55 /* shadow.frag */,
+				A33D0FC51EE69BF400FF3E55 /* shadow.vs */,
+				A33D0FC11EE69ACB00FF3E55 /* ShadowShader.cpp */,
+				A33D0FC21EE69ACB00FF3E55 /* ShadowShader.hpp */,
+				A33D0FC61EE69C5100FF3E55 /* ShadowFrameBuffer.cpp */,
+				A33D0FC71EE69C5100FF3E55 /* ShadowFrameBuffer.hpp */,
+				A33D0FC91EE6ADFD00FF3E55 /* ShadowBox.cpp */,
+				A33D0FCA1EE6ADFD00FF3E55 /* ShadowBox.hpp */,
+				A33D0FCC1EE6D2F600FF3E55 /* ShadowMapRenderer.cpp */,
+				A33D0FCD1EE6D2F600FF3E55 /* ShadowMapRenderer.hpp */,
+			);
+			name = shadows;
+			sourceTree = "<group>";
+		};
 		A34774611EA5AB1B00B136CF = {
 			isa = PBXGroup;
 			children = (
@@ -182,7 +211,7 @@
 		A347746C1EA5AB1B00B136CF /* AnimationPro */ = {
 			isa = PBXGroup;
 			children = (
-				A3B96C811EE12CD5003C0DE3 /* generator */,
+				A346E2FB1EE69AA0000B899E /* shadows */,
 				A39A75521ECC765900AC9486 /* animation */,
 				A39A754B1ECC1A9100AC9486 /* utils */,
 				A3ACF8371EB99292005099A6 /* skybox */,
@@ -372,15 +401,6 @@
 			name = skybox;
 			sourceTree = "<group>";
 		};
-		A3B96C811EE12CD5003C0DE3 /* generator */ = {
-			isa = PBXGroup;
-			children = (
-				A3B96C821EE1307B003C0DE3 /* TileGenerator.cpp */,
-				A3B96C831EE1307B003C0DE3 /* TileGenerator.hpp */,
-			);
-			name = generator;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -451,12 +471,15 @@
 				A34D8D651EC5694E00E08486 /* SkyboxRender.cpp in Sources */,
 				A39A754E1ECC1AA600AC9486 /* Utils.cpp in Sources */,
 				A3B94A5E1ECD6074002461F5 /* Animation.cpp in Sources */,
+				A33D0FC81EE69C5100FF3E55 /* ShadowFrameBuffer.cpp in Sources */,
 				A34D8D731EC5699F00E08486 /* DirectionalLight.cpp in Sources */,
+				A33D0FCB1EE6ADFD00FF3E55 /* ShadowBox.cpp in Sources */,
 				A34D8D6C1EC5698B00E08486 /* Loader.cpp in Sources */,
 				A34D8D691EC5697A00E08486 /* Camera.cpp in Sources */,
 				A39A75441ECB372000AC9486 /* SkeletalModel.cpp in Sources */,
 				A34D8D861EC569CF00E08486 /* RawModel.cpp in Sources */,
 				A34D8D641EC5694E00E08486 /* ModelRender.cpp in Sources */,
+				A33D0FCE1EE6D2F600FF3E55 /* ShadowMapRenderer.cpp in Sources */,
 				A34D8D7E1EC569BC00E08486 /* TerrainTexturePack.cpp in Sources */,
 				A34D8D931EC569E300E08486 /* StaticShader.cpp in Sources */,
 				A34D8D7C1EC569BC00E08486 /* ModelTexture.cpp in Sources */,
@@ -467,6 +490,7 @@
 				A34D8D911EC569E300E08486 /* ModelShader.cpp in Sources */,
 				A34D8D751EC5699F00E08486 /* PointLight.cpp in Sources */,
 				A3E66A641ED6695A00FCA639 /* cubeRender.cpp in Sources */,
+				A33D0FC31EE69ACB00FF3E55 /* ShadowShader.cpp in Sources */,
 				A34D8D5D1EC5690300E08486 /* Skybox.cpp in Sources */,
 				A34D8D921EC569E300E08486 /* Shader.cpp in Sources */,
 				A34D8D661EC5694E00E08486 /* TerrainRender.cpp in Sources */,

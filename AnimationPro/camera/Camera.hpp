@@ -35,7 +35,7 @@ enum CameraState {
 
 class Camera {
 public:
-
+    Camera();
     Camera(glm::vec3 pos, glm::vec3 up, GLfloat yaw, GLfloat pitch);
     
     glm::mat4 getViewMat();
@@ -48,6 +48,9 @@ public:
     void setTarget(glm::vec3 target);
     
     glm::vec3 getPos();
+    
+    float getYaw();
+    float getPitch();
     
     void disable();
     
