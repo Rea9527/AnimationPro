@@ -43,6 +43,7 @@ Shader::Shader(string vertexPath, string fragmentPath) {
     if (!success) {
         glGetShaderInfoLog(vertexShader, 512, NULL, errInfo);
         std::cout << "ERROR: VERTEX SHADER CREATE!" << std::endl;
+        std::cout << "VERTEX: " << errInfo << std::endl << std::endl;
     }
     //fragment shader
     GLuint fragmentShader;
@@ -52,7 +53,8 @@ Shader::Shader(string vertexPath, string fragmentPath) {
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(fragmentShader, 512, NULL, errInfo);
-        std::cout << "ERROR: FRAGMENT SHADER CREATE!" << errInfo << std::endl;
+        std::cout << "ERROR: FRAGMENT SHADER CREATE!" << std::endl;
+        std::cout << "FRAGMENT: " << errInfo << std::endl << std::endl;
     }
     
     //create Program
@@ -64,7 +66,8 @@ Shader::Shader(string vertexPath, string fragmentPath) {
     glGetProgramiv(this->Program, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(this->Program, 512, NULL, errInfo);
-        std::cout << "ERROR: CREATE SHADER PROGRAM ERROR" << errInfo << std::endl;
+        std::cout << "ERROR: CREATE SHADER PROGRAM ERROR" << std::endl;
+        std::cout << "SHADER PROGRAM: " << errInfo << std::endl << std::endl;
     }
     
     glDeleteShader(vertexShader);

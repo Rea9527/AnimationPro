@@ -12,11 +12,16 @@
 #include <iostream>
 
 #include "../camera/Camera.hpp"
+#include "../lights/DirectionalLight.hpp"
+
 #include "./ShadowShader.hpp"
 #include "./ShadowBox.hpp"
 #include "./ShadowFrameBuffer.hpp"
 
-#include "../lights/DirectionalLight.hpp"
+#include "../models/skeletalModel/SkeletalModel.hpp"
+#include "../models/ObjModel.hpp"
+#include "../models/PolygonModel.hpp"
+
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -29,7 +34,9 @@ public:
     ShadowMapRenderer();
     ShadowMapRenderer(Camera camera);
     
-    void render(DirectionalLight light);
+    void render(ObjModel model, DirectionalLight light);
+    void render(SkeletalModel model, DirectionalLight light);
+    void render(PolygonModel model, DirectionalLight light);
     
     glm::mat4 getToShadowMapMatrix();
     
@@ -37,17 +44,17 @@ public:
     
     glm::mat4 getLightSpaceTransform();
     
+    void cleanUp();
+    
+private:
+    
     void updateLightViewMatrix(glm::vec3 direction, glm::vec3 center);
     void updateOrthoProjectionMatrix(float width, float height, float length);
     
     glm::mat4 createOffset();
     
-    void prepare();
-    void unbind();
-    
-    void cleanUp();
-    
-private:
+    void prepare(glm::vec3 direction);
+    void finish();
     
     ShadowShader shader;
     ShadowFrameBuffer shadowFBO;

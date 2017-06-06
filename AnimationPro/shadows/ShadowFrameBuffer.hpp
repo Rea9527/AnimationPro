@@ -37,6 +37,7 @@ private:
     
     
 public:
+    ShadowFrameBuffer();
     ShadowFrameBuffer(int width, int height);
     
     void bindFrameBuffer();
@@ -44,7 +45,7 @@ public:
     
     GLuint getShadowMap();
     
-
+    void cleanUp();
 };
 
 #endif /* ShadowFrameBuffer_hpp */

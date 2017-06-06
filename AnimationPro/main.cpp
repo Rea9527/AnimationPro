@@ -32,6 +32,7 @@
 #include "renderer/SkeletalRender.hpp"
 #include "renderer/cubeRender.hpp"
 #include "renderer/RectangleRender.hpp"
+#include "shadows/ShadowMapRenderer.hpp"
 
 
 #include "loader/Loader.hpp"
@@ -158,6 +159,8 @@ int main(int argc, const char * argv[]) {
     ObjModel treeModel("assets/trees/1/file.obj");
     ModelRender treeRenderer(modelShader);
     
+    //shadowmap renderer
+//    ShadowMapRenderer shadowMapRenderer(myCamera);
     
     
     Loader loader;

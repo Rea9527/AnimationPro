@@ -9,6 +9,12 @@
 #include "ShadowFrameBuffer.hpp"
 
 
+ShadowFrameBuffer::ShadowFrameBuffer() {
+    this->HEIGHT = 1024;
+    this->WIDTH = 1024;
+    this->initialFrameBuffer();
+}
+
 ShadowFrameBuffer::ShadowFrameBuffer(int width, int height) {
     this->HEIGHT = height;
     this->WIDTH = width;
@@ -67,3 +73,8 @@ GLuint ShadowFrameBuffer::createDepthBufferAttachment() {
     return depthMap;
 }
 
+void ShadowFrameBuffer::cleanUp() {
+    glDeleteFramebuffers(1, &this->FBO);
+    glDeleteTextures(1, &this->shadowMap);
+    
+}
