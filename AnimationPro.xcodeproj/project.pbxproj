@@ -11,6 +11,7 @@
 		A33D0FC81EE69C5100FF3E55 /* ShadowFrameBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A33D0FC61EE69C5100FF3E55 /* ShadowFrameBuffer.cpp */; };
 		A33D0FCB1EE6ADFD00FF3E55 /* ShadowBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A33D0FC91EE6ADFD00FF3E55 /* ShadowBox.cpp */; };
 		A33D0FCE1EE6D2F600FF3E55 /* ShadowMapRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A33D0FCC1EE6D2F600FF3E55 /* ShadowMapRenderer.cpp */; };
+		A33D0FD21EE6D4A300FF3E55 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A33D0FD01EE6D4A300FF3E55 /* Entity.cpp */; };
 		A347746E1EA5AB1B00B136CF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A347746D1EA5AB1B00B136CF /* main.cpp */; };
 		A34774791EA5AB4600B136CF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A34774751EA5AB4600B136CF /* Cocoa.framework */; };
 		A347747A1EA5AB4600B136CF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A34774761EA5AB4600B136CF /* CoreVideo.framework */; };
@@ -77,6 +78,8 @@
 		A33D0FCA1EE6ADFD00FF3E55 /* ShadowBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ShadowBox.hpp; path = shadows/ShadowBox.hpp; sourceTree = "<group>"; };
 		A33D0FCC1EE6D2F600FF3E55 /* ShadowMapRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShadowMapRenderer.cpp; path = shadows/ShadowMapRenderer.cpp; sourceTree = "<group>"; };
 		A33D0FCD1EE6D2F600FF3E55 /* ShadowMapRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ShadowMapRenderer.hpp; path = shadows/ShadowMapRenderer.hpp; sourceTree = "<group>"; };
+		A33D0FD01EE6D4A300FF3E55 /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Entity.cpp; path = entities/Entity.cpp; sourceTree = "<group>"; };
+		A33D0FD11EE6D4A300FF3E55 /* Entity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Entity.hpp; path = entities/Entity.hpp; sourceTree = "<group>"; };
 		A347746A1EA5AB1B00B136CF /* AnimationPro */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AnimationPro; sourceTree = BUILT_PRODUCTS_DIR; };
 		A347746D1EA5AB1B00B136CF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A34774751EA5AB4600B136CF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -174,6 +177,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A33D0FCF1EE6D48800FF3E55 /* entities */ = {
+			isa = PBXGroup;
+			children = (
+				A33D0FD01EE6D4A300FF3E55 /* Entity.cpp */,
+				A33D0FD11EE6D4A300FF3E55 /* Entity.hpp */,
+			);
+			name = entities;
+			sourceTree = "<group>";
+		};
 		A346E2FB1EE69AA0000B899E /* shadows */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +223,7 @@
 		A347746C1EA5AB1B00B136CF /* AnimationPro */ = {
 			isa = PBXGroup;
 			children = (
+				A33D0FCF1EE6D48800FF3E55 /* entities */,
 				A346E2FB1EE69AA0000B899E /* shadows */,
 				A39A75521ECC765900AC9486 /* animation */,
 				A39A754B1ECC1A9100AC9486 /* utils */,
@@ -469,6 +482,7 @@
 				A34D8D851EC569CF00E08486 /* ObjModel.cpp in Sources */,
 				A39A754A1ECB3A2900AC9486 /* AMesh.cpp in Sources */,
 				A34D8D651EC5694E00E08486 /* SkyboxRender.cpp in Sources */,
+				A33D0FD21EE6D4A300FF3E55 /* Entity.cpp in Sources */,
 				A39A754E1ECC1AA600AC9486 /* Utils.cpp in Sources */,
 				A3B94A5E1ECD6074002461F5 /* Animation.cpp in Sources */,
 				A33D0FC81EE69C5100FF3E55 /* ShadowFrameBuffer.cpp in Sources */,

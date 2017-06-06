@@ -13,6 +13,8 @@
 
 #include "../camera/Camera.hpp"
 #include "./ShadowShader.hpp"
+#include "./ShadowBox.hpp"
+#include "./ShadowFrameBuffer.hpp"
 
 #include "../lights/DirectionalLight.hpp"
 
@@ -24,6 +26,7 @@
 class ShadowMapRenderer {
     
 public:
+    ShadowMapRenderer();
     ShadowMapRenderer(Camera camera);
     
     void render(DirectionalLight light);
@@ -45,6 +48,17 @@ public:
     void cleanUp();
     
 private:
+    
+    ShadowShader shader;
+    ShadowFrameBuffer shadowFBO;
+    ShadowBox shadowBox;
+    
+    glm::mat4 projectionMatrix;
+    glm::mat4 lightViewMatrix;
+    glm::mat4 projectionViewMatrix;
+    glm::mat4 offset;
+    
+    int SHADOW_MAP_SIZE;
     
 };
 
