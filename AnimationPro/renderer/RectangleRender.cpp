@@ -19,14 +19,13 @@ RectangleRender::RectangleRender(ModelShader shader) {
     this->isLighting = true;
 }
 
-void RectangleRender::render(RectangleModel rectangle, glm::mat4 projection, glm::mat4 view, glm::mat4 model, Camera camera) {
+void RectangleRender::render(RectangleModel rectangle, glm::mat4 projectionView, glm::mat4 model, Camera camera) {
     if (isLighting) {
         this->modelShader.Use();
         this->modelShader.getAllUniformLocations();
         this->modelShader.loadViewPos(camera.Pos.x, camera.Pos.y, camera.Pos.z);
-        this->modelShader.loadProjectionMat(glm::value_ptr(projection));
-        this->modelShader.loadViewMat(glm::value_ptr(view));
-        this->modelShader.loadModelMat(glm::value_ptr(model));
+        this->modelShader.loadProjectionViewMatrix(projectionView);
+        this->modelShader.loadModelMat(model);
         
         rectangle.draw();
         
@@ -34,9 +33,8 @@ void RectangleRender::render(RectangleModel rectangle, glm::mat4 projection, glm
     } else {
         this->staticShader.Use();
         this->staticShader.getAllUniformLocations();
-        this->staticShader.loadProjectionMat(glm::value_ptr(projection));
-        this->staticShader.loadViewMat(glm::value_ptr(view));
-        this->staticShader.loadModelMat(glm::value_ptr(model));
+        this->staticShader.loadProjectionViewMatrix(projectionView);
+        this->staticShader.loadModelMat(model);
         
         rectangle.draw();
         

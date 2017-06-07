@@ -36,26 +36,21 @@ public:
     Shader(string vertexPath, string fragmentPath);
     
     GLint getUniformLocation(string name);
-    //getAllUniformLocations
-    void getAllUniformLocations();
     
-    void loadProjectionMat(const GLfloat* projectionPtr);
-    void loadViewMat(const GLfloat* viewPtr);
-    void loadModelMat(const GLfloat* modelPtr);
-    
+
     void loadMVP(glm::mat4 mvp);
+    
+    //set
+    void setMat4(GLuint loc, glm::mat4 mat);
+    void setInt(GLuint loc, GLint num);
 
     // run and stop program
     void Use();
     void Stop();
     
 private:
+    GLuint mvpLoc;
     
-    GLint projectionLoc;
-    GLint modelLoc;
-    GLint viewLoc;
-    
-    GLint mvpLoc;
 };
 
 #endif /* shader_hpp */

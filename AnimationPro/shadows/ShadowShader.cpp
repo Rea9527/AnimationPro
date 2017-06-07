@@ -15,9 +15,19 @@ ShadowShader::ShadowShader(string vertexPath, string fragmentPath) : Shader(vert
 
 void ShadowShader::getAllUniformLocations() {
     this->mvp_loc = this->getUniformLocation("MVP");
+    this->modelLoc = this->getUniformLocation("model");
+    this->projectionViewLoc = this->getUniformLocation("projectionView");
 }
 
 void ShadowShader::loadMVP(glm::mat4 mvp) {
     glUniformMatrix4fv(this->mvp_loc, 1, GL_FALSE, glm::value_ptr(mvp));
+}
+
+void ShadowShader::loadModelMat(glm::mat4 model) {
+    this->setMat4(this->modelLoc, model);
+}
+
+void ShadowShader::loadProjectionViewMatrix(glm::mat4 projectionViewMat) {
+    this->setMat4(this->projectionViewLoc, projectionViewMat);
 }
 

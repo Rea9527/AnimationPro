@@ -78,28 +78,18 @@ GLint Shader::getUniformLocation(string name) {
     return glGetUniformLocation(this->Program, name.c_str());
 }
 
-void Shader::getAllUniformLocations() {
-    this->projectionLoc = glGetUniformLocation(this->Program, "projection");
-    this->viewLoc = glGetUniformLocation(this->Program, "view");
-    this->modelLoc = glGetUniformLocation(this->Program, "model");
-    
-    this->mvpLoc = glGetUniformLocation(this->Program, "MVP");
-}
-
-void Shader::loadProjectionMat(const GLfloat* projectionPtr) {
-    glUniformMatrix4fv(this->projectionLoc, 1, GL_FALSE, projectionPtr);
-}
-
-void Shader::loadViewMat(const GLfloat *viewPtr) {
-    glUniformMatrix4fv(this->viewLoc, 1, GL_FALSE, viewPtr);
-}
-
-void Shader::loadModelMat(const GLfloat *modelPtr) {
-    glUniformMatrix4fv(this->modelLoc, 1, GL_FALSE, modelPtr);
-}
 
 void Shader::loadMVP(glm::mat4 mvp) {
     glUniformMatrix4fv(this->mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
+}
+
+//setter
+void Shader::setMat4(GLuint loc, glm::mat4 mat) {
+    glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mat));
+}
+
+void Shader::setInt(GLuint loc, GLint num) {
+    glUniform1i(loc, num);
 }
 
 void Shader::Use() {

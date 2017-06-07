@@ -3,6 +3,8 @@
 in vec2 TexCoords;
 in vec3 Normal;
 in vec3 FragPos;
+in vec4 ShadowCoords;
+
 out vec4 color;
 
 uniform vec3 viewPos;
@@ -25,8 +27,17 @@ uniform sampler2D gTexture;
 uniform sampler2D bTexture;
 uniform sampler2D blendMap;
 
+uniform sampler2D shadowMap;
+
 
 void main() {
+    
+    float objNearestLight = texture(shadowMap, ShadowCoords.xy).r;
+    float lightFactor = 1.0f;
+    if (ShadowCoords.z > objNearestLight) {
+        lightFactor = 1.0f - 0.4f;
+    }
+    
     
     vec4 blendMapColor = texture(blendMap, TexCoords);
     
@@ -51,8 +62,9 @@ void main() {
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
     // Combine results
-    vec3 diffuse  = dirLight.diffuse  * diff;
+    vec3 diffuse  = dirLight.diffuse  * diff * lightFactor;
     vec3 specular = dirLight.specular * spec;
+    
     
     color = totalColor * (vec4(diffuse, 1.0f) + vec4(dirLight.ambient, 1.0f) + vec4(specular, 1.0f));
 //    color = vec4(diffuse, 1.0f);

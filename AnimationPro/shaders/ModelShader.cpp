@@ -21,6 +21,19 @@ void ModelShader::loadViewPos(GLfloat x, GLfloat y, GLfloat z) {
     glUniform3f(this->viewPosLoc, x, y, z);
 }
 
+void ModelShader::getAllUniformLocations() {
+    this->modelLoc = this->getUniformLocation("model");
+    this->projectionViewLoc = this->getUniformLocation("projectionView");
+}
+
+void ModelShader::loadModelMat(glm::mat4 model) {
+    this->setMat4(this->modelLoc, model);
+}
+
+void ModelShader::loadProjectionViewMatrix(glm::mat4 projectionViewMat) {
+    this->setMat4(this->projectionViewLoc, projectionViewMat);
+}
+
 void ModelShader::addPointLight(PointLight light) {
     this->pointLights.push_back(light);
     

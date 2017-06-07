@@ -9,7 +9,7 @@
 #include "ShadowMapRenderer.hpp"
 
 ShadowMapRenderer::ShadowMapRenderer() {
-    this->SHADOW_MAP_SIZE = 1024;
+    this->SHADOW_MAP_SIZE = Utils::WIN_WIDTH * 2;
 }
 
 ShadowMapRenderer::ShadowMapRenderer(Camera camera) {
@@ -19,6 +19,12 @@ ShadowMapRenderer::ShadowMapRenderer(Camera camera) {
 }
 
 void ShadowMapRenderer::render(ObjModel model, DirectionalLight light) {
+    this->shadowBox.update();
+    
+    glm::vec3 lightDir = -light.getDirection();
+    this->prepare(lightDir);
+    
+    model.Draw(this->shader);
     
 }
 

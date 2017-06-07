@@ -14,7 +14,7 @@ SkeletalModel::SkeletalModel() {
 }
 
 SkeletalModel::~SkeletalModel() {
-    cout << "skeletal model destroy..." << endl;
+//    cout << "skeletal model destroy..." << endl;
 }
 
 SkeletalModel::SkeletalModel(GLchar* path) {
@@ -214,7 +214,7 @@ void SkeletalModel::loadNodeAnim(aiAnimation *ptrAiAnimation, AnimationData &ani
     animation.m_name = ptrAiAnimation->mName.data;
     animation.m_duration = ptrAiAnimation->mDuration;
     animation.m_ticksPerSecond = ptrAiAnimation->mTicksPerSecond;
-    cout << animation.m_duration << " " << animation.m_ticksPerSecond << endl;
+//    cout << animation.m_duration << " " << animation.m_ticksPerSecond << endl;
     
     unsigned int npos = ptrAiAnimation->mChannels[0]->mNumPositionKeys;
     unsigned int nrot = ptrAiAnimation->mChannels[0]->mNumRotationKeys;

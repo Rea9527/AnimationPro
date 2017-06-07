@@ -25,7 +25,7 @@ public:
     SkyboxRender();
     SkyboxRender(StaticShader shader);
     
-    void render(Skybox skybox, glm::mat4 view, glm::mat4 projection);
+    void render(Skybox skybox, glm::mat4 projectionView);
     
     
 private:

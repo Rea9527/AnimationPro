@@ -26,16 +26,16 @@ class TerrainRender {
 public:
     TerrainRender(TerrainShader shader);
     
-    void render(vector<Terrain> terrains, glm::mat4 projection, glm::mat4 view, Camera camera);
+    void render(vector<Terrain> terrains, glm::mat4 projectionView, glm::mat4 toShadowMapMatrix, GLuint shadowMap, Camera camera);
     
     void addDirLight(DirectionalLight dirLight);
     
 private:
     TerrainShader shader;
     
-    void prepareTerrain(Terrain terrain);
+    void prepareTerrain(Terrain terrain, GLuint shadowMap);
     void loadModelMat(Terrain terrain);
-    void bindTexture(Terrain terrain);
+    void bindTexture(Terrain terrain, GLuint shadowMap);
     void unbindTextureModel();
 };
 

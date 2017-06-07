@@ -28,7 +28,7 @@ void ShadowFrameBuffer::bindFrameBuffer() {
 
 void ShadowFrameBuffer::unbindFrameBuffer() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glViewport(0, 0, Utils::WIN_WIDTH, Utils::WIN_HEIGHT);
+    glViewport(0, 0, Utils::WIN_WIDTH * 2, Utils::WIN_HEIGHT * 2);
 }
 
 void ShadowFrameBuffer::bindFrameBuffer(GLuint fbo, int width, int height) {

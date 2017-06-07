@@ -11,6 +11,7 @@
 
 #include <iostream>
 
+#include "../utils/Utils.hpp"
 #include "../camera/Camera.hpp"
 #include "../lights/DirectionalLight.hpp"
 

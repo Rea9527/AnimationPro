@@ -28,7 +28,7 @@ class ModelRender {
 public:
     ModelRender(ModelShader shader);
     
-    void render(ObjModel objModel, glm::mat4 projection, glm::mat4 view, glm::mat4 model, Camera camera);
+    void render(ObjModel objModel, glm::mat4 projectionView, glm::mat4 model, Camera camera);
     
     void addLight(PointLight pointLight, DirectionalLight directionalLight);
     

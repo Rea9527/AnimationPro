@@ -19,8 +19,15 @@ public:
     
     StaticShader();
     StaticShader(string vertexPath, string fragmentPath);
-
     
+    void getAllUniformLocations();
+    
+    void loadModelMat(glm::mat4 model);
+    void loadProjectionViewMatrix(glm::mat4 projectionViewMat);
+    
+private:
+    GLuint modelLoc;
+    GLuint projectionViewLoc;
 };
 
 #endif /* StaticShader_hpp */

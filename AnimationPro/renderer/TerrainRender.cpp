@@ -18,17 +18,17 @@ TerrainRender::TerrainRender(TerrainShader shader) {
     this->shader.Stop();
 }
 
-void TerrainRender::render(vector<Terrain> terrains, glm::mat4 projection, glm::mat4 view, Camera camera) {
+void TerrainRender::render(vector<Terrain> terrains, glm::mat4 projectionView, glm::mat4 toShadowMapMatrix, GLuint shadowMap, Camera camera) {
     glStencilMask(0x00);
     
     this->shader.Use();
 
+    this->shader.loadShadowMapMatrix(toShadowMapMatrix);
     this->shader.loadViewPos(camera.getPos().x, camera.getPos().y, camera.getPos().z);
-    this->shader.loadViewMat(glm::value_ptr(view));
-    this->shader.loadProjectionMat(glm::value_ptr(projection));
+    this->shader.loadProjectionViewMatrix(projectionView);
     for (Terrain terrain : terrains) {
         loadModelMat(terrain);
-        prepareTerrain(terrain);
+        prepareTerrain(terrain, shadowMap);
         glDrawElements(GL_TRIANGLES, terrain.getModel().getVertexCount(), GL_UNSIGNED_INT, 0);
         unbindTextureModel();
     }
@@ -36,14 +36,14 @@ void TerrainRender::render(vector<Terrain> terrains, glm::mat4 projection, glm::
     this->shader.Stop();
 }
 
-void TerrainRender::prepareTerrain(Terrain terrain) {
+void TerrainRender::prepareTerrain(Terrain terrain, GLuint shadowMap) {
     RawModel model = terrain.getModel();
 
-    this->bindTexture(terrain);
+    this->bindTexture(terrain, shadowMap);
     glBindVertexArray(model.getVAO());
 }
 
-void TerrainRender::bindTexture(Terrain terrain) {
+void TerrainRender::bindTexture(Terrain terrain, GLuint shadowMap) {
     TerrainTexturePack texturePack = terrain.getTexturePack();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texturePack.getBgTerrain().getTextureId());
@@ -55,6 +55,8 @@ void TerrainRender::bindTexture(Terrain terrain) {
     glBindTexture(GL_TEXTURE_2D, texturePack.getBTerrain().getTextureId());
     glActiveTexture(GL_TEXTURE4);
     glBindTexture(GL_TEXTURE_2D, terrain.getBlendMap().getTextureId());
+    glActiveTexture(GL_TEXTURE5);
+    glBindTexture(GL_TEXTURE_2D, shadowMap);
     
 
 }
@@ -78,12 +80,14 @@ void TerrainRender::unbindTextureModel() {
     glBindTexture(GL_TEXTURE_2D, 0);
     glActiveTexture(GL_TEXTURE4);
     glBindTexture(GL_TEXTURE_2D, 0);
+    glActiveTexture(GL_TEXTURE5);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void TerrainRender::loadModelMat(Terrain terrain) {
     glm::mat4 model;
     model = glm::translate(model, glm::vec3(0, -0.3f, 0));
-    shader.loadModelMat(glm::value_ptr(model));
+    shader.loadModelMat(model);
 }
 
 

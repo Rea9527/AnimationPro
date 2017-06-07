@@ -25,7 +25,7 @@ class RectangleRender {
 public:
     RectangleRender(StaticShader shader);
     RectangleRender(ModelShader shader);
-    void render(RectangleModel cube, glm::mat4 projection, glm::mat4 view, glm::mat4 model, Camera camera);
+    void render(RectangleModel cube, glm::mat4 projectionView, glm::mat4 model, Camera camera);
     
     void addLight(PointLight pointLight, DirectionalLight directionalLight);
     

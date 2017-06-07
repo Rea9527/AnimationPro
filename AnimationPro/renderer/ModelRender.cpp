@@ -13,13 +13,12 @@ ModelRender::ModelRender(ModelShader shader) {
     this->Shader = shader;
 }
 
-void ModelRender::render(ObjModel objModel, glm::mat4 projection, glm::mat4 view, glm::mat4 model, Camera camera) {
+void ModelRender::render(ObjModel objModel, glm::mat4 projectionView, glm::mat4 model, Camera camera) {
     
     this->prepare();
     this->Shader.loadViewPos(camera.Pos.x, camera.Pos.y, camera.Pos.z);
-    this->Shader.loadViewMat(glm::value_ptr(view));
-    this->Shader.loadProjectionMat(glm::value_ptr(projection));
-    this->Shader.loadModelMat(glm::value_ptr(model));
+    this->Shader.loadProjectionViewMatrix(projectionView);
+    this->Shader.loadModelMat(model);
     
     objModel.Draw(this->Shader);
     this->Shader.Stop();

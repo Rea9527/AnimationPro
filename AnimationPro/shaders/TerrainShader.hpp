@@ -26,6 +26,12 @@ public:
     
     void loadTextureLoc();
     void connectTexture();
+    void loadShadowMapMatrix(glm::mat4 shadowMapMatrix);
+    
+    void getAllUniformLocations();
+    
+    void loadModelMat(glm::mat4 model);
+    void loadProjectionViewMatrix(glm::mat4 projectionViewMat);
     
 private:
     //lights
@@ -39,6 +45,11 @@ private:
     GLuint gTextureLoc;
     GLuint bTextureLoc;
     GLuint blendMapLoc;
+    GLuint shadowMapMatrixLoc;
+    GLuint shadowMapLoc;
+    
+    GLuint modelLoc;
+    GLuint projectionViewLoc;
 };
 
 #endif /* TerrainShader_hpp */

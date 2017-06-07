@@ -13,3 +13,17 @@
 StaticShader::StaticShader() { }
 
 StaticShader::StaticShader(string vertexPath, string fragmentPath) : Shader(vertexPath, fragmentPath) { }
+
+
+void StaticShader::getAllUniformLocations() {
+    this->modelLoc = this->getUniformLocation("model");
+    this->projectionViewLoc = this->getUniformLocation("projectionView");
+}
+
+void StaticShader::loadModelMat(glm::mat4 model) {
+    this->setMat4(this->modelLoc, model);
+}
+
+void StaticShader::loadProjectionViewMatrix(glm::mat4 projectionViewMat) {
+    this->setMat4(this->projectionViewLoc, projectionViewMat);
+}

@@ -20,10 +20,14 @@ public:
     
     void getAllUniformLocations();
     
+    void loadModelMat(glm::mat4 model);
+    void loadProjectionViewMatrix(glm::mat4 projectionViewMat);
     void loadMVP(glm::mat4 mvp);
     
 private:
     
+    GLuint modelLoc;
+    GLuint projectionViewLoc;
     GLuint mvp_loc;
 };
 

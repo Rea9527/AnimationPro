@@ -46,7 +46,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoff, double yoff);
 void updateMovement();
 
-GLfloat WIN_WIDTH = 640, WIN_HEIGHT = 480;
+GLfloat WIN_WIDTH = 720, WIN_HEIGHT = 720;
 
 glm::vec3 dirLightAttrib[] {
     glm::vec3(1.0f, 1.0f, 1.0f),//ambient
@@ -108,6 +108,7 @@ int main(int argc, const char * argv[]) {
     // set viewport
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
+    cout << width << " " << height << endl;
     glViewport(0, 0, width, height);
     //===============================
     
@@ -160,7 +161,7 @@ int main(int argc, const char * argv[]) {
     ModelRender treeRenderer(modelShader);
     
     //shadowmap renderer
-//    ShadowMapRenderer shadowMapRenderer(myCamera);
+    ShadowMapRenderer shadowMapRenderer(myCamera);
     
     
     Loader loader;
@@ -225,16 +226,18 @@ int main(int argc, const char * argv[]) {
         
         updateMovement();
         
-        glm::mat4 model, view, projection, mvp;
+        glm::mat4 model, view, projection, mvp, projectionViewMatirx, skyboxProjectionViewMat;
         GLfloat angle;
         view = myCamera.getViewMat();
         angle = glm::radians(myCamera.Zoom);
         projection = glm::perspective(angle, WIN_WIDTH / WIN_HEIGHT, 0.1f, 1000.0f);
+        projectionViewMatirx = projection * view;
+        skyboxProjectionViewMat = projection * glm::mat4(glm::mat3(view));
         
         //terrain
         //==============================
         terrainRender.addDirLight(dirLight);
-        terrainRender.render(terrains, projection, view, myCamera);
+        terrainRender.render(terrains, projectionViewMatirx, shadowMapRenderer.getToShadowMapMatrix(), shadowMapRenderer.getShadowMap(), myCamera);
         
         //man
         //==============================
@@ -245,7 +248,7 @@ int main(int argc, const char * argv[]) {
 //        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::scale(model, glm::vec3(1, 1, 1));
         manRender.addLight(pointLight, dirLight);
-        manRender.render(manModel, projection, view, model, myCamera);
+        manRender.render(manModel, projectionViewMatirx, model, myCamera);
 
         //puss
         //==============================
@@ -255,7 +258,7 @@ int main(int argc, const char * argv[]) {
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(2, 2, 2));
         pussRender.addLight(pointLight, dirLight);
-        pussRender.render(pussModel, projection, view, model, myCamera);
+        pussRender.render(pussModel, projectionViewMatirx, model, myCamera);
         
         //mask cube
         //==============================
@@ -266,7 +269,7 @@ int main(int argc, const char * argv[]) {
         y = terrain1.getHeightOfTerrain(x, z) + 2.5f;
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(0.3f, 4.8f, 3.1f));
-        cubeRender.render(cube, projection, view, model);
+        cubeRender.render(cube, projectionViewMatirx, model);
         
         //house
         //==============================
@@ -278,7 +281,7 @@ int main(int argc, const char * argv[]) {
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(0.1, 0.1, 0.1));
         houseRender.addLight(pointLight, dirLight);
-        houseRender.render(houseModel, projection, view, model, myCamera);
+        houseRender.render(houseModel, projectionViewMatirx, model, myCamera);
         
         //tile
         //==============================
@@ -288,7 +291,7 @@ int main(int argc, const char * argv[]) {
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(14.0f, 1.0f, 25.0f));
         tileRenderer.addLight(pointLight, dirLight);
-        tileRenderer.render(tile, projection, view, model, myCamera);
+        tileRenderer.render(tile, projectionViewMatirx, model, myCamera);
         
         //radio
         //==============================
@@ -298,7 +301,7 @@ int main(int argc, const char * argv[]) {
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::rotate(model, glm::radians(-70.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.03f, 0.03f, 0.03f));
-        radioRender.render(radioModel, projection, view, model, myCamera);
+        radioRender.render(radioModel, projectionViewMatirx, model, myCamera);
         
         
         //table
@@ -309,7 +312,7 @@ int main(int argc, const char * argv[]) {
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::scale(model, glm::vec3(1.2f, 1.2f, 1.2f));
-        chairRender.render(chairModel, projection, view, model, myCamera);
+        chairRender.render(chairModel, projectionViewMatirx, model, myCamera);
         
         model = glm::mat4();
         x = 870.0f, z = 652.0f;
@@ -317,7 +320,7 @@ int main(int argc, const char * argv[]) {
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::scale(model, glm::vec3(1.2f, 1.2f, 1.2f));
-        tableRender.render(tableModel, projection, view, model, myCamera);
+        tableRender.render(tableModel, projectionViewMatirx, model, myCamera);
         
         //tree
         //==============================
@@ -326,18 +329,19 @@ int main(int argc, const char * argv[]) {
         y = terrain1.getHeightOfTerrain(x, z);
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
-        treeRenderer.render(treeModel, projection, view, model, myCamera);
+        treeRenderer.render(treeModel, projectionViewMatirx, model, myCamera);
         
         
         //skybox
         //==============================
         glDepthFunc(GL_LEQUAL);
-        skyboxRender.render(skybox, view, projection);
+        skyboxRender.render(skybox, skyboxProjectionViewMat);
         glDepthFunc(GL_LESS);
         
         glfwSwapBuffers(window);
     }
-
+    
+    shadowMapRenderer.cleanUp();
     loader.cleanUp();
     
     glfwTerminate();

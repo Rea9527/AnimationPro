@@ -24,6 +24,11 @@ public:
     void addDirectionalLight(DirectionalLight light);
     void loadViewPos(GLfloat x, GLfloat y, GLfloat z);
     
+    void getAllUniformLocations();
+    
+    void loadModelMat(glm::mat4 model);
+    void loadProjectionViewMatrix(glm::mat4 projectionViewMat);
+    
 private:
 
     //lights
@@ -32,6 +37,8 @@ private:
     std::vector<PointLight> pointLights;
     std::vector<DirectionalLight> directionalLights;
     
+    GLint modelLoc;
+    GLint projectionViewLoc;
 };
 
 #endif /* ModelShader_hpp */

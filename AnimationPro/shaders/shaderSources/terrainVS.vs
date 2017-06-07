@@ -7,16 +7,22 @@ layout (location = 2) in vec2 texCoord;
 out vec2 TexCoords;
 out vec3 Normal;
 out vec3 FragPos;
+out vec4 ShadowCoords;
 
 uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+uniform mat4 projectionView;
+uniform mat4 toShadowMapSpace;
 
 void main() {
-    gl_Position = projection * view * model * vec4(position, 1.0);
+    vec4 worldPosition = model * vec4(position, 1.0);
+    
+    ShadowCoords = toShadowMapSpace * worldPosition;
+    
     TexCoords = texCoord;
     Normal = mat3(transpose(inverse(model))) * normal;
     FragPos = vec3(model * vec4(position, 1.0));
+    
+    gl_Position = projectionView * worldPosition;
 }
 
 

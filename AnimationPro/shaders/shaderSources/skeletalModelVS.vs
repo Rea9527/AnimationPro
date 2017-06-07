@@ -14,8 +14,8 @@ const int MAX_BONES = 100;
 uniform mat4 gBones[MAX_BONES];
 
 uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+uniform mat4 projectionView;
+
 
 void main() {
     mat4 boneTransform = gBones[ids[0]] * weights[0];
@@ -24,7 +24,7 @@ void main() {
     boneTransform += gBones[ids[3]] * weights[3];
     
     vec4 Tpos = boneTransform * vec4(position, 1.0f);
-    gl_Position = projection * view * model * Tpos;
+    gl_Position = projectionView * model * Tpos;
     vec4 BNormal = boneTransform * vec4(normal, 1.0f);
     Normal = mat3(transpose(inverse(model))) * BNormal.xyz;
     FragPos = vec3(model * vec4(position, 1.0));
