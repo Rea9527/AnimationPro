@@ -14,6 +14,12 @@
 #include "TextureModel.hpp"
 #include "../loader/Loader.hpp"
 
+//glm
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+
 class RectangleModel {
     
 public:
@@ -24,6 +30,10 @@ public:
     
     RawModel getModel();
     ModelTexture getTexture();
+    
+    // transformation
+    glm::mat4 modelMatrix;
+    glm::mat4 projectionViewMatrix;
     
 private:
     RawModel model;

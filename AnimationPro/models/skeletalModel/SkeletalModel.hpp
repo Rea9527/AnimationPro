@@ -38,6 +38,12 @@ public:
     void playAnimation(Animation& anim, bool loop = false, bool reset_to_start = false);
     void stopAnimating();
     
+    bool isAnimated;
+    
+    // transformation
+    glm::mat4 modelMatrix;
+    glm::mat4 projectionViewMatrix;
+    
 private:
     vector<AnimatedTexture> Loaded_textures;
     vector<AMesh> Meshes;
@@ -68,7 +74,7 @@ private:
     Bone* findBone(unsigned int id);
     BoneNodeData findBoneNode(string name);
     
-    bool isAnimated;
+    
     virtual void updateSkeleton();
     Skeleton skeleton;
     vector<Animation> animations;

@@ -19,6 +19,12 @@
 #include "../loader/Loader.hpp"
 #include "../texture/ModelTexture.hpp"
 
+//glm
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+
 using namespace std;
 
 class Skybox {
@@ -29,6 +35,9 @@ public:
     
     RawModel getModel();
     ModelTexture getTexture();
+    
+    // transformation
+    glm::mat4 projectionViewMatrix;
     
 private:
     GLuint loadCubeMap(vector<const char*> faces);

@@ -23,7 +23,7 @@ class CubeRender {
     
 public:
     CubeRender(StaticShader shader);
-    void render(PolygonModel cube, glm::mat4 projectionView, glm::mat4 model);
+    void render(PolygonModel cube);
 
     void unbind();
     

@@ -9,26 +9,39 @@
 #include "ShadowMapRenderer.hpp"
 
 ShadowMapRenderer::ShadowMapRenderer() {
-    this->SHADOW_MAP_SIZE = Utils::WIN_WIDTH * 2;
+    this->SHADOW_MAP_SIZE = 2048;
+    
+    this->projectionMatrix = glm::mat4(1.0f);
+    this->projectionViewMatrix = glm::mat4(1.0f);
+    this->lightViewMatrix = glm::mat4(1.0f);
+    this->offset = createOffset();
+
 }
 
-ShadowMapRenderer::ShadowMapRenderer(Camera camera) {
+ShadowMapRenderer::ShadowMapRenderer(Camera camera) : ShadowMapRenderer() {
+    
     this->shader = ShadowShader("shadows/shadow.vs", "shadows/shadow.frag");
     this->shadowBox = ShadowBox(this->lightViewMatrix, camera);
     this->shadowFBO = ShadowFrameBuffer(this->SHADOW_MAP_SIZE, this->SHADOW_MAP_SIZE);
 }
 
-void ShadowMapRenderer::render(ObjModel model, DirectionalLight light) {
-    this->shadowBox.update();
+void ShadowMapRenderer::render(ObjModel model) {
     
-    glm::vec3 lightDir = -light.getDirection();
-    this->prepare(lightDir);
-    
+    this->loadMvp(model.modelMatrix);
     model.Draw(this->shader);
-    
+//    this->finish();
+//    this->shader.Stop();
+}
+
+void ShadowMapRenderer::render(SkeletalModel model) {
+    this->loadMvp(model.modelMatrix);
+    if (model.isAnimated) model.isAnimated = false;
+    model.Draw(this->shader);
 }
 
 glm::mat4 ShadowMapRenderer::getToShadowMapMatrix() {
+//    cout << offset[0][0] << " " << offset[0][1] << " " << offset[0][2] << " " << offset[0][3] << endl;
+
     return this->offset * this->projectionViewMatrix;
 }
 
@@ -44,14 +57,25 @@ glm::mat4 ShadowMapRenderer::getLightSpaceTransform() {
     return this->lightViewMatrix;
 }
 
-void ShadowMapRenderer::prepare(glm::vec3 lightDirection) {
+void ShadowMapRenderer::prepare(DirectionalLight light, Camera camera) {
+    this->shadowBox.update(camera);
+    glm::vec3 lightDirection = -light.getDirection();
     this->updateOrthoProjectionMatrix(this->shadowBox.getWidth(), this->shadowBox.getHeight(), this->shadowBox.getLength());
     this->updateLightViewMatrix(lightDirection, this->shadowBox.getCenter());
     this->projectionViewMatrix = this->projectionMatrix * this->lightViewMatrix;
+
     this->shadowFBO.bindFrameBuffer();
-    glEnable(GL_DEPTH_TEST);
+////    glEnable(GL_DEPTH_TEST);
     glClear(GL_DEPTH_BUFFER_BIT);
+    
     this->shader.Use();
+    this->shader.getAllUniformLocations();
+    
+}
+
+void ShadowMapRenderer::loadMvp(glm::mat4 modelMatrix) {
+    glm::mat4 mvp = this->projectionViewMatrix * modelMatrix;
+    this->shader.loadMVP(mvp);
 }
 
 void ShadowMapRenderer::finish() {
@@ -64,7 +88,7 @@ void ShadowMapRenderer::updateLightViewMatrix(glm::vec3 lightDirection, glm::vec
     glm::vec3 cent = -center;
     this->lightViewMatrix = glm::mat4(1.0f);
     
-    float pitch = (float) acos(glm::vec2(direction.x, direction.z).length());
+    float pitch = (float) acos(sqrt(direction.x * direction.x + direction.z * direction.z));
     this->lightViewMatrix = glm::rotate(lightViewMatrix, pitch, glm::vec3(1.0f, 0.0f, 0.0f));
     float yaw = (float) glm::degrees(((float) atan(direction.x / direction.z)));
     yaw = direction.z > 0 ? yaw - 180 : yaw;

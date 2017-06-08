@@ -28,6 +28,11 @@ public:
     
     void Draw(Shader shader);
     
+    
+    // transformation
+    glm::mat4 modelMatrix;
+    glm::mat4 projectionViewMatrix;
+    
 private:
     vector<Texture> Loaded_textures;
     vector<Mesh> Meshes;

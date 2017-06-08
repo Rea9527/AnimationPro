@@ -20,9 +20,11 @@ ShadowBox::ShadowBox(glm::mat4 lightViewMat, Camera camera) : ShadowBox() {
     this->lightViewMatrix = lightViewMat;
     this->cam = camera;
     this->calculateWidthsAndHeights();
+
 }
 
-void ShadowBox::update() {
+void ShadowBox::update(Camera cam) {
+    this->cam = cam;
     glm::mat4 rotation = calculateCameraRotationMatrix();
     glm::vec3 forwardVector = glm::vec3(rotation * this->FORWARD);
     
@@ -100,14 +102,14 @@ vector<glm::vec4> ShadowBox::calculateFrustumVertices(glm::mat4 rotation, glm::v
     glm::vec3 nearBottom = centerNear + glm::vec3(downVector.x * nearHeight,
                                                         downVector.y * nearHeight, downVector.z * nearHeight);
     vector<glm::vec4> points;
-    points[0] = calculateLightSpaceFrustumCorner(farTop, rightVector, farWidth);
-    points[1] = calculateLightSpaceFrustumCorner(farTop, leftVector, farWidth);
-    points[2] = calculateLightSpaceFrustumCorner(farBottom, rightVector, farWidth);
-    points[3] = calculateLightSpaceFrustumCorner(farBottom, leftVector, farWidth);
-    points[4] = calculateLightSpaceFrustumCorner(nearTop, rightVector, nearWidth);
-    points[5] = calculateLightSpaceFrustumCorner(nearTop, leftVector, nearWidth);
-    points[6] = calculateLightSpaceFrustumCorner(nearBottom, rightVector, nearWidth);
-    points[7] = calculateLightSpaceFrustumCorner(nearBottom, leftVector, nearWidth);
+    points.push_back(calculateLightSpaceFrustumCorner(farTop, rightVector, farWidth));
+    points.push_back(calculateLightSpaceFrustumCorner(farTop, leftVector, farWidth));
+    points.push_back(calculateLightSpaceFrustumCorner(farBottom, rightVector, farWidth));
+    points.push_back(calculateLightSpaceFrustumCorner(farBottom, leftVector, farWidth));
+    points.push_back(calculateLightSpaceFrustumCorner(nearTop, rightVector, nearWidth));
+    points.push_back(calculateLightSpaceFrustumCorner(nearTop, leftVector, nearWidth));
+    points.push_back(calculateLightSpaceFrustumCorner(nearBottom, rightVector, nearWidth));
+    points.push_back(calculateLightSpaceFrustumCorner(nearBottom, leftVector, nearWidth));
     return points;
 }
 

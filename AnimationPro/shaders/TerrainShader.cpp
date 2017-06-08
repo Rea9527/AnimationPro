@@ -27,7 +27,7 @@ void TerrainShader::getAllUniformLocations() {
     this->gTextureLoc = this->getUniformLocation("gTexture");
     this->bTextureLoc = this->getUniformLocation("bTexture");
     this->blendMapLoc = this->getUniformLocation("blendMap");
-    this->shadowMapMatrixLoc = this->getUniformLocation("toShadowMapMatrix");
+    this->shadowMapMatrixLoc = this->getUniformLocation("toShadowMapSpace");
     this->shadowMapLoc = this->getUniformLocation("shadowMap");
 }
 
@@ -37,7 +37,7 @@ void TerrainShader::addDirLight(DirectionalLight light) {
     glUniform3f(this->getUniformLocation("dirLight.diffuse"), light.getDiffuse().x, light.getDiffuse().y, light.getDiffuse().z);
     glUniform3f(this->getUniformLocation("dirLight.specular"), light.getSpecular().x, light.getSpecular().y, light.getSpecular().z);
     
-    glUniform1f(this->getUniformLocation("shininess"), 16.0f);
+    glUniform1f(this->getUniformLocation("shininess"), 8.0f);
 }
 
 

@@ -23,18 +23,19 @@ ShadowFrameBuffer::ShadowFrameBuffer(int width, int height) {
 }
 
 void ShadowFrameBuffer::bindFrameBuffer() {
+//    cout << "fbo: " << this->FBO << endl;
     this->bindFrameBuffer(this->FBO, this->WIDTH, this->HEIGHT);
 }
 
 void ShadowFrameBuffer::unbindFrameBuffer() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glViewport(0, 0, Utils::WIN_WIDTH * 2, Utils::WIN_HEIGHT * 2);
+    glViewport(0, 0, Utils::WIN_WIDTH, Utils::WIN_HEIGHT);
 }
 
 void ShadowFrameBuffer::bindFrameBuffer(GLuint fbo, int width, int height) {
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     glViewport(0, 0, width, height);
+    glBindTexture(GL_TEXTURE_2D, this->shadowMap);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 }
 
 GLuint ShadowFrameBuffer::getShadowMap() {
@@ -50,9 +51,7 @@ void ShadowFrameBuffer::initialFrameBuffer() {
 GLuint ShadowFrameBuffer::createFrameBuffer() {
     GLuint fbo;
     glGenFramebuffers(1, &fbo);
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-    glDrawBuffer(GL_NONE);
-    glReadBuffer(GL_NONE);
+//    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     return fbo;
 }
 
@@ -61,14 +60,17 @@ GLuint ShadowFrameBuffer::createDepthBufferAttachment() {
     
     glGenTextures(1, &depthMap);
     glBindTexture(GL_TEXTURE_2D, depthMap);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16,
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
                  this->WIDTH, this->HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     
+    glBindFramebuffer(GL_FRAMEBUFFER, this->FBO);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+    glDrawBuffer(GL_NONE);
+    glReadBuffer(GL_NONE);
     
     return depthMap;
 }

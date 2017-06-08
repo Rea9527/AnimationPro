@@ -27,7 +27,7 @@ void SkeletalModel::Draw(Shader shader) {
     if (!this->Meshes.empty())
         this->skeleton = this->Meshes[0].sceneLoaderSkeleton;
 
-    if (this->skeleton.isPlaying()) {
+    if (this->isAnimated) {
         this->updateSkeleton();
     }
     
@@ -337,10 +337,12 @@ void SkeletalModel::setIdleAnimation(Animation animation) {
 
 void SkeletalModel::playAnimation(Animation& anim, bool loop, bool reset_to_start) {
     this->Meshes[0].sceneLoaderSkeleton.playAnimation(anim, loop, reset_to_start);
+    this->isAnimated = true;
 }
 
 void SkeletalModel::stopAnimating() {
     this->Meshes[0].sceneLoaderSkeleton.stopAnimating();
+    this->isAnimated = false;
 }
 
 vector<AnimatedTexture> SkeletalModel::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName) {

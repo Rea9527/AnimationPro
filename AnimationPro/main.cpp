@@ -41,6 +41,7 @@
 using namespace std;
 
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoff, double yoff);
@@ -51,8 +52,8 @@ GLfloat WIN_WIDTH = 720, WIN_HEIGHT = 720;
 glm::vec3 dirLightAttrib[] {
     glm::vec3(1.0f, 1.0f, 1.0f),//ambient
     glm::vec3(0.8f, 0.8f, 0.8f),//diffuse
-    glm::vec3(0.3f, 0.4f, 0.2f),//specular
-    glm::vec3(-1.0f, 1.0f, 0.0f)//direction
+    glm::vec3(0.1f, 0.1f, 0.1f),//specular
+    glm::vec3(0.0f, -200.0f, 500.0f)//direction
 };
 
 glm::vec3 pointLightAttrib[] {
@@ -111,6 +112,14 @@ int main(int argc, const char * argv[]) {
     cout << width << " " << height << endl;
     glViewport(0, 0, width, height);
     //===============================
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_STENCIL_TEST);
+    glStencilFunc(GL_NOTEQUAL, 1, 0xff);
+    glStencilOp(GL_KEEP, GL_REPLACE, GL_REPLACE);
+    
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
     
     string root = "shaders/shaderSources/";
     //===============================
@@ -205,19 +214,15 @@ int main(int argc, const char * argv[]) {
     PointLight pointLight = PointLight(pointLightAttrib[0], pointLightAttrib[1], pointLightAttrib[2], pointLightAttrib[3], 1.0f, 0.09f, 0.032f);
     
     //set keycallback
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetKeyCallback(window, key_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     
-//    myCamera.disable();
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_STENCIL_TEST);
-    glStencilFunc(GL_NOTEQUAL, 1, 0xff);
-    glStencilOp(GL_KEEP, GL_REPLACE, GL_REPLACE);
     
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//    myCamera.disable();
+
     // drawing loop
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
@@ -239,103 +244,183 @@ int main(int argc, const char * argv[]) {
         terrainRender.addDirLight(dirLight);
         terrainRender.render(terrains, projectionViewMatirx, shadowMapRenderer.getToShadowMapMatrix(), shadowMapRenderer.getShadowMap(), myCamera);
         
-        //man
-        //==============================
-        model = glm::mat4();
-        GLfloat x = 880.0f, z = 650.0f;
-        GLfloat y = terrain1.getHeightOfTerrain(x, z);
-        model = glm::translate(model, glm::vec3(x, y, z));
-//        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(1, 1, 1));
-        manRender.addLight(pointLight, dirLight);
-        manRender.render(manModel, projectionViewMatirx, model, myCamera);
-
+        
+        GLfloat x, y, z;
+        //prepare model
+        //====================================================================================
+        //====================================================================================
         //puss
-        //==============================
         model = glm::mat4();
         x = 880.0f, z = 640.0f;
-        y = terrain1.getHeightOfTerrain(x, z);
+        y = terrain1.getHeightOfTerrain(x, z) + 1.2f;
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(2, 2, 2));
-        pussRender.addLight(pointLight, dirLight);
-        pussRender.render(pussModel, projectionViewMatirx, model, myCamera);
+        pussModel.modelMatrix = model;
+        pussModel.projectionViewMatrix = projectionViewMatirx;
+        
+        //man
+        model = glm::mat4();
+        x = 880.0f, z = 650.0f;
+        y = terrain1.getHeightOfTerrain(x, z);
+        model = glm::translate(model, glm::vec3(x, y, z));
+        //        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(1, 1, 1));
+        manModel.modelMatrix = model;
+        manModel.projectionViewMatrix = projectionViewMatirx;
         
         //mask cube
-        //==============================
-//        glStencilFunc(GL_ALWAYS, 1, 0xff);
-//        glStencilMask(0xff);
         model = glm::mat4();
         x = 871.5f, z = 637.5f;
         y = terrain1.getHeightOfTerrain(x, z) + 2.5f;
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(0.3f, 4.8f, 3.1f));
-        cubeRender.render(cube, projectionViewMatirx, model);
+        cube.modelMatrix = model;
+        cube.projectionViewMatrix = projectionViewMatirx;
         
         //house
-        //==============================
-//        glStencilFunc(GL_NOTEQUAL, 1, 0xff);
-//        glStencilMask(0x00);
         model = glm::mat4();
         x = 850.0f, z = 640.0f;
         y = terrain1.getHeightOfTerrain(x, z);
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(0.1, 0.1, 0.1));
-        houseRender.addLight(pointLight, dirLight);
-        houseRender.render(houseModel, projectionViewMatirx, model, myCamera);
+        houseModel.modelMatrix = model;
+        houseModel.projectionViewMatrix = projectionViewMatirx;
         
         //tile
-        //==============================
         model = glm::mat4();
         x = 864.5f, z = 644.8f;
         y = terrain1.getHeightOfTerrain(x, z) + 0.05f;
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(14.0f, 1.0f, 25.0f));
-        tileRenderer.addLight(pointLight, dirLight);
-        tileRenderer.render(tile, projectionViewMatirx, model, myCamera);
+        tile.modelMatrix = model;
+        tile.projectionViewMatrix = projectionViewMatirx;
         
         //radio
-        //==============================
         model = glm::mat4();
         x = 870.0f, z = 651.0f;
         y = terrain1.getHeightOfTerrain(x, z) + 2.0f;
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::rotate(model, glm::radians(-70.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.03f, 0.03f, 0.03f));
-        radioRender.render(radioModel, projectionViewMatirx, model, myCamera);
+        radioModel.modelMatrix = model;
+        radioModel.projectionViewMatrix = projectionViewMatirx;
         
+        //chair
+        model = glm::mat4();
+        x = 870.0f, z = 652.0f;
+        y = terrain1.getHeightOfTerrain(x, z);
+        model = glm::translate(model, glm::vec3(x, y, z));
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(1.2f, 1.2f, 1.2f));
+        chairModel.modelMatrix = model;
+        chairModel.projectionViewMatrix = projectionViewMatirx;
         
         //table
-        //==============================
         model = glm::mat4();
         x = 870.0f, z = 652.0f;
         y = terrain1.getHeightOfTerrain(x, z);
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::scale(model, glm::vec3(1.2f, 1.2f, 1.2f));
-        chairRender.render(chairModel, projectionViewMatirx, model, myCamera);
-        
-        model = glm::mat4();
-        x = 870.0f, z = 652.0f;
-        y = terrain1.getHeightOfTerrain(x, z);
-        model = glm::translate(model, glm::vec3(x, y, z));
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(1.2f, 1.2f, 1.2f));
-        tableRender.render(tableModel, projectionViewMatirx, model, myCamera);
+        tableModel.modelMatrix = model;
+        tableModel.projectionViewMatrix = projectionViewMatirx;
         
         //tree
-        //==============================
         model = glm::mat4();
         x = 875.0f, z = 652.0f;
         y = terrain1.getHeightOfTerrain(x, z);
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
-        treeRenderer.render(treeModel, projectionViewMatirx, model, myCamera);
+        treeModel.modelMatrix = model;
+        treeModel.projectionViewMatrix = projectionViewMatirx;
+        
+        //skybox
+        skybox.projectionViewMatrix = skyboxProjectionViewMat;
+        //====================================================================================
+        //====================================================================================
+        
+        
+        
+        //render shadow
+        //====================================================================================
+        //====================================================================================
+        shadowMapRenderer.prepare(dirLight, myCamera);
+        //puss
+        shadowMapRenderer.render(pussModel);
+//        glfwGetFramebufferSize(window, &width, &height);
+//        glViewport(0, 0, width, height);
+    
+        //man
+        shadowMapRenderer.render(manModel);
+//        glfwGetFramebufferSize(window, &width, &height);
+//        glViewport(0, 0, width, height);
+        
+        //house
+        shadowMapRenderer.render(houseModel);
+//        glfwGetFramebufferSize(window, &width, &height);
+//        glViewport(0, 0, width, height);
+        
+//        tree
+        shadowMapRenderer.render(treeModel);
+
+        shadowMapRenderer.finish();
+        glfwGetFramebufferSize(window, &width, &height);
+        glViewport(0, 0, width, height);
+//        glClear(GL_DEPTH_BUFFER_BIT);
+        //====================================================================================
+        //====================================================================================
+        
+        
+        
+        //render model
+        //====================================================================================
+        //====================================================================================
+        
+        //puss
+        //==============================
+        pussRender.addLight(pointLight, dirLight);
+        pussRender.render(pussModel, myCamera);
+        
+        //man
+        //==============================
+        manRender.addLight(pointLight, dirLight);
+        manRender.render(manModel, myCamera);
+        
+        //mask cube
+        //==============================
+        cubeRender.render(cube);
+        
+        //house
+        //==============================
+
+        houseRender.addLight(pointLight, dirLight);
+        houseRender.render(houseModel, myCamera);
+        
+        //tile
+        //==============================
+
+        tileRenderer.addLight(pointLight, dirLight);
+        tileRenderer.render(tile, myCamera);
+        
+        //radio
+        //==============================
+        radioRender.render(radioModel, myCamera);
+        
+        
+        //table
+        //==============================
+        chairRender.render(chairModel, myCamera);
+        tableRender.render(tableModel, myCamera);
+        
+        //tree
+        //==============================
+        treeRenderer.render(treeModel, myCamera);
         
         
         //skybox
         //==============================
         glDepthFunc(GL_LEQUAL);
-        skyboxRender.render(skybox, skyboxProjectionViewMat);
+        skyboxRender.render(skybox);
         glDepthFunc(GL_LESS);
         
         glfwSwapBuffers(window);
@@ -361,6 +446,11 @@ void updateMovement() {
         myCamera.move(CAM_LEFT, deltaTime);
     else if (keys[GLFW_KEY_D])
         myCamera.move(CAM_RIGHT, deltaTime);
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+
+    glViewport(0, 0, width, height);
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {

@@ -16,7 +16,7 @@ uniform mat4 toShadowMapSpace;
 void main() {
     vec4 worldPosition = model * vec4(position, 1.0);
     
-    ShadowCoords = toShadowMapSpace * worldPosition;
+    ShadowCoords = toShadowMapSpace * vec4(vec3(worldPosition), 1.0f);
     
     TexCoords = texCoord;
     Normal = mat3(transpose(inverse(model))) * normal;

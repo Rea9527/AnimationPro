@@ -35,9 +35,9 @@ public:
     ShadowMapRenderer();
     ShadowMapRenderer(Camera camera);
     
-    void render(ObjModel model, DirectionalLight light);
-    void render(SkeletalModel model, DirectionalLight light);
-    void render(PolygonModel model, DirectionalLight light);
+    void render(ObjModel model);
+    void render(SkeletalModel model);
+    void render(PolygonModel model);
     
     glm::mat4 getToShadowMapMatrix();
     
@@ -45,6 +45,8 @@ public:
     
     glm::mat4 getLightSpaceTransform();
     
+    void prepare(DirectionalLight light, Camera camera);
+    void finish();
     void cleanUp();
     
 private:
@@ -54,8 +56,9 @@ private:
     
     glm::mat4 createOffset();
     
-    void prepare(glm::vec3 direction);
-    void finish();
+    
+    void loadMvp(glm::mat4 modelMatrix);
+    
     
     ShadowShader shader;
     ShadowFrameBuffer shadowFBO;

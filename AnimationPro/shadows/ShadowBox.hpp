@@ -27,7 +27,7 @@ public:
     ShadowBox();
     ShadowBox(glm::mat4 lightViewMat, Camera camera);
     
-    void update();
+    void update(Camera cam);
     
     glm::vec3 getCenter();
     float getWidth();

@@ -32,10 +32,13 @@ uniform sampler2D shadowMap;
 
 void main() {
     
-    float objNearestLight = texture(shadowMap, ShadowCoords.xy).r;
+    vec4 shadow = texture(shadowMap, ShadowCoords.xy);
+    
+    vec3 projCoords = ShadowCoords.xyz / ShadowCoords.w;
+    float objNearestLight = texture(shadowMap, projCoords.xy).r;
     float lightFactor = 1.0f;
-    if (ShadowCoords.z > objNearestLight) {
-        lightFactor = 1.0f - 0.4f;
+    if (projCoords.z > objNearestLight) {
+        lightFactor = 0;
     }
     
     
@@ -66,8 +69,9 @@ void main() {
     vec3 specular = dirLight.specular * spec;
     
     
-    color = totalColor * (vec4(diffuse, 1.0f) + vec4(dirLight.ambient, 1.0f) + vec4(specular, 1.0f));
-//    color = vec4(diffuse, 1.0f);
+    color = totalColor * (vec4(diffuse, 1.0f) + vec4(dirLight.ambient, 1.0f)) + vec4(specular, 1.0f);
+//    color = vec4(vec3(objNearestLight), 1.0f);
+//    color = shadow;
     
     
 }

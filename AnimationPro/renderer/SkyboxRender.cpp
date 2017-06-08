@@ -18,11 +18,11 @@ SkyboxRender::SkyboxRender(StaticShader shader) {
     this->Shader.Stop();
 }
 
-void SkyboxRender::render(Skybox skybox, glm::mat4 projectionView) {
+void SkyboxRender::render(Skybox skybox) {
     glStencilMask(0x00);
     
     this->Shader.Use();
-    this->Shader.loadProjectionViewMatrix(projectionView);
+    this->Shader.loadProjectionViewMatrix(skybox.projectionViewMatrix);
 
     
     glBindVertexArray(skybox.getModel().getVAO());

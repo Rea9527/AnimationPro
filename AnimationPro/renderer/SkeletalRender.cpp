@@ -16,13 +16,13 @@ SkeletalRender::SkeletalRender(ModelShader shader) {
     this->Shader.Stop();
 }
 
-void SkeletalRender::render(SkeletalModel &skeletalModel, glm::mat4 projectionView, glm::mat4 model, Camera camera) {
+void SkeletalRender::render(SkeletalModel &skeletalModel, Camera camera) {
     glStencilMask(0x00);
     
     this->Shader.Use();
     this->Shader.loadViewPos(camera.Pos.x, camera.Pos.y, camera.Pos.z);
-    this->Shader.loadProjectionViewMatrix(projectionView);
-    this->Shader.loadModelMat(model);
+    this->Shader.loadProjectionViewMatrix(skeletalModel.projectionViewMatrix);
+    this->Shader.loadModelMat(skeletalModel.modelMatrix);
     
     skeletalModel.Draw(this->Shader);
     
