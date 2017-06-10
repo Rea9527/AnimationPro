@@ -13,7 +13,7 @@ ShadowBox::ShadowBox() {
     this->OFFSET = 10;
     this->UP = glm::vec4(0, 1.0f, 0, 0);
     this->FORWARD = glm::vec4(0, 0, -1.0f, 0);
-    this->SHADOW_DISTANCE = 100;
+    this->SHADOW_DISTANCE = 500;
 }
 
 ShadowBox::ShadowBox(glm::mat4 lightViewMat, Camera camera) : ShadowBox() {
@@ -132,6 +132,9 @@ void ShadowBox::calculateWidthsAndHeights() {
     nearWidth = (float) (Utils::NEAR_PLANE * tan(glm::radians(cam.Zoom)));
     farHeight = farWidth / getAspectRatio();
     nearHeight = nearWidth / getAspectRatio();
+//    
+//    cout << farWidth << " " << farHeight << endl;
+//    cout << nearWidth << " " << nearHeight << endl;
 }
 
 float ShadowBox::getAspectRatio() {

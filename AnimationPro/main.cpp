@@ -347,19 +347,10 @@ int main(int argc, const char * argv[]) {
         shadowMapRenderer.prepare(dirLight, myCamera);
         //puss
         shadowMapRenderer.render(pussModel);
-//        glfwGetFramebufferSize(window, &width, &height);
-//        glViewport(0, 0, width, height);
-    
         //man
         shadowMapRenderer.render(manModel);
-//        glfwGetFramebufferSize(window, &width, &height);
-//        glViewport(0, 0, width, height);
-        
         //house
         shadowMapRenderer.render(houseModel);
-//        glfwGetFramebufferSize(window, &width, &height);
-//        glViewport(0, 0, width, height);
-        
 //        tree
         shadowMapRenderer.render(treeModel);
 
@@ -392,13 +383,11 @@ int main(int argc, const char * argv[]) {
         
         //house
         //==============================
-
         houseRender.addLight(pointLight, dirLight);
         houseRender.render(houseModel, myCamera);
         
         //tile
         //==============================
-
         tileRenderer.addLight(pointLight, dirLight);
         tileRenderer.render(tile, myCamera);
         
@@ -467,8 +456,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
     GLfloat offset_x, offset_y;
 //    std::cout << xpos << " " << ypos << std::endl;
-    if (firstMouse)
-    {
+    if (firstMouse) {
         lastX = xpos;
         lastY = ypos;
         firstMouse = false;

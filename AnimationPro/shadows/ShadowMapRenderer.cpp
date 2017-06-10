@@ -40,8 +40,6 @@ void ShadowMapRenderer::render(SkeletalModel model) {
 }
 
 glm::mat4 ShadowMapRenderer::getToShadowMapMatrix() {
-//    cout << offset[0][0] << " " << offset[0][1] << " " << offset[0][2] << " " << offset[0][3] << endl;
-
     return this->offset * this->projectionViewMatrix;
 }
 
