@@ -37,7 +37,7 @@ struct Material {
 };
 uniform Material material;
 
-uniform sampler2D tex;
+uniform sampler2D diffuseMap;
 
 uniform vec3 viewPos;
 
@@ -52,13 +52,13 @@ void main() {
     vec3 viewDir = normalize(viewPos - FragPos);
     
     getDirLight(dirLight, norm, viewDir);
-    for (int i = 0; i < 1; i++)
-        getPointLight(pointLights[i], norm, FragPos, viewDir);
+//    for (int i = 0; i < 1; i++)
+//        getPointLight(pointLights[i], norm, FragPos, viewDir);
     
-    vec4 texColor = texture(tex, TexCoords);
+    vec4 texColor = texture(diffuseMap, TexCoords);
     if (texColor.a < 0.1) discard;
     color = texColor * vec4(ambientSum + diffuseSum, 1.0f) + vec4(specularSum, 1.0f);
-//    color = texColor;
+    color = texColor;
 }
 
 

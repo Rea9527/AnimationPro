@@ -116,8 +116,7 @@ AMesh SkeletalModel::processMesh(aiMesh *mesh, const aiScene *scene) {
         vertices.push_back(vertex);
     }
     //indices
-    for(GLuint i = 0; i < mesh->mNumFaces; i++)
-    {
+    for(GLuint i = 0; i < mesh->mNumFaces; i++) {
         aiFace face = mesh->mFaces[i];
         for(GLuint j = 0; j < face.mNumIndices; j++)
             indices.push_back(face.mIndices[j]);
@@ -367,7 +366,6 @@ vector<AnimatedTexture> SkeletalModel::loadMaterialTextures(aiMaterial *mat, aiT
         if (!skip) {
             AnimatedTexture texture;
             texture.id = Utils::loadTextureFromFile(path.C_Str(), this->directory);
-            cout << texture.id << " " << path.C_Str() << endl;
             texture.type = typeName;
             texture.path = path;
             textures.push_back(texture);

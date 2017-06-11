@@ -10,7 +10,7 @@
 
 
 ShadowBox::ShadowBox() {
-    this->OFFSET = 10;
+    this->OFFSET = 15;
     this->UP = glm::vec4(0, 1.0f, 0, 0);
     this->FORWARD = glm::vec4(0, 0, -1.0f, 0);
     this->SHADOW_DISTANCE = 450;
@@ -110,6 +110,16 @@ vector<glm::vec4> ShadowBox::calculateFrustumVertices(glm::mat4 rotation, glm::v
     points.push_back(calculateLightSpaceFrustumCorner(nearTop, leftVector, nearWidth));
     points.push_back(calculateLightSpaceFrustumCorner(nearBottom, rightVector, nearWidth));
     points.push_back(calculateLightSpaceFrustumCorner(nearBottom, leftVector, nearWidth));
+    
+//    cout << points[0][0] << " " << points[0][1] << " " << points[0][2] << endl;
+//    cout << points[1][0] << " " << points[1][1] << " " << points[1][2] << endl;
+//    cout << points[2][0] << " " << points[2][1] << " " << points[2][2] << endl;
+//    cout << points[3][0] << " " << points[3][1] << " " << points[3][2] << endl;
+//    cout << points[4][0] << " " << points[4][1] << " " << points[4][2] << endl;
+//    cout << points[5][0] << " " << points[5][1] << " " << points[5][2] << endl;
+//    cout << points[6][0] << " " << points[6][1] << " " << points[6][2] << endl;
+//    cout << points[7][0] << " " << points[7][1] << " " << points[7][2] << endl;
+//    cout << endl;
     return points;
 }
 
@@ -132,9 +142,8 @@ void ShadowBox::calculateWidthsAndHeights() {
     nearWidth = (float) (Utils::NEAR_PLANE * tan(glm::radians(cam.Zoom)));
     farHeight = farWidth / getAspectRatio();
     nearHeight = nearWidth / getAspectRatio();
-//    
-//    cout << farWidth << " " << farHeight << endl;
-//    cout << nearWidth << " " << nearHeight << endl;
+    cout << cam.Zoom << endl;
+
 }
 
 float ShadowBox::getAspectRatio() {

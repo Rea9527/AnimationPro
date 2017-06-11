@@ -33,6 +33,7 @@ GLint Utils::loadTextureFromFile(const char* path, string directory) {
     if (!image) {
         cout << "SOIL_LOAD_IMAGE: FILE NOT FOUND" << endl;
     }
+    
     // Assign texture to ID
     glBindTexture(GL_TEXTURE_2D, textureID);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);

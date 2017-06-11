@@ -15,7 +15,7 @@
 #include <sstream>
 
 #include "../animation/Bone.hpp"
-#include "../shaders/Shader.hpp"
+#include "../shaders/ModelShader.hpp"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -33,11 +33,6 @@ using namespace std;
 
 #define NUM_BONES_PER_VEREX 4
 
-#define BONE_POSITION_LOCATION 0
-#define BONE_TEXCOORD_LOCATION 1
-#define BONE_NORMAL_LOCATION 2
-#define BONE_ID_LOCATION 3
-#define BONE_WEIGHT_LOCATION 4
 
 struct BoneVertex {
     glm::vec3 Position;

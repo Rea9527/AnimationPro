@@ -56,7 +56,7 @@ void Mesh::Draw(Shader shader) {
             ss << diffuseNr++;
         number = ss.str();
         
-        glUniform1f(glGetUniformLocation(shader.Program, "tex"), i);
+        glUniform1i(glGetUniformLocation(shader.Program, "tex"), i);
         glBindTexture(GL_TEXTURE_2D, this->Textures[i].id);
     }
     

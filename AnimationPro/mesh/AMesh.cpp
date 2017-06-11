@@ -21,8 +21,6 @@ AMesh::AMesh(vector<BoneVertex> vertices, vector<AnimatedTexture> textures, vect
 }
 
 void AMesh::setUp() {
-    cout << "vertices size: " << this->Vertices.size() << endl;
-    cout << "textures size: " <<  this->Textures.size() << endl;
     
     glGenVertexArrays(1, &this->VAO);
     glGenBuffers(1, &this->VBO);
@@ -36,38 +34,29 @@ void AMesh::setUp() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->Indices.size() * sizeof(GLuint), &this->Indices[0], GL_STATIC_DRAW);
     
-    glEnableVertexAttribArray(BONE_POSITION_LOCATION);
-    glVertexAttribPointer(BONE_POSITION_LOCATION, 3, GL_FLOAT, GL_FALSE, sizeof(BoneVertex), (GLvoid*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(BoneVertex), (GLvoid*)0);
     
-    glEnableVertexAttribArray(BONE_NORMAL_LOCATION);
-    glVertexAttribPointer(BONE_NORMAL_LOCATION, 3, GL_FLOAT, GL_FALSE, sizeof(BoneVertex), (GLvoid*)offsetof(BoneVertex, Normal));
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(BoneVertex), (GLvoid*)offsetof(BoneVertex, Normal));
     
-    glEnableVertexAttribArray(BONE_TEXCOORD_LOCATION);
-    glVertexAttribPointer(BONE_TEXCOORD_LOCATION, 2, GL_FLOAT, GL_FALSE, sizeof(BoneVertex), (GLvoid*)offsetof(BoneVertex, TexCoords));
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(BoneVertex), (GLvoid*)offsetof(BoneVertex, TexCoords));
     
-    glEnableVertexAttribArray(BONE_ID_LOCATION);
-    glVertexAttribIPointer(BONE_ID_LOCATION, 4, GL_INT, sizeof(BoneVertex), (GLvoid*)offsetof(BoneVertex, IDs));
+    glEnableVertexAttribArray(3);
+    glVertexAttribIPointer(3, 4, GL_INT, sizeof(BoneVertex), (GLvoid*)offsetof(BoneVertex, IDs));
     
-    glEnableVertexAttribArray(BONE_WEIGHT_LOCATION);
-    glVertexAttribPointer(BONE_WEIGHT_LOCATION, 4, GL_FLOAT, GL_FALSE, sizeof(BoneVertex), (GLvoid*)offsetof(BoneVertex, Weights));
-    
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(BoneVertex), (GLvoid*)offsetof(BoneVertex, Weights));
     glBindVertexArray(0);
 }
 
 void AMesh::Draw(Shader shader, Skeleton skeleton) {
-    GLuint diffuseNr = 1;
     
     for (GLuint i = 0; i < this->Textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
         
-        stringstream ss;
-        string number;
-        string name = this->Textures[i].type;
-        if (name == "texture_diffuse")
-            ss << diffuseNr++;
-        number = ss.str();
-        
-        glUniform1f(glGetUniformLocation(shader.Program, "tex"), i);
+        glUniform1i(glGetUniformLocation(shader.Program, "diffuseMap"), i);
         glBindTexture(GL_TEXTURE_2D, this->Textures[i].id);
     }
     
