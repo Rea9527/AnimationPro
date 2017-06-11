@@ -107,7 +107,7 @@ AMesh SkeletalModel::processMesh(aiMesh *mesh, const aiScene *scene) {
         if(mesh->mTextureCoords[0]) {
             glm::vec2 vec;
             vec.x = mesh->mTextureCoords[0][i].x;
-            vec.y = 1 - mesh->mTextureCoords[0][i].y;
+            vec.y = mesh->mTextureCoords[0][i].y;
             vertex.TexCoords = vec;
         }
         else

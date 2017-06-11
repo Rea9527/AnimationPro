@@ -15,7 +15,7 @@ Camera::Camera() {
     this->initUp = glm::vec3(0.0f, 1.0f, 0.0f);
     this->Yaw = 0.0f;
     this->Pitch = 0.0f;
-    this->Speed = 40.0f;
+    this->Speed = 400.0f;
     this->Sensitivity = 0.25f;
     this->Zoom = 45.0f;
     this->updateCameraPos();

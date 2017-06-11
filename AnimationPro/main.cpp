@@ -179,9 +179,9 @@ int main(int argc, const char * argv[]) {
     //terrain
     root = "assets/terrain/";
     TerrainTexture bgTexture = TerrainTexture(loader.loadTexture(root+"grass.png"));
-    TerrainTexture rTexture = TerrainTexture(loader.loadTexture(root+"mud.png"));
+    TerrainTexture rTexture = TerrainTexture(loader.loadTexture(root+"grass.png"));
     TerrainTexture gTexture = TerrainTexture(loader.loadTexture(root+"flowers.png"));
-    TerrainTexture bTexture = TerrainTexture(loader.loadTexture(root+"path.png"));
+    TerrainTexture bTexture = TerrainTexture(loader.loadTexture(root+"grass.png"));
     
     TerrainTexturePack texturePack = TerrainTexturePack(bgTexture, rTexture, gTexture, bTexture);
     TerrainTexture blendMap = TerrainTexture(loader.loadTexture(root+"blendMap.png"));
