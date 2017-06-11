@@ -9,7 +9,7 @@
 #include "ShadowMapRenderer.hpp"
 
 ShadowMapRenderer::ShadowMapRenderer() {
-    this->SHADOW_MAP_SIZE = 2048;
+    this->SHADOW_MAP_SIZE = 4096;
     
     this->projectionMatrix = glm::mat4(1.0f);
     this->projectionViewMatrix = glm::mat4(1.0f);
@@ -21,22 +21,32 @@ ShadowMapRenderer::ShadowMapRenderer() {
 ShadowMapRenderer::ShadowMapRenderer(Camera camera) : ShadowMapRenderer() {
     
     this->shader = ShadowShader("shadows/shadow.vs", "shadows/shadow.frag");
+    this->skeletalShader = ShadowShader("shadows/skeletalShadow.vs", "shadows/skeletalShadow.frag");
     this->shadowBox = ShadowBox(this->lightViewMatrix, camera);
     this->shadowFBO = ShadowFrameBuffer(this->SHADOW_MAP_SIZE, this->SHADOW_MAP_SIZE);
 }
 
 void ShadowMapRenderer::render(ObjModel model) {
     
-    this->loadMvp(model.modelMatrix);
+    this->shader.Use();
+    this->shader.getAllUniformLocations();
+    
+    this->loadMvp(this->shader, model.modelMatrix);
     model.Draw(this->shader);
-//    this->finish();
-//    this->shader.Stop();
+    
+    this->shader.Stop();
+
 }
 
 void ShadowMapRenderer::render(SkeletalModel model) {
-    this->loadMvp(model.modelMatrix);
+    this->skeletalShader.Use();
+    this->skeletalShader.getAllUniformLocations();
+    
+    this->loadMvp(this->skeletalShader, model.modelMatrix);
     if (model.isAnimated) model.isAnimated = false;
-    model.Draw(this->shader);
+    model.Draw(this->skeletalShader);
+    
+    this->skeletalShader.Stop();
 }
 
 glm::mat4 ShadowMapRenderer::getToShadowMapMatrix() {
@@ -66,18 +76,15 @@ void ShadowMapRenderer::prepare(DirectionalLight light, Camera camera) {
 ////    glEnable(GL_DEPTH_TEST);
     glClear(GL_DEPTH_BUFFER_BIT);
     
-    this->shader.Use();
-    this->shader.getAllUniformLocations();
     
 }
 
-void ShadowMapRenderer::loadMvp(glm::mat4 modelMatrix) {
+void ShadowMapRenderer::loadMvp(ShadowShader shader, glm::mat4 modelMatrix) {
     glm::mat4 mvp = this->projectionViewMatrix * modelMatrix;
-    this->shader.loadMVP(mvp);
+    shader.loadMVP(mvp);
 }
 
 void ShadowMapRenderer::finish() {
-    this->shader.Stop();
     this->shadowFBO.unbindFrameBuffer();
 }
 

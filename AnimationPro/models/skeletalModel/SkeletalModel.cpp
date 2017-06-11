@@ -317,6 +317,10 @@ void SkeletalModel::updateSkeleton() {
     this->Meshes[0].sceneLoaderSkeleton.update();
 }
 
+Skeleton SkeletalModel::getSkeleton() {
+    return this->skeleton;
+}
+
 //animation
 void SkeletalModel::addAnimation(Animation& in_anim) {
     this->animations.push_back(in_anim);

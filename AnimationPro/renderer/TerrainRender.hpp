@@ -34,7 +34,7 @@ private:
     TerrainShader shader;
     
     void prepareTerrain(Terrain terrain, GLuint shadowMap);
-    void loadModelMat(Terrain terrain);
+    void loadModelMat(Terrain terrain, glm::mat4 viewMat);
     void bindTexture(Terrain terrain, GLuint shadowMap);
     void unbindTextureModel();
 };

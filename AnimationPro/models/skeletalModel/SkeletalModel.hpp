@@ -38,6 +38,8 @@ public:
     void playAnimation(Animation& anim, bool loop = false, bool reset_to_start = false);
     void stopAnimating();
     
+    Skeleton getSkeleton();
+    
     bool isAnimated;
     
     // transformation

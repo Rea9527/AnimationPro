@@ -45,6 +45,7 @@ Skeleton::~Skeleton() {
 
 void Skeleton::init(vector<Bone> bones, glm::mat4 globalInvTransform) {
     this->bones = bones;
+    this->boneMats.push_back(glm::mat4());
     
     this->globalInverseTransform = globalInvTransform;
     

@@ -50,10 +50,10 @@ void updateMovement();
 GLfloat WIN_WIDTH = 720, WIN_HEIGHT = 720;
 
 glm::vec3 dirLightAttrib[] {
-    glm::vec3(1.0f, 1.0f, 1.0f),//ambient
+    glm::vec3(0.8f, 0.8f, 0.8f),//ambient
     glm::vec3(0.8f, 0.8f, 0.8f),//diffuse
     glm::vec3(0.1f, 0.1f, 0.1f),//specular
-    glm::vec3(0.0f, -200.0f, 500.0f)//direction
+    glm::vec3(0.0f, -400.0f, 500.0f)//direction
 };
 
 glm::vec3 pointLightAttrib[] {

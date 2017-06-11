@@ -57,10 +57,11 @@ private:
     glm::mat4 createOffset();
     
     
-    void loadMvp(glm::mat4 modelMatrix);
+    void loadMvp(ShadowShader shader, glm::mat4 modelMatrix);
     
     
     ShadowShader shader;
+    ShadowShader skeletalShader;
     ShadowFrameBuffer shadowFBO;
     ShadowBox shadowBox;
     

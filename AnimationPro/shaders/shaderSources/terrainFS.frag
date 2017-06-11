@@ -34,11 +34,10 @@ void main() {
     
     vec4 shadow = texture(shadowMap, ShadowCoords.xy);
     
-    vec3 projCoords = ShadowCoords.xyz / ShadowCoords.w;
-    float objNearestLight = texture(shadowMap, projCoords.xy).r;
+    float objNearestLight = texture(shadowMap, ShadowCoords.xy).r;
     float lightFactor = 1.0f;
-    if (projCoords.z > objNearestLight) {
-        lightFactor = 0;
+    if (ShadowCoords.z > objNearestLight) {
+        lightFactor = 1.0f - (ShadowCoords.w * 0.4f);
     }
     
     
@@ -69,7 +68,7 @@ void main() {
     vec3 specular = dirLight.specular * spec;
     
     
-    color = totalColor * (vec4(diffuse, 1.0f) + vec4(dirLight.ambient, 1.0f)) + vec4(specular, 1.0f);
+    color = totalColor * (vec4(diffuse, 1.0f) + vec4(dirLight.ambient * lightFactor, 1.0f)) + vec4(specular, 1.0f);
 //    color = vec4(vec3(objNearestLight), 1.0f);
 //    color = shadow;
     

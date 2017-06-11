@@ -27,7 +27,7 @@ void TerrainRender::render(vector<Terrain> terrains, glm::mat4 projectionView, g
     this->shader.loadViewPos(camera.getPos().x, camera.getPos().y, camera.getPos().z);
     this->shader.loadProjectionViewMatrix(projectionView);
     for (Terrain terrain : terrains) {
-        loadModelMat(terrain);
+        loadModelMat(terrain, camera.getViewMat());
         prepareTerrain(terrain, shadowMap);
         glDrawElements(GL_TRIANGLES, terrain.getModel().getVertexCount(), GL_UNSIGNED_INT, 0);
         unbindTextureModel();
@@ -84,10 +84,11 @@ void TerrainRender::unbindTextureModel() {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void TerrainRender::loadModelMat(Terrain terrain) {
+void TerrainRender::loadModelMat(Terrain terrain, glm::mat4 viewMat) {
     glm::mat4 model;
     model = glm::translate(model, glm::vec3(0, -0.3f, 0));
-    shader.loadModelMat(model);
+    this->shader.loadModelMat(model);
+    this->shader.loadModelViewMatrix(viewMat * model);
 }
 
 

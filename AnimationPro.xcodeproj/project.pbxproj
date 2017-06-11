@@ -80,6 +80,8 @@
 		A33D0FCD1EE6D2F600FF3E55 /* ShadowMapRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = ShadowMapRenderer.hpp; path = shadows/ShadowMapRenderer.hpp; sourceTree = "<group>"; };
 		A33D0FD01EE6D4A300FF3E55 /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Entity.cpp; path = entities/Entity.cpp; sourceTree = "<group>"; };
 		A33D0FD11EE6D4A300FF3E55 /* Entity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Entity.hpp; path = entities/Entity.hpp; sourceTree = "<group>"; };
+		A33D0FD31EECE45200FF3E55 /* skeletalShadow.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = skeletalShadow.vs; path = shadows/skeletalShadow.vs; sourceTree = "<group>"; };
+		A33D0FD41EECE46300FF3E55 /* skeletalShadow.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = skeletalShadow.frag; path = shadows/skeletalShadow.frag; sourceTree = "<group>"; };
 		A347746A1EA5AB1B00B136CF /* AnimationPro */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AnimationPro; sourceTree = BUILT_PRODUCTS_DIR; };
 		A347746D1EA5AB1B00B136CF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A34774751EA5AB4600B136CF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -199,6 +201,8 @@
 				A33D0FCA1EE6ADFD00FF3E55 /* ShadowBox.hpp */,
 				A33D0FCC1EE6D2F600FF3E55 /* ShadowMapRenderer.cpp */,
 				A33D0FCD1EE6D2F600FF3E55 /* ShadowMapRenderer.hpp */,
+				A33D0FD31EECE45200FF3E55 /* skeletalShadow.vs */,
+				A33D0FD41EECE46300FF3E55 /* skeletalShadow.frag */,
 			);
 			name = shadows;
 			sourceTree = "<group>";

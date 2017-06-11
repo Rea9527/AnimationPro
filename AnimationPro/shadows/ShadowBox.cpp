@@ -13,7 +13,7 @@ ShadowBox::ShadowBox() {
     this->OFFSET = 10;
     this->UP = glm::vec4(0, 1.0f, 0, 0);
     this->FORWARD = glm::vec4(0, 0, -1.0f, 0);
-    this->SHADOW_DISTANCE = 500;
+    this->SHADOW_DISTANCE = 450;
 }
 
 ShadowBox::ShadowBox(glm::mat4 lightViewMat, Camera camera) : ShadowBox() {

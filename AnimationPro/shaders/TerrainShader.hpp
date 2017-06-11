@@ -31,6 +31,7 @@ public:
     void getAllUniformLocations();
     
     void loadModelMat(glm::mat4 model);
+    void loadModelViewMatrix(glm::mat4 modelViewMat);
     void loadProjectionViewMatrix(glm::mat4 projectionViewMat);
     
 private:
@@ -49,6 +50,7 @@ private:
     GLuint shadowMapLoc;
     
     GLuint modelLoc;
+    GLuint modelViewLoc;
     GLuint projectionViewLoc;
 };
 

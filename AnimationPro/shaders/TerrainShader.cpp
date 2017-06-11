@@ -21,6 +21,7 @@ void TerrainShader::loadViewPos(GLfloat x, GLfloat y, GLfloat z) {
 
 void TerrainShader::getAllUniformLocations() {
     this->modelLoc = this->getUniformLocation("model");
+    this->modelViewLoc = this->getUniformLocation("modelView");
     this->projectionViewLoc = this->getUniformLocation("projectionView");
     this->bgTextureLoc = this->getUniformLocation("bgTexture");
     this->rTextureLoc = this->getUniformLocation("rTexture");
@@ -64,6 +65,10 @@ void TerrainShader::loadModelMat(glm::mat4 model) {
 
 void TerrainShader::loadProjectionViewMatrix(glm::mat4 projectionViewMat) {
     this->setMat4(this->projectionViewLoc, projectionViewMat);
+}
+
+void TerrainShader::loadModelViewMatrix(glm::mat4 modelViewMat) {
+    this->setMat4(this->modelViewLoc, modelViewMat);
 }
 
 
