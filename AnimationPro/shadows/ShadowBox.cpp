@@ -142,7 +142,6 @@ void ShadowBox::calculateWidthsAndHeights() {
     nearWidth = (float) (Utils::NEAR_PLANE * tan(glm::radians(cam.Zoom)));
     farHeight = farWidth / getAspectRatio();
     nearHeight = nearWidth / getAspectRatio();
-    cout << cam.Zoom << endl;
 
 }
 

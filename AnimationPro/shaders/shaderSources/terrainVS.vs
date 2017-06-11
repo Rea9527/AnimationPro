@@ -21,17 +21,10 @@ void main() {
     vec4 worldPosition = model * vec4(position, 1.0);
     gl_Position = projectionView * worldPosition;
     
-    ShadowCoords = toShadowMapSpace * vec4(vec3(worldPosition), 1.0f);
-    
     TexCoords = texCoord;
     Normal = mat3(transpose(inverse(model))) * normal;
     FragPos = vec3(model * vec4(position, 1.0));
-    
-    vec4 positionRelativeToCam = modelView * vec4(position, 1.0);
-    float dist = length(positionRelativeToCam.xyz);
-    dist = dist - (shadowDistance - transitionDistance);
-    dist = dist / transitionDistance;
-    ShadowCoords.w = clamp(1.0f - dist, 0.0, 1.0f);
+    ShadowCoords = toShadowMapSpace * vec4(FragPos, 1.0f);
 }
 
 

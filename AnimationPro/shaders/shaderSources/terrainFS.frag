@@ -30,16 +30,36 @@ uniform sampler2D blendMap;
 uniform sampler2D shadowMap;
 
 
-void main() {
-    
-    vec4 shadow = texture(shadowMap, ShadowCoords.xy);
-    
-    float objNearestLight = texture(shadowMap, ShadowCoords.xy).r;
-    float lightFactor = 1.0f;
-    if (ShadowCoords.z > objNearestLight) {
-        lightFactor = 1.0f - (ShadowCoords.w * 0.4f);
+float ShadowCalculation() {
+    // perform perspective divide
+    vec3 projCoords = ShadowCoords.xyz / ShadowCoords.w;
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(shadowMap, projCoords.xy).r;
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // calculate bias (based on depth map resolution and slope)
+    vec3 normal = normalize(Normal);
+    vec3 lightDir = normalize(dirLight.direction);
+    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);
+    // PCF
+    float shadow = 0.0;
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    for(int x = -1; x <= 1; ++x) {
+        for(int y = -1; y <= 1; ++y) {
+            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;
+            shadow += currentDepth > pcfDepth  ? 1.0 : 0.0;
+        }
     }
+    shadow /= 9.0;
     
+    // keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
+    if(projCoords.z > 1.0)
+        shadow = 0.0;
+    
+    return 1 - shadow;
+}
+
+void main() {
     
     vec4 blendMapColor = texture(blendMap, TexCoords);
     
@@ -52,6 +72,9 @@ void main() {
     
     vec4 totalColor = bgTextureColor + rTextureColor + gTextureColor + bTextureColor;
 //    color = totalColor;
+        
+    //get shadow
+    float lightFactor = ShadowCalculation();
     
     // Properties
     vec3 norm = normalize(Normal);
@@ -64,13 +87,11 @@ void main() {
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
     // Combine results
-    vec3 diffuse  = dirLight.diffuse  * diff * lightFactor;
+    vec3 diffuse  = dirLight.diffuse  * diff;
     vec3 specular = dirLight.specular * spec;
     
     
-    color = totalColor * (vec4(diffuse, 1.0f) + vec4(dirLight.ambient * lightFactor, 1.0f)) + vec4(specular, 1.0f);
-//    color = vec4(vec3(objNearestLight), 1.0f);
-//    color = shadow;
+    color = totalColor * ((vec4(diffuse, 1.0f) + vec4(specular, 1.0f)) * lightFactor + vec4(dirLight.ambient, 1.0f)) ;
     
     
 }
