@@ -33,6 +33,7 @@
 #include "renderer/cubeRender.hpp"
 #include "renderer/RectangleRender.hpp"
 #include "shadows/ShadowMapRenderer.hpp"
+#include "renderer/TileRenderer.hpp"
 
 
 #include "loader/Loader.hpp"
@@ -129,6 +130,7 @@ int main(int argc, const char * argv[]) {
     StaticShader skyboxShader( root+"skyboxVS.vs", root+"skyboxFS.frag" );
     TerrainShader terrainShader( root+"terrainVS.vs", root+"terrainFS.frag" );
     StaticShader staticShader( root+"emptyVS.vs", root+"emptyFS.frag" );
+    TileShader tileShader( root+"tileVS.vs", root+"tileFS.frag" );
     
     //house
     ObjModel houseModel("assets/oldhouse/oldhouse/oldhouse.obj");
@@ -164,7 +166,7 @@ int main(int argc, const char * argv[]) {
     //tile
     RectangleModel tile;
     tile.load("assets/tile/1.jpg");
-    RectangleRender tileRenderer(modelShader);
+    TileRenderer tileRenderer(tileShader);
     
     //trees
     ObjModel treeModel("assets/trees/1/file.obj");
@@ -232,6 +234,7 @@ int main(int argc, const char * argv[]) {
         
         updateMovement();
         
+        GLfloat x, y, z;
         glm::mat4 model, view, projection, mvp, projectionViewMatirx, skyboxProjectionViewMat;
         GLfloat angle;
         view = myCamera.getViewMat();
@@ -245,8 +248,21 @@ int main(int argc, const char * argv[]) {
         terrainRender.addDirLight(dirLight);
         terrainRender.render(terrains, projectionViewMatirx, shadowMapRenderer.getToShadowMapMatrix(), shadowMapRenderer.getShadowMap(), myCamera);
         
+        //tile
+        //==============================
+        //tile
+        model = glm::mat4();
+        x = 864.5f, z = 644.8f;
+        y = terrain1.getHeightOfTerrain(x, z) + 0.05f;
+        model = glm::translate(model, glm::vec3(x, y, z));
+        model = glm::scale(model, glm::vec3(14.0f, 1.0f, 25.0f));
+        tile.modelMatrix = model;
+        tile.projectionViewMatrix = projectionViewMatirx;
+        tileRenderer.addDirLight(dirLight);
+        tileRenderer.render(tile, shadowMapRenderer.getToShadowMapMatrix(), shadowMapRenderer.getShadowMap(), myCamera);
         
-        GLfloat x, y, z;
+        
+
         //prepare model
         //====================================================================================
         //====================================================================================
@@ -289,14 +305,7 @@ int main(int argc, const char * argv[]) {
         houseModel.modelMatrix = model;
         houseModel.projectionViewMatrix = projectionViewMatirx;
         
-        //tile
-        model = glm::mat4();
-        x = 864.5f, z = 644.8f;
-        y = terrain1.getHeightOfTerrain(x, z) + 0.05f;
-        model = glm::translate(model, glm::vec3(x, y, z));
-        model = glm::scale(model, glm::vec3(14.0f, 1.0f, 25.0f));
-        tile.modelMatrix = model;
-        tile.projectionViewMatrix = projectionViewMatirx;
+        
         
         //radio
         model = glm::mat4();
@@ -356,6 +365,8 @@ int main(int argc, const char * argv[]) {
         shadowMapRenderer.render(houseModel);
 //        tree
         shadowMapRenderer.render(treeModel);
+        //chair
+        shadowMapRenderer.render(chairModel);
 
         shadowMapRenderer.finish();
         glfwGetFramebufferSize(window, &width, &height);
@@ -388,11 +399,6 @@ int main(int argc, const char * argv[]) {
         //==============================
         houseRender.addLight(pointLight, dirLight);
         houseRender.render(houseModel, myCamera);
-        
-        //tile
-        //==============================
-        tileRenderer.addLight(pointLight, dirLight);
-        tileRenderer.render(tile, myCamera);
         
         //radio
         //==============================

@@ -12,6 +12,8 @@
 		A33D0FCB1EE6ADFD00FF3E55 /* ShadowBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A33D0FC91EE6ADFD00FF3E55 /* ShadowBox.cpp */; };
 		A33D0FCE1EE6D2F600FF3E55 /* ShadowMapRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A33D0FCC1EE6D2F600FF3E55 /* ShadowMapRenderer.cpp */; };
 		A33D0FD21EE6D4A300FF3E55 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A33D0FD01EE6D4A300FF3E55 /* Entity.cpp */; };
+		A34593F71EEDBD2800D0F5DA /* TileRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A34593F51EEDBD2800D0F5DA /* TileRenderer.cpp */; };
+		A34593FA1EEDBF4A00D0F5DA /* TileShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A34593F81EEDBF4A00D0F5DA /* TileShader.cpp */; };
 		A347746E1EA5AB1B00B136CF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A347746D1EA5AB1B00B136CF /* main.cpp */; };
 		A34774791EA5AB4600B136CF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A34774751EA5AB4600B136CF /* Cocoa.framework */; };
 		A347747A1EA5AB4600B136CF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A34774761EA5AB4600B136CF /* CoreVideo.framework */; };
@@ -82,6 +84,10 @@
 		A33D0FD11EE6D4A300FF3E55 /* Entity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Entity.hpp; path = entities/Entity.hpp; sourceTree = "<group>"; };
 		A33D0FD31EECE45200FF3E55 /* skeletalShadow.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = skeletalShadow.vs; path = shadows/skeletalShadow.vs; sourceTree = "<group>"; };
 		A33D0FD41EECE46300FF3E55 /* skeletalShadow.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = skeletalShadow.frag; path = shadows/skeletalShadow.frag; sourceTree = "<group>"; };
+		A34593F51EEDBD2800D0F5DA /* TileRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileRenderer.cpp; path = renderer/TileRenderer.cpp; sourceTree = "<group>"; };
+		A34593F61EEDBD2800D0F5DA /* TileRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TileRenderer.hpp; path = renderer/TileRenderer.hpp; sourceTree = "<group>"; };
+		A34593F81EEDBF4A00D0F5DA /* TileShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileShader.cpp; path = shaders/TileShader.cpp; sourceTree = "<group>"; };
+		A34593F91EEDBF4A00D0F5DA /* TileShader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = TileShader.hpp; path = shaders/TileShader.hpp; sourceTree = "<group>"; };
 		A347746A1EA5AB1B00B136CF /* AnimationPro */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AnimationPro; sourceTree = BUILT_PRODUCTS_DIR; };
 		A347746D1EA5AB1B00B136CF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A34774751EA5AB4600B136CF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -284,6 +290,8 @@
 				A34D8D8E1EC569E300E08486 /* StaticShader.hpp */,
 				A34D8D8F1EC569E300E08486 /* TerrainShader.cpp */,
 				A34D8D901EC569E300E08486 /* TerrainShader.hpp */,
+				A34593F81EEDBF4A00D0F5DA /* TileShader.cpp */,
+				A34593F91EEDBF4A00D0F5DA /* TileShader.hpp */,
 			);
 			name = shaders;
 			sourceTree = "<group>";
@@ -376,6 +384,8 @@
 				A3E66A631ED6695A00FCA639 /* cubeRender.hpp */,
 				A3B96C7E1EE1249A003C0DE3 /* RectangleRender.cpp */,
 				A3B96C7F1EE1249A003C0DE3 /* RectangleRender.hpp */,
+				A34593F51EEDBD2800D0F5DA /* TileRenderer.cpp */,
+				A34593F61EEDBD2800D0F5DA /* TileRenderer.hpp */,
 			);
 			name = render;
 			sourceTree = "<group>";
@@ -483,6 +493,7 @@
 				A34D8D591EC568E000E08486 /* Mesh.cpp in Sources */,
 				A34D8D871EC569CF00E08486 /* TextureModel.cpp in Sources */,
 				A3E66A671ED712BE00FCA639 /* PolygonModel.cpp in Sources */,
+				A34593F71EEDBD2800D0F5DA /* TileRenderer.cpp in Sources */,
 				A34D8D851EC569CF00E08486 /* ObjModel.cpp in Sources */,
 				A39A754A1ECB3A2900AC9486 /* AMesh.cpp in Sources */,
 				A34D8D651EC5694E00E08486 /* SkyboxRender.cpp in Sources */,
@@ -500,6 +511,7 @@
 				A33D0FCE1EE6D2F600FF3E55 /* ShadowMapRenderer.cpp in Sources */,
 				A34D8D7E1EC569BC00E08486 /* TerrainTexturePack.cpp in Sources */,
 				A34D8D931EC569E300E08486 /* StaticShader.cpp in Sources */,
+				A34593FA1EEDBF4A00D0F5DA /* TileShader.cpp in Sources */,
 				A34D8D7C1EC569BC00E08486 /* ModelTexture.cpp in Sources */,
 				A34D8D971EC569F200E08486 /* Terrain.cpp in Sources */,
 				A347746E1EA5AB1B00B136CF /* main.cpp in Sources */,

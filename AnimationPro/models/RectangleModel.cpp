@@ -32,7 +32,6 @@ void RectangleModel::load(string path) {
 }
 
 void RectangleModel::draw() {
-    glBindTexture(GL_TEXTURE_2D, this->texture.getId());
     
     glBindVertexArray(this->model.getVAO());
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
