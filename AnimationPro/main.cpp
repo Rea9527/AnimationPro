@@ -110,7 +110,6 @@ int main(int argc, const char * argv[]) {
     // set viewport
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
-    cout << width << " " << height << endl;
     glViewport(0, 0, width, height);
     //===============================
     glEnable(GL_DEPTH_TEST);
@@ -250,7 +249,6 @@ int main(int argc, const char * argv[]) {
         
         //tile
         //==============================
-        //tile
         model = glm::mat4();
         x = 864.5f, z = 644.8f;
         y = terrain1.getHeightOfTerrain(x, z) + 0.05f;
@@ -280,8 +278,9 @@ int main(int argc, const char * argv[]) {
         //man
         model = glm::mat4();
         x = 880.0f, z = 650.0f;
-        y = terrain1.getHeightOfTerrain(x, z);
-        model = glm::translate(model, glm::vec3(x, y, z));
+        y = terrain1.getHeightOfTerrain(x, z) + 1.2f;
+        float dis = fmod((float)glfwGetTime(), 100.0f);
+        model = glm::translate(model, glm::vec3(x + dis, y, z));
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::scale(model, glm::vec3(1, 1, 1));
         manModel.modelMatrix = model;
@@ -383,8 +382,8 @@ int main(int argc, const char * argv[]) {
         
         //puss
         //==============================
-        pussRender.addLight(pointLight, dirLight);
-        pussRender.render(pussModel, myCamera);
+//        pussRender.addLight(pointLight, dirLight);
+//        pussRender.render(pussModel, myCamera);
         
         //man
         //==============================
@@ -393,7 +392,7 @@ int main(int argc, const char * argv[]) {
         
         //mask cube
         //==============================
-        cubeRender.render(cube);
+//        cubeRender.render(cube);
         
         //house
         //==============================

@@ -24,7 +24,7 @@ ShadowBox::ShadowBox(glm::mat4 lightViewMat, Camera camera) : ShadowBox() {
 }
 
 void ShadowBox::update(Camera cam) {
-    this->cam = cam;
+//    this->cam = cam;
     glm::mat4 rotation = calculateCameraRotationMatrix();
     glm::vec3 forwardVector = glm::vec3(rotation * this->FORWARD);
     
