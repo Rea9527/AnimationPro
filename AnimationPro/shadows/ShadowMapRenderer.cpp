@@ -62,6 +62,7 @@ void ShadowMapRenderer::renderInstance(ObjModel model, int count) {
     
 }
 
+// get the matrix: map object's pos to shadow map coordinate 
 glm::mat4 ShadowMapRenderer::getToShadowMapMatrix() {
     return this->offset * this->projectionViewMatrix;
 }
