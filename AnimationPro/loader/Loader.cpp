@@ -87,6 +87,16 @@ GLuint Loader::loadTexture(string path) {
     return textureId;
 }
 
+GLuint Loader::loadInstance(glm::vec3 *translations, int count) {
+    GLuint instanceVBO;
+    glGenBuffers(1, &instanceVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * count, translations, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    return instanceVBO;
+}
+
 GLuint Loader::createVAO() {
     GLuint vaoID;
     glGenVertexArrays(1, &vaoID);

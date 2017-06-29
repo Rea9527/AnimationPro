@@ -24,14 +24,13 @@ void ModelRender::render(ObjModel objModel, Camera camera) {
     this->Shader.Stop();
 }
 
-void ModelRender::renderMultiple(ObjModel objModel, Camera camera) {
+void ModelRender::renderInstance(ObjModel objModel, int count, Camera camera) {
     
     this->prepare();
     this->Shader.loadViewPos(camera.Pos.x, camera.Pos.y, camera.Pos.z);
     this->Shader.loadProjectionViewMatrix(objModel.projectionViewMatrix);
-    this->Shader.loadModelMat(objModel.modelMatrix);
     
-    objModel.Draw(this->Shader);
+    objModel.DrawInstance(this->Shader, count);
     this->Shader.Stop();
 }
 

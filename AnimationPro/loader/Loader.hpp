@@ -20,6 +20,11 @@
 
 #include "../models/RawModel.hpp"
 
+//glm
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 using namespace std;
 
 class Loader {
@@ -33,6 +38,8 @@ public:
     RawModel loadPosToVAO(GLfloat vertices[], GLsizei size, GLsizei count);
 
     GLuint loadTexture(string path);
+    GLuint loadInstance(glm::vec3 translations[], int count);
+    
     void setAttribPointer(GLuint index, GLuint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid *pointer);
     // bind EBO
     void createEBO(GLuint indices[], GLsizei size);

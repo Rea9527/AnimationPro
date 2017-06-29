@@ -36,6 +36,7 @@ public:
     ShadowMapRenderer(Camera camera);
     
     void render(ObjModel model);
+    void renderInstance(ObjModel model, int count);
     void render(SkeletalModel model);
     void render(PolygonModel model);
     
@@ -63,6 +64,7 @@ private:
     
     ShadowShader shader;
     ShadowShader skeletalShader;
+    ShadowShader instanceShader;
     ShadowFrameBuffer shadowFBO;
     ShadowBox shadowBox;
     

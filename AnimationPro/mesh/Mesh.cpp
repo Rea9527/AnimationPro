@@ -40,10 +40,57 @@ void Mesh::setUp() {
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, TexCoords));
     
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+}
+
+void Mesh::loadInstance(glm::mat4 *modelMatrixs, int count) {
+    GLuint instanceBuf;
+    glGenBuffers(1, &instanceBuf);
+    glBindBuffer(GL_ARRAY_BUFFER, instanceBuf);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * count, modelMatrixs, GL_STATIC_DRAW);
+
+    glBindVertexArray(this->VAO);
+    GLsizei vec4Size = sizeof(glm::vec4);
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)0);
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(vec4Size));
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(2 * vec4Size));
+    glEnableVertexAttribArray(6);
+    glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(3 * vec4Size));
+    
+    glVertexAttribDivisor(3, 1);
+    glVertexAttribDivisor(4, 1);
+    glVertexAttribDivisor(5, 1);
+    glVertexAttribDivisor(6, 1);
+    
     glBindVertexArray(0);
 }
 
 void Mesh::Draw(Shader shader) {
+    this->prepare(shader);
+    
+    glBindVertexArray(this->VAO);
+    glDrawElements(GL_TRIANGLES, GLsizei(this->Indices.size()), GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+    
+    this->finish();
+}
+
+void Mesh::DrawInstance(Shader shader, int count) {
+    this->prepare(shader);
+    
+    glBindVertexArray(this->VAO);
+    glDrawElementsInstanced(GL_TRIANGLES, GLsizei(this->Indices.size()), GL_UNSIGNED_INT, 0, count);
+//    glDrawElements(GL_TRIANGLES, GLsizei(this->Indices.size()), GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+    
+    this->finish();
+}
+
+void Mesh::prepare(Shader shader) {
     GLuint diffuseNr = 1;
     
     for (GLuint i = 0; i < this->Textures.size(); i++) {
@@ -66,13 +113,10 @@ void Mesh::Draw(Shader shader) {
     glUniform3fv(glGetUniformLocation(shader.Program, "material.specular"), 1, glm::value_ptr(this->Materials[0].specular));
     
     glUniform1f(glGetUniformLocation(shader.Program, "material.shininess"), 32.0f);
-    
-    glBindVertexArray(this->VAO);
-    glDrawElements(GL_TRIANGLES, GLsizei(this->Indices.size()), GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
-    
-    for (GLuint i = 0; i < this->Textures.size(); i++)
-    {
+}
+
+void Mesh::finish() {
+    for (GLuint i = 0; i < this->Textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
         glBindTexture(GL_TEXTURE_2D, 0);
     }

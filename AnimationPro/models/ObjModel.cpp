@@ -21,6 +21,18 @@ void ObjModel::Draw(Shader shader) {
     }
 }
 
+void ObjModel::DrawInstance(Shader shader, int count) {
+    for (GLuint i = 0; i < this->Meshes.size(); i++) {
+        this->Meshes[i].DrawInstance(shader, count);
+    }
+}
+
+
+void ObjModel::loadInstanceTranslation(glm::mat4 *modelMatrixs, int count) {
+    for (GLuint i = 0; i < this->Meshes.size(); i++) {
+        this->Meshes[i].loadInstance(modelMatrixs, count);
+    }
+}
 
 void ObjModel::loadModel(string path) {
     Assimp::Importer importor;

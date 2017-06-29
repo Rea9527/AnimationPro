@@ -27,6 +27,9 @@ public:
     ObjModel(GLchar* path);
     
     void Draw(Shader shader);
+    void DrawInstance(Shader shader, int count);
+    
+    void loadInstanceTranslation(glm::mat4 modelMatrixs[], int count);
     
     int getVerticesSize();
     // transformation

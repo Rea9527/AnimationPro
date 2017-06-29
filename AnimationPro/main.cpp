@@ -125,6 +125,7 @@ int main(int argc, const char * argv[]) {
     //build shader program
     ModelShader modelShader( root+"modelVS.vs", root+"modelFS.frag" );
     ModelShader manShader ( root+"skeletalModelVS.vs", root+"skeletalModelFS.frag" );
+    ModelShader instanceShader( root+"instanceModel.vs", root+"instanceModel.frag" );
     StaticShader skyboxShader( root+"skyboxVS.vs", root+"skyboxFS.frag" );
     TerrainShader terrainShader( root+"terrainVS.vs", root+"terrainFS.frag" );
     StaticShader staticShader( root+"emptyVS.vs", root+"emptyFS.frag" );
@@ -198,23 +199,23 @@ int main(int argc, const char * argv[]) {
     //trees
     ObjModel treeModel("assets/trees/2/tree1.obj");
     cout << treeModel.getVerticesSize() << endl;
-    ModelRender treeRenderer(modelShader);
-    vector<glm::mat4> treeModelMats;
-    GLfloat maxX = 1300, minX = 400, maxZ = 1300, minZ = 400;
+    
+    glm::mat4 treeModelMats[200];
+    GLfloat maxX = 1600, minX = 1300, maxZ = 1550, minZ = 1500;
     float randx, randy, randz;
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 200; i++) {
         glm::mat4 mat = glm::mat4();
-        srand((unsigned)time(NULL));
-//        randx = fmod(rand(), (maxX-minX+1))+ minX;
-//        randz = fmod(rand(), (maxZ - minZ + 1)) + minZ;
-        randx = maxX - i * 10;
-        randz = maxZ + i * 10;
-        float randy = terrain1.getHeightOfTerrain(randx, randz) - 1.0f;
+        randx = fmod(rand(), (maxX-minX+1))+ minX;
+        randz = fmod(rand(), (maxZ - minZ + 1)) + minZ;
+        float randy = terrain1.getHeightOfTerrain(randx, randz);
         mat = glm::translate(mat, glm::vec3(randx, randy, randz));
-//        mat = glm::rotate(mat, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         mat = glm::scale(mat, glm::vec3(1.0f, 1.0f, 1.0f));
-        treeModelMats.push_back(mat);
+        treeModelMats[i] = mat;
     }
+    treeModel.loadInstanceTranslation(treeModelMats, 200);
+    
+    ModelRender treeRenderer(instanceShader);
+
     
     
     //==============================
@@ -378,7 +379,7 @@ int main(int argc, const char * argv[]) {
         //house
         shadowMapRenderer.render(houseModel);
 //        tree
-        shadowMapRenderer.render(treeModel);
+        shadowMapRenderer.renderInstance(treeModel, 200);
         
         //chair
         shadowMapRenderer.render(chairModel);
@@ -424,9 +425,8 @@ int main(int argc, const char * argv[]) {
         
         //tree
         //==============================
-            treeModel.modelMatrix = treeModelMats[0];
             treeRenderer.addLight(pointLight, dirLight);
-            treeRenderer.render(treeModel, myCamera);
+            treeRenderer.renderInstance(treeModel, 200, myCamera);
         
 
         

@@ -22,6 +22,7 @@ ShadowMapRenderer::ShadowMapRenderer(Camera camera) : ShadowMapRenderer() {
     
     this->shader = ShadowShader("shadows/shadow.vs", "shadows/shadow.frag");
     this->skeletalShader = ShadowShader("shadows/skeletalShadow.vs", "shadows/skeletalShadow.frag");
+    this->instanceShader = ShadowShader("shadows/instanceShadow.vs", "shadows/instanceShadow.frag");
     this->shadowBox = ShadowBox(this->lightViewMatrix, camera);
     this->shadowFBO = ShadowFrameBuffer(this->SHADOW_MAP_SIZE, this->SHADOW_MAP_SIZE);
 }
@@ -47,6 +48,18 @@ void ShadowMapRenderer::render(SkeletalModel model) {
     model.Draw(this->skeletalShader);
     
     this->skeletalShader.Stop();
+}
+
+void ShadowMapRenderer::renderInstance(ObjModel model, int count) {
+    this->instanceShader.Use();
+    this->instanceShader.getAllUniformLocations();
+    
+    this->instanceShader.loadProjectionViewMatrix(this->projectionViewMatrix);
+    model.DrawInstance(this->instanceShader, count);
+    
+    this->instanceShader.Stop();
+    
+    
 }
 
 glm::mat4 ShadowMapRenderer::getToShadowMapMatrix() {

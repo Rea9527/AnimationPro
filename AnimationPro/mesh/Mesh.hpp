@@ -60,10 +60,15 @@ public:
     
     Mesh(vector<Vertex> vertices, vector<Texture> textures, vector<Material> materials, vector<GLuint> indices);
     void Draw(Shader shader);
+    void DrawInstance(Shader shader, int count);
+    
+    void loadInstance(glm::mat4 modelMatrixs[], int count);
     
 private:
     GLuint VAO, VBO, EBO;
     void setUp();
+    void prepare(Shader shader);
+    void finish();
 };
 
 #endif /* Mesh_hpp */

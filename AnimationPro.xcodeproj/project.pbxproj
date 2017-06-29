@@ -159,6 +159,8 @@
 		A3B96C7C1EE1201B003C0DE3 /* RectangleModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RectangleModel.hpp; path = models/RectangleModel.hpp; sourceTree = "<group>"; };
 		A3B96C7E1EE1249A003C0DE3 /* RectangleRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RectangleRender.cpp; path = renderer/RectangleRender.cpp; sourceTree = "<group>"; };
 		A3B96C7F1EE1249A003C0DE3 /* RectangleRender.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RectangleRender.hpp; path = renderer/RectangleRender.hpp; sourceTree = "<group>"; };
+		A3C8DC9B1F04EBF200D303DB /* instanceShadow.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = instanceShadow.frag; path = shadows/instanceShadow.frag; sourceTree = "<group>"; };
+		A3C8DC9C1F04EBF200D303DB /* instanceShadow.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = instanceShadow.vs; path = shadows/instanceShadow.vs; sourceTree = "<group>"; };
 		A3E66A621ED6695A00FCA639 /* cubeRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cubeRender.cpp; path = renderer/cubeRender.cpp; sourceTree = "<group>"; };
 		A3E66A631ED6695A00FCA639 /* cubeRender.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = cubeRender.hpp; path = renderer/cubeRender.hpp; sourceTree = "<group>"; };
 		A3E66A651ED712BE00FCA639 /* PolygonModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PolygonModel.cpp; path = models/PolygonModel.cpp; sourceTree = "<group>"; };
@@ -197,6 +199,8 @@
 		A346E2FB1EE69AA0000B899E /* shadows */ = {
 			isa = PBXGroup;
 			children = (
+				A3C8DC9B1F04EBF200D303DB /* instanceShadow.frag */,
+				A3C8DC9C1F04EBF200D303DB /* instanceShadow.vs */,
 				A33D0FC41EE69BF400FF3E55 /* shadow.frag */,
 				A33D0FC51EE69BF400FF3E55 /* shadow.vs */,
 				A33D0FC11EE69ACB00FF3E55 /* ShadowShader.cpp */,
