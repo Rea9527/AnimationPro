@@ -76,7 +76,6 @@ void ShadowMapRenderer::prepare(DirectionalLight light, Camera camera) {
 ////    glEnable(GL_DEPTH_TEST);
     glClear(GL_DEPTH_BUFFER_BIT);
     
-    
 }
 
 void ShadowMapRenderer::loadMvp(ShadowShader shader, glm::mat4 modelMatrix) {
@@ -101,7 +100,7 @@ void ShadowMapRenderer::updateLightViewMatrix(glm::vec3 lightDirection, glm::vec
     this->lightViewMatrix = glm::translate(lightViewMatrix, cent);
     
     //use glm lookat
-//    this->lightViewMatrix = glm::lookAt((center - direction) * 10000.0f, center, glm::vec3(0.0f, 1.0f, 0.0f));
+//    this->lightViewMatrix = glm::lookAt((direction) * 10000.0f, center, glm::vec3(0.0f, 1.0f, 0.0f));
     
 }
 

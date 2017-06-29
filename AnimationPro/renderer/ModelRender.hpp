@@ -29,6 +29,7 @@ public:
     ModelRender(ModelShader shader);
     
     void render(ObjModel objModel, Camera camera);
+    void renderMultiple(ObjModel objModel, Camera camera);
     
     void addLight(PointLight pointLight, DirectionalLight directionalLight);
     

@@ -153,3 +153,7 @@ vector<Texture> ObjModel::loadMaterialTextures(aiMaterial *mat, aiTextureType ty
     return textures;
 }
 
+int ObjModel::getVerticesSize() {
+    return this->Meshes[0].Vertices.size();
+}
+

@@ -14,8 +14,6 @@ uniform mat4 modelView;
 uniform mat4 projectionView;
 uniform mat4 toShadowMapSpace;
 
-const float shadowDistance = 100.0;
-const float transitionDistance = 10.0;
 
 void main() {
     vec4 worldPosition = model * vec4(position, 1.0);

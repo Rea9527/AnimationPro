@@ -46,6 +46,7 @@ public:
     glm::mat4 getLightSpaceTransform();
     
     void prepare(DirectionalLight light, Camera camera);
+    void prepare(PointLight light, Camera camera);
     void finish();
     void cleanUp();
     

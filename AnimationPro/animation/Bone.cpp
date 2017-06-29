@@ -168,10 +168,7 @@ void Skeleton::updateKeyframeTransform(float time) {
 
 unsigned int Skeleton::findPosition(AnimationNodeData animationNode, float time) {
     for(unsigned int i = 0 ; i < animationNode.m_positionFrame.size() - 1 ; i++) {
-        //If the time passed in is less than the time of the next
-        //keyframe, then this is the keyframe we want!
         if (!animationNode.m_positionFrame.empty()){
-            //            cout << (float)this->nodeAnim->mPositionKeys[i + 1].mTime << endl;
             if(time < (float)animationNode.m_positionFrame[i + 1].first)
                 return i;
         }
@@ -194,7 +191,7 @@ unsigned int Skeleton::findRotation(AnimationNodeData animationNode, float time)
 }
 
 glm::vec3 Skeleton::calcInterpolatedPosition(AnimationNodeData animationNode, float time) {
-    if(animationNode.m_positionFrame.size() == 1) {
+    if (animationNode.m_positionFrame.size() == 1) {
         glm::vec3 val = animationNode.m_positionFrame[0].second;
         val = glm::normalize(val);
         return val;

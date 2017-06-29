@@ -15,7 +15,7 @@ Camera::Camera() {
     this->initUp = glm::vec3(0.0f, 1.0f, 0.0f);
     this->Yaw = 0.0f;
     this->Pitch = 0.0f;
-    this->Speed = 400.0f;
+    this->Speed = 100.0f;
     this->Sensitivity = 0.25f;
     this->Zoom = 45.0f;
     this->updateCameraPos();
@@ -27,7 +27,7 @@ Camera::Camera(glm::vec3 pos, glm::vec3 up, GLfloat yaw, GLfloat pitch) {
     this->initUp = up;
     this->Yaw = yaw;
     this->Pitch = pitch;
-    this->Speed = 40.0f;
+    this->Speed = 100.0f;
     this->Sensitivity = 0.25f;
     this->Zoom = 45.0f;
     this->updateCameraPos();
@@ -99,6 +99,14 @@ void Camera::disable() {
 
 glm::vec3 Camera::getPos() {
     return this->Pos;
+}
+
+glm::vec3 Camera::getFront() {
+    return this->Front;
+}
+
+glm::vec3 Camera::getUp() {
+    return this->Up;
 }
 
 float Camera::getYaw() {

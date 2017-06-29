@@ -28,7 +28,7 @@ public:
     
     void Draw(Shader shader);
     
-    
+    int getVerticesSize();
     // transformation
     glm::mat4 modelMatrix;
     glm::mat4 projectionViewMatrix;

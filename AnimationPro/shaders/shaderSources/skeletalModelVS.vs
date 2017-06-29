@@ -33,6 +33,7 @@ void main() {
     }
     
     gl_Position = projectionView * model * totalLocalPos;
+//    gl_Position = projectionView * model * vec4(position, 1.0f);
     Normal = totalNormal.xyz;
     TexCoords = texCoord;
     FragPos = (model * totalLocalPos).xyz;

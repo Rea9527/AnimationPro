@@ -48,6 +48,8 @@ public:
     void setTarget(glm::vec3 target);
     
     glm::vec3 getPos();
+    glm::vec3 getFront();
+    glm::vec3 getUp();
     
     float getYaw();
     float getPitch();

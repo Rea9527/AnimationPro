@@ -21,6 +21,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stdlib.h>
+#include <time.h>
 
 #include "shaders/ModelShader.hpp"
 #include "shaders/StaticShader.hpp"
@@ -74,7 +76,8 @@ GLfloat lastFrame = 0.0f;
 GLfloat lastX = WIN_WIDTH/2, lastY = WIN_HEIGHT/2;
 bool firstMouse = true;
 
-glm::vec3 cameraPos   = glm::vec3(940.0f, 100.0f, 600.0f);
+float housePosx = 1400.0f, housePosz = 1400.0f;
+glm::vec3 cameraPos   = glm::vec3(housePosx + 150.0f, 20.0f, housePosz);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 Camera myCamera(cameraPos, cameraUp, -180.0f, 0.0f);
 
@@ -107,10 +110,6 @@ int main(int argc, const char * argv[]) {
         return -1;
     }
     
-    // set viewport
-    int width, height;
-    glfwGetFramebufferSize(window, &width, &height);
-    glViewport(0, 0, width, height);
     //===============================
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_STENCIL_TEST);
@@ -134,8 +133,11 @@ int main(int argc, const char * argv[]) {
     //house
     ObjModel houseModel("assets/oldhouse/oldhouse/oldhouse.obj");
     ModelRender houseRender(modelShader);
-    ObjModel pussModel("assets/man/model.dae");
-    ModelRender pussRender(modelShader);
+    SkeletalModel pussModel("assets/cow/cow.dae");
+    static Animation cowwalk("anim", Utils::framesToTime(glm::vec2(1, 20)), 2);
+    pussModel.addAnimation(cowwalk);
+    pussModel.playAnimation(cowwalk, true, false);
+    SkeletalRender pussRender(manShader);
     
     //table chair
     ObjModel chairModel("assets/chair_table/chair.obj");
@@ -148,10 +150,10 @@ int main(int argc, const char * argv[]) {
     ModelRender radioRender(modelShader);
     
     //man
-    SkeletalModel manModel("assets/man/model.dae");
+    SkeletalModel manModel("assets/man/walk.dae");
 //    SkeletalModel manModel("assets/cow/cow.dae");
     static Animation idle("anim", Utils::framesToTime(glm::vec2(21, 40)), 2);
-    static Animation walk("anim", Utils::framesToTime(glm::vec2(1, 20)), 2);
+    static Animation walk("anim", Utils::framesToTime(glm::vec2(1, 40)), 2);
     manModel.addAnimation(walk);
     manModel.setIdleAnimation(idle);
     manModel.playAnimation(walk, true, false);
@@ -167,10 +169,6 @@ int main(int argc, const char * argv[]) {
     tile.load("assets/tile/1.jpg");
     TileRenderer tileRenderer(tileShader);
     
-    //trees
-    ObjModel treeModel("assets/trees/1/file.obj");
-    ModelRender treeRenderer(modelShader);
-    
     //shadowmap renderer
     ShadowMapRenderer shadowMapRenderer(myCamera);
     
@@ -179,10 +177,10 @@ int main(int argc, const char * argv[]) {
     //==============================
     //terrain
     root = "assets/terrain/";
-    TerrainTexture bgTexture = TerrainTexture(loader.loadTexture(root+"grass.png"));
-    TerrainTexture rTexture = TerrainTexture(loader.loadTexture(root+"grass.png"));
-    TerrainTexture gTexture = TerrainTexture(loader.loadTexture(root+"flowers.png"));
-    TerrainTexture bTexture = TerrainTexture(loader.loadTexture(root+"grass.png"));
+    TerrainTexture bgTexture = TerrainTexture(loader.loadTexture(root+"grass3.png"));
+    TerrainTexture rTexture = TerrainTexture(loader.loadTexture(root+"grass3.png"));
+    TerrainTexture gTexture = TerrainTexture(loader.loadTexture(root+"grass3.png"));
+    TerrainTexture bTexture = TerrainTexture(loader.loadTexture(root+"grass3.png"));
     
     TerrainTexturePack texturePack = TerrainTexturePack(bgTexture, rTexture, gTexture, bTexture);
     TerrainTexture blendMap = TerrainTexture(loader.loadTexture(root+"blendMap.png"));
@@ -195,6 +193,28 @@ int main(int argc, const char * argv[]) {
 //    terrains.push_back(terrain2);
     TerrainRender terrainRender(terrainShader);
     //==============================
+    
+    
+    //trees
+    ObjModel treeModel("assets/trees/2/tree1.obj");
+    cout << treeModel.getVerticesSize() << endl;
+    ModelRender treeRenderer(modelShader);
+    vector<glm::mat4> treeModelMats;
+    GLfloat maxX = 1300, minX = 400, maxZ = 1300, minZ = 400;
+    float randx, randy, randz;
+    for (int i = 0; i < 20; i++) {
+        glm::mat4 mat = glm::mat4();
+        srand((unsigned)time(NULL));
+//        randx = fmod(rand(), (maxX-minX+1))+ minX;
+//        randz = fmod(rand(), (maxZ - minZ + 1)) + minZ;
+        randx = maxX - i * 10;
+        randz = maxZ + i * 10;
+        float randy = terrain1.getHeightOfTerrain(randx, randz) - 1.0f;
+        mat = glm::translate(mat, glm::vec3(randx, randy, randz));
+//        mat = glm::rotate(mat, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        mat = glm::scale(mat, glm::vec3(1.0f, 1.0f, 1.0f));
+        treeModelMats.push_back(mat);
+    }
     
     
     //==============================
@@ -250,7 +270,7 @@ int main(int argc, const char * argv[]) {
         //tile
         //==============================
         model = glm::mat4();
-        x = 864.5f, z = 644.8f;
+        x = housePosx + 14.5f, z = housePosz + 4.8f;
         y = terrain1.getHeightOfTerrain(x, z) + 0.05f;
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::scale(model, glm::vec3(14.0f, 1.0f, 25.0f));
@@ -264,20 +284,30 @@ int main(int argc, const char * argv[]) {
         //prepare model
         //====================================================================================
         //====================================================================================
-        //puss
+        
+        //house
         model = glm::mat4();
-        x = 880.0f, z = 640.0f;
+        x = housePosx, z = housePosz;
         y = terrain1.getHeightOfTerrain(x, z);
         model = glm::translate(model, glm::vec3(x, y, z));
-        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(1, 1, 1));
+        model = glm::scale(model, glm::vec3(0.2, 0.2, 0.2));
+        houseModel.modelMatrix = model;
+        houseModel.projectionViewMatrix = projectionViewMatirx;
+        
+        //puss
+        model = glm::mat4();
+        x = housePosx + 60.0f, z = housePosz - 10.0f;
+        y = terrain1.getHeightOfTerrain(x, z) + 1.0f;
+        model = glm::translate(model, glm::vec3(x, y, z));
+//        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+//        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(1.5, 1.5, 1.5));
         pussModel.modelMatrix = model;
         pussModel.projectionViewMatrix = projectionViewMatirx;
         
         //man
         model = glm::mat4();
-        x = 880.0f, z = 650.0f;
+        x = housePosx + 30.0f, z = housePosz + 10.0f;
         y = terrain1.getHeightOfTerrain(x, z) + 1.2f;
         float dis = fmod((float)glfwGetTime(), 100.0f);
         model = glm::translate(model, glm::vec3(x + dis, y, z));
@@ -295,20 +325,9 @@ int main(int argc, const char * argv[]) {
         cube.modelMatrix = model;
         cube.projectionViewMatrix = projectionViewMatirx;
         
-        //house
-        model = glm::mat4();
-        x = 850.0f, z = 640.0f;
-        y = terrain1.getHeightOfTerrain(x, z);
-        model = glm::translate(model, glm::vec3(x, y, z));
-        model = glm::scale(model, glm::vec3(0.1, 0.1, 0.1));
-        houseModel.modelMatrix = model;
-        houseModel.projectionViewMatrix = projectionViewMatirx;
-        
-        
-        
         //radio
         model = glm::mat4();
-        x = 870.0f, z = 651.0f;
+        x = housePosx + 20.0f, z = housePosz + 11.0f;
         y = terrain1.getHeightOfTerrain(x, z) + 2.0f;
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::rotate(model, glm::radians(-70.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -318,7 +337,7 @@ int main(int argc, const char * argv[]) {
         
         //chair
         model = glm::mat4();
-        x = 870.0f, z = 652.0f;
+        x = housePosx + 20.0f, z = housePosz + 12.0f;
         y = terrain1.getHeightOfTerrain(x, z);
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -328,7 +347,7 @@ int main(int argc, const char * argv[]) {
         
         //table
         model = glm::mat4();
-        x = 870.0f, z = 652.0f;
+        x = housePosx + 20.0f, z = housePosz + 12.0f;
         y = terrain1.getHeightOfTerrain(x, z);
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -337,13 +356,9 @@ int main(int argc, const char * argv[]) {
         tableModel.projectionViewMatrix = projectionViewMatirx;
         
         //tree
-        model = glm::mat4();
-        x = 875.0f, z = 652.0f;
-        y = terrain1.getHeightOfTerrain(x, z);
-        model = glm::translate(model, glm::vec3(x, y, z));
-        model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
-        treeModel.modelMatrix = model;
+        treeModel.modelMatrix = treeModelMats[0];
         treeModel.projectionViewMatrix = projectionViewMatirx;
+        
         
         //skybox
         skybox.projectionViewMatrix = skyboxProjectionViewMat;
@@ -364,10 +379,12 @@ int main(int argc, const char * argv[]) {
         shadowMapRenderer.render(houseModel);
 //        tree
         shadowMapRenderer.render(treeModel);
+        
         //chair
         shadowMapRenderer.render(chairModel);
 
         shadowMapRenderer.finish();
+        int width, height;
         glfwGetFramebufferSize(window, &width, &height);
         glViewport(0, 0, width, height);
 //        glClear(GL_DEPTH_BUFFER_BIT);
@@ -382,17 +399,13 @@ int main(int argc, const char * argv[]) {
         
         //puss
         //==============================
-//        pussRender.addLight(pointLight, dirLight);
-//        pussRender.render(pussModel, myCamera);
+        pussRender.addLight(pointLight, dirLight);
+        pussRender.render(pussModel, myCamera);
         
         //man
         //==============================
         manRender.addLight(pointLight, dirLight);
         manRender.render(manModel, myCamera);
-        
-        //mask cube
-        //==============================
-//        cubeRender.render(cube);
         
         //house
         //==============================
@@ -411,7 +424,12 @@ int main(int argc, const char * argv[]) {
         
         //tree
         //==============================
-        treeRenderer.render(treeModel, myCamera);
+            treeModel.modelMatrix = treeModelMats[0];
+            treeRenderer.addLight(pointLight, dirLight);
+            treeRenderer.render(treeModel, myCamera);
+        
+
+        
         
         
         //skybox

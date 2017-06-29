@@ -51,16 +51,17 @@ vec3 ambientSum = vec3(0), diffuseSum = vec3(0), specularSum = vec3(0);
 void main() {
     
     // Properties
-    vec3 norm = normalize(Normal);
-    vec3 viewDir = normalize(viewPos - FragPos);
-    
-    getDirLight(dirLight, norm, viewDir);
-    for (int i = 0; i < 1; i++)
-        getPointLight(pointLights[i], norm, FragPos, viewDir);
+//    vec3 norm = normalize(Normal);
+//    vec3 viewDir = normalize(viewPos - FragPos);
+////    
+//    getDirLight(dirLight, norm, viewDir);
+//    for (int i = 0; i < 1; i++)
+//        getPointLight(pointLights[i], norm, FragPos, viewDir);
     
     vec4 texColor = texture(tex, TexCoords);
     if (texColor.a < 0.1) discard;
-    color = texColor * vec4(ambientSum + diffuseSum, 1.0f) + vec4(specularSum, 1.0f);
+//    color = texColor * vec4(ambientSum + diffuseSum, 1.0f) + vec4(specularSum, 1.0f);
+    color = texColor;
 
 }
 

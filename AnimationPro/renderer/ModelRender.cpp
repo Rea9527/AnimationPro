@@ -24,6 +24,17 @@ void ModelRender::render(ObjModel objModel, Camera camera) {
     this->Shader.Stop();
 }
 
+void ModelRender::renderMultiple(ObjModel objModel, Camera camera) {
+    
+    this->prepare();
+    this->Shader.loadViewPos(camera.Pos.x, camera.Pos.y, camera.Pos.z);
+    this->Shader.loadProjectionViewMatrix(objModel.projectionViewMatrix);
+    this->Shader.loadModelMat(objModel.modelMatrix);
+    
+    objModel.Draw(this->Shader);
+    this->Shader.Stop();
+}
+
 void ModelRender::addLight(PointLight pointLight, DirectionalLight directionalLight) {
     this->Shader.Use();
     this->Shader.addPointLight(pointLight);
