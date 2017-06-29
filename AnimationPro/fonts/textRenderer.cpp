@@ -19,7 +19,7 @@
 TextRenderer::TextRenderer(GLuint width, GLuint height) {
     // Load and configure shader
     // this->TextShader = ResourceManager::LoadShader("shaders/text.vs", "shaders/text.frag", nullptr, "text");
-    this->textShader = TextShader("textVS.vs", "textFS.frag");
+    this->textShader = TextShader("./fonts/textVS.vs", "./fonts/textFS.frag");
     this->textShader.SetMatrix4("projection", glm::ortho(0.0f, static_cast<GLfloat>(width), static_cast<GLfloat>(height), 0.0f), GL_TRUE);
     this->textShader.SetInteger("text", 0);
     // Configure VAO/VBO for texture quads
@@ -95,7 +95,7 @@ void TextRenderer::Load(std::string font, GLuint fontSize)
     FT_Done_FreeType(ft);
 }
 
-void TextRenderer::RenderText(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color)
+void TextRenderer::RenderText(std::string text, glm::vec3 pos, GLfloat scale, glm::vec3 color)
 {
     // Activate corresponding render state	
     this->textShader.Use();
@@ -109,8 +109,8 @@ void TextRenderer::RenderText(std::string text, GLfloat x, GLfloat y, GLfloat sc
     {
         Character ch = Characters[*c];
 
-        GLfloat xpos = x + ch.Bearing.x * scale;
-        GLfloat ypos = y + (this->Characters['H'].Bearing.y - ch.Bearing.y) * scale;
+        GLfloat xpos = pos.x + ch.Bearing.x * scale;
+        GLfloat ypos = pos.y + (this->Characters['H'].Bearing.y - ch.Bearing.y) * scale;
 
         GLfloat w = ch.Size.x * scale;
         GLfloat h = ch.Size.y * scale;
@@ -134,7 +134,7 @@ void TextRenderer::RenderText(std::string text, GLfloat x, GLfloat y, GLfloat sc
         // Render quad
         glDrawArrays(GL_TRIANGLES, 0, 6);
         // Now advance cursors for next glyph
-        x += (ch.Advance >> 6) * scale; // Bitshift by 6 to get value in pixels (1/64th times 2^6 = 64)
+        pos.x += (ch.Advance >> 6) * scale; // Bitshift by 6 to get value in pixels (1/64th times 2^6 = 64)
     }
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);

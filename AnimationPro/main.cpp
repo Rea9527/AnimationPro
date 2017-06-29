@@ -36,6 +36,7 @@
 #include "renderer/RectangleRender.hpp"
 #include "shadows/ShadowMapRenderer.hpp"
 #include "renderer/TileRenderer.hpp"
+#include "fonts/textRenderer.h"
 
 
 #include "loader/Loader.hpp"
@@ -48,7 +49,10 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoff, double yoff);
+// update camera move
 void updateMovement();
+// calculate fps
+void CalculateFrameRate();
 
 GLfloat WIN_WIDTH = 720, WIN_HEIGHT = 720;
 
@@ -81,7 +85,9 @@ glm::vec3 cameraPos   = glm::vec3(housePosx + 150.0f, 20.0f, housePosz);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 Camera myCamera(cameraPos, cameraUp, -180.0f, 0.0f);
 
-
+// fps
+float framesPerSecond = 0.0f;       // This will store our fps
+float lastTime = 0.0f;       // This will hold the time from the last frame
 
 int main(int argc, const char * argv[]) {
     //===============================
@@ -116,6 +122,7 @@ int main(int argc, const char * argv[]) {
     glStencilFunc(GL_NOTEQUAL, 1, 0xff);
     glStencilOp(GL_KEEP, GL_REPLACE, GL_REPLACE);
     
+    glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
@@ -169,6 +176,10 @@ int main(int argc, const char * argv[]) {
     RectangleModel tile;
     tile.load("assets/tile/1.jpg");
     TileRenderer tileRenderer(tileShader);
+    
+    //font
+    TextRenderer textRenderer(WIN_WIDTH, WIN_HEIGHT);
+    textRenderer.Load("assets/fonts/DejaVuSans.ttf", 24);
     
     //shadowmap renderer
     ShadowMapRenderer shadowMapRenderer(myCamera);
@@ -248,7 +259,7 @@ int main(int argc, const char * argv[]) {
 
     // drawing loop
     while (!glfwWindowShouldClose(window)) {
-        glClearColor(0.5f, 0.5f, 0.5f, 0.0f);
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
         glfwPollEvents();
         
@@ -410,8 +421,10 @@ int main(int argc, const char * argv[]) {
         
         //house
         //==============================
+        glDisable(GL_CULL_FACE);
         houseRender.addLight(pointLight, dirLight);
         houseRender.render(houseModel, myCamera);
+        glEnable(GL_CULL_FACE);
         
         //radio
         //==============================
@@ -425,10 +438,12 @@ int main(int argc, const char * argv[]) {
         
         //tree
         //==============================
-            treeRenderer.addLight(pointLight, dirLight);
-            treeRenderer.renderInstance(treeModel, 200, myCamera);
+        treeRenderer.addLight(pointLight, dirLight);
+        treeRenderer.renderInstance(treeModel, 200, myCamera);
         
-
+        // render font
+        //==============================
+        textRenderer.RenderText("CG Project", glm::vec3(0.5f, 0.5f, 0.0f), 1.0f);
         
         
         
@@ -498,3 +513,4 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 void scroll_callback(GLFWwindow *window, double xoff, double yoff) {
     myCamera.zoom(yoff);
 }
+
