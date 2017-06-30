@@ -9,7 +9,7 @@
 #include "ShadowMapRenderer.hpp"
 
 ShadowMapRenderer::ShadowMapRenderer() {
-    this->SHADOW_MAP_SIZE = 4096;
+    this->SHADOW_MAP_SIZE = 6000;
     
     this->projectionMatrix = glm::mat4(1.0f);
     this->projectionViewMatrix = glm::mat4(1.0f);

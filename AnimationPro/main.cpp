@@ -190,7 +190,7 @@ int main(int argc, const char * argv[]) {
     
     //particles
     ParticleShader particleShader("./particles/particle.vs", "./particles/particle.frag");
-    ParticleGenerator particles(particleShader, ModelTexture(loader.loadTexture("assets/particles/particle.png")), 500);
+    ParticleGenerator particles(particleShader, ModelTexture(loader.loadTexture("assets/particles/particle.png")), 10);
     ParticleRenderer particleRenderer(particleShader);
     
     
@@ -220,7 +220,7 @@ int main(int argc, const char * argv[]) {
     cout << treeModel.getVerticesSize() << endl;
     
     glm::mat4 treeModelMats[200];
-    GLfloat maxX = 1600, minX = 1300, maxZ = 1550, minZ = 1500;
+    GLfloat maxX = 1600, minX = 1400, maxZ = 1550, minZ = 1480;
     float randx, randy, randz;
     for (int i = 0; i < 200; i++) {
         glm::mat4 mat = glm::mat4();
@@ -290,10 +290,10 @@ int main(int argc, const char * argv[]) {
         //tile
         //==============================
         model = glm::mat4();
-        x = housePosx + 14.5f, z = housePosz + 4.8f;
+        x = housePosx + 29.0f, z = housePosz + 9.6f;
         y = terrain1.getHeightOfTerrain(x, z) + 0.05f;
         model = glm::translate(model, glm::vec3(x, y, z));
-        model = glm::scale(model, glm::vec3(14.0f, 1.0f, 25.0f));
+        model = glm::scale(model, glm::vec3(28.0f, 2.0f, 50.0f));
         tile.modelMatrix = model;
         tile.projectionViewMatrix = projectionViewMatirx;
         tileRenderer.addDirLight(dirLight);
@@ -327,7 +327,7 @@ int main(int argc, const char * argv[]) {
         
         //man
         model = glm::mat4();
-        x = housePosx + 30.0f, z = housePosz + 10.0f;
+        x = housePosx + 60.0f, z = housePosz + 10.0f;
         y = terrain1.getHeightOfTerrain(x, z) + 1.2f;
         float dis = fmod((float)glfwGetTime(), 100.0f);
         model = glm::translate(model, glm::vec3(x + dis, y, z));
@@ -336,42 +336,33 @@ int main(int argc, const char * argv[]) {
         manModel.modelMatrix = model;
         manModel.projectionViewMatrix = projectionViewMatirx;
         
-        //mask cube
-        model = glm::mat4();
-        x = 871.5f, z = 637.5f;
-        y = terrain1.getHeightOfTerrain(x, z) + 2.5f;
-        model = glm::translate(model, glm::vec3(x, y, z));
-        model = glm::scale(model, glm::vec3(0.3f, 4.8f, 3.1f));
-        cube.modelMatrix = model;
-        cube.projectionViewMatrix = projectionViewMatirx;
-        
         //radio
         model = glm::mat4();
-        x = housePosx + 20.0f, z = housePosz + 11.0f;
-        y = terrain1.getHeightOfTerrain(x, z) + 2.0f;
+        x = housePosx + 40.0f, z = housePosz + 22.0f;
+        y = terrain1.getHeightOfTerrain(x, z) + 4.0f;
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::rotate(model, glm::radians(-70.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.03f, 0.03f, 0.03f));
+        model = glm::scale(model, glm::vec3(0.06f, 0.06f, 0.06f));
         radioModel.modelMatrix = model;
         radioModel.projectionViewMatrix = projectionViewMatirx;
         
         //chair
         model = glm::mat4();
-        x = housePosx + 20.0f, z = housePosz + 12.0f;
+        x = housePosx + 40.0f, z = housePosz + 24.0f;
         y = terrain1.getHeightOfTerrain(x, z);
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(1.2f, 1.2f, 1.2f));
+        model = glm::scale(model, glm::vec3(2.4f, 2.4f, 2.4f));
         chairModel.modelMatrix = model;
         chairModel.projectionViewMatrix = projectionViewMatirx;
         
         //table
         model = glm::mat4();
-        x = housePosx + 20.0f, z = housePosz + 12.0f;
+        x = housePosx + 40.0f, z = housePosz + 24.0f;
         y = terrain1.getHeightOfTerrain(x, z);
         model = glm::translate(model, glm::vec3(x, y, z));
         model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(1.2f, 1.2f, 1.2f));
+        model = glm::scale(model, glm::vec3(2.4f, 2.4f, 2.4f));
         tableModel.modelMatrix = model;
         tableModel.projectionViewMatrix = projectionViewMatirx;
         
@@ -450,7 +441,7 @@ int main(int argc, const char * argv[]) {
         treeRenderer.renderInstance(treeModel, 200, myCamera);
         
         //render particle
-        particleRenderer.render(particles, projection, 0.01);
+        particleRenderer.render(particles, projectionViewMatirx, manModel.modelMatrix, 0.001);
         
         //skybox
         //==============================

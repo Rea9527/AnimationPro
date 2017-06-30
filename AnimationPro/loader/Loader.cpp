@@ -55,12 +55,27 @@ RawModel Loader::loadToVAO(GLfloat vertices[], GLsizei size, GLsizei count) {
     return rawModel;
 }
 
+// load only position
 RawModel Loader::loadPosToVAO(GLfloat vertices[], GLsizei size, GLsizei count) {
     GLuint vaoID = createVAO();
     RawModel rawModel(vaoID, count);
     storeDataToArrayList(vertices, size);
     setAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
     unbind();
+    return rawModel;
+}
+
+//load position and texcoords
+RawModel Loader::loadPosAndTex(GLfloat vertices[], GLsizei size, GLuint indices[], GLsizei isize) {
+    
+    GLuint vaoID = createVAO();
+    RawModel rawModel(vaoID, isize/sizeof(GLuint));
+    storeDataToArrayList(vertices, size);
+    createEBO(indices, isize);
+    setAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
+    setAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3* sizeof(GLfloat)));
+    unbind();
+    
     return rawModel;
 }
 

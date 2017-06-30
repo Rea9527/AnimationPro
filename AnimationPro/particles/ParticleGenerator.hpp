@@ -36,7 +36,7 @@ public:
     // Constructor
     ParticleGenerator(ParticleShader shader, ModelTexture texture, GLuint amount);
     // Update all particles
-    void Update(GLfloat dt, glm::vec3 position, GLuint newParticles, glm::vec3 offset = glm::vec3(0.0f, 0.0f, 0.0f));
+    void Update(GLfloat dt, glm::mat4 modelMatrix, GLuint newParticles, glm::vec3 offset = glm::vec3(0.0f, 0.0f, 0.0f));
     // Render all particles
     void Draw();
 private:
@@ -48,14 +48,13 @@ private:
     // Render state
     ParticleShader shader;
     ModelTexture texture;
-    GLuint VAO;
     RawModel model;
     // Initializes buffer and vertex attributes
     void init();
     // Returns the first Particle index that's currently unused e.g. Life <= 0.0f or 0 if no particle is currently inactive
     GLuint firstUnusedParticle();
     // Respawns particle
-    void respawnParticle(Particle &particle, glm::vec3 position, glm::vec3 offset = glm::vec3(0.0f, 0.0f, 0.0f));
+    void respawnParticle(Particle &particle, glm::mat4 modelMatrix, glm::vec3 offset = glm::vec3(0.0f, 0.0f, 0.0f));
 };
 
 #endif /* ParticleGenerator_hpp */

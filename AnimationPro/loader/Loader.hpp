@@ -36,7 +36,9 @@ public:
     RawModel loadToVAO(GLfloat vertices[], GLsizei size, GLsizei count);
     //load pos
     RawModel loadPosToVAO(GLfloat vertices[], GLsizei size, GLsizei count);
-
+    //load pos and texcoords
+    RawModel loadPosAndTex(GLfloat vertices[], GLsizei size, GLuint indices[], GLsizei isize);
+    
     GLuint loadTexture(string path);
     GLuint loadInstance(glm::vec3 translations[], int count);
     
