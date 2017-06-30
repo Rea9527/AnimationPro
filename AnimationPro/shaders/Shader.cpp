@@ -92,6 +92,28 @@ void Shader::setInt(GLuint loc, GLint num) {
     glUniform1i(loc, num);
 }
 
+void Shader::setMat4(string name, glm::mat4 mat) {
+    glUniformMatrix4fv(this->getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
+}
+
+void Shader::setInt(string name, GLint num) {
+    glUniform1i(this->getUniformLocation(name), num);
+}
+
+void Shader::setVec2(string name, glm::vec2 vec) {
+    glUniform2fv(this->getUniformLocation(name), 1, glm::value_ptr(vec));
+}
+
+void Shader::setVec3(string name, glm::vec3 vec) {
+    glUniform3fv(this->getUniformLocation(name), 1, glm::value_ptr(vec));
+}
+
+void Shader::setVec4(string name, glm::vec4 vec) {
+    glUniform4fv(this->getUniformLocation(name), 1, glm::value_ptr(vec));
+}
+
+
+
 void Shader::Use() {
     glUseProgram(this->Program);
 }

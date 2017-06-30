@@ -14,7 +14,7 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
-#include "texture.h"
+#include "../texture/texture.h"
 #include "textShader.h"
 
 

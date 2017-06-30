@@ -20,6 +20,9 @@ class ModelTexture {
 public:
     ModelTexture();
     ModelTexture(GLuint textureId);
+    
+    void bind();
+    
     GLuint getId();
     
 private:

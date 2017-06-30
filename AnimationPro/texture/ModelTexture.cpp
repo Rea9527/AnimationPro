@@ -15,6 +15,10 @@ ModelTexture::ModelTexture(GLuint textureId) {
     this->TextureId = textureId;
 }
 
+void ModelTexture::bind() {
+    glBindTexture(GL_TEXTURE_2D, this->TextureId);
+}
+
 GLuint ModelTexture::getId() {
     return this->TextureId;
 }

@@ -43,6 +43,11 @@ public:
     //set
     void setMat4(GLuint loc, glm::mat4 mat);
     void setInt(GLuint loc, GLint num);
+    void setMat4(string name, glm::mat4 mat);
+    void setInt(string name, GLint num);
+    void setVec2(string name, glm::vec2 vec);
+    void setVec3(string name, glm::vec3 vec);
+    void setVec4(string name, glm::vec4 vec);
 
     // run and stop program
     void Use();
