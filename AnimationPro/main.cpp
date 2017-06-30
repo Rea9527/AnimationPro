@@ -37,6 +37,7 @@
 #include "shadows/ShadowMapRenderer.hpp"
 #include "renderer/TileRenderer.hpp"
 #include "fonts/textRenderer.h"
+#include "particles/ParticleRenderer.hpp"
 
 
 #include "loader/Loader.hpp"
@@ -127,6 +128,8 @@ int main(int argc, const char * argv[]) {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     
+    // loader for buffer and texture
+    Loader loader;
     string root = "shaders/shaderSources/";
     //===============================
     //build shader program
@@ -136,7 +139,7 @@ int main(int argc, const char * argv[]) {
     StaticShader skyboxShader( root+"skyboxVS.vs", root+"skyboxFS.frag" );
     TerrainShader terrainShader( root+"terrainVS.vs", root+"terrainFS.frag" );
     StaticShader staticShader( root+"emptyVS.vs", root+"emptyFS.frag" );
-    TileShader tileShader( root+"tileVS.vs", root+"tileFS.frag" );
+    
     
     //house
     ObjModel houseModel("assets/oldhouse/oldhouse/oldhouse.obj");
@@ -175,6 +178,7 @@ int main(int argc, const char * argv[]) {
     //tile
     RectangleModel tile;
     tile.load("assets/tile/1.jpg");
+    TileShader tileShader( root+"tileVS.vs", root+"tileFS.frag" );
     TileRenderer tileRenderer(tileShader);
     
     //font
@@ -184,8 +188,12 @@ int main(int argc, const char * argv[]) {
     //shadowmap renderer
     ShadowMapRenderer shadowMapRenderer(myCamera);
     
+    //particles
+    ParticleShader particleShader("./particles/particle.vs", "./particles/particle.frag");
+    ParticleGenerator particles(particleShader, ModelTexture(loader.loadTexture("assets/particles/particle.png")), 500);
+    ParticleRenderer particleRenderer(particleShader);
     
-    Loader loader;
+    
     //==============================
     //terrain
     root = "assets/terrain/";
@@ -441,17 +449,18 @@ int main(int argc, const char * argv[]) {
         treeRenderer.addLight(pointLight, dirLight);
         treeRenderer.renderInstance(treeModel, 200, myCamera);
         
-        // render font
-        //==============================
-        textRenderer.RenderText("CG Project", glm::vec3(0.5f, 0.5f, 0.0f), 1.0f);
-        
-        
+        //render particle
+        particleRenderer.render(particles, projection, 0.01);
         
         //skybox
         //==============================
         glDepthFunc(GL_LEQUAL);
         skyboxRender.render(skybox);
         glDepthFunc(GL_LESS);
+        
+        // render font
+        //==============================
+        textRenderer.RenderText("CG Project", glm::vec3(0.5f, 0.5f, 0.0f), 1.0f);
         
         glfwSwapBuffers(window);
     }
