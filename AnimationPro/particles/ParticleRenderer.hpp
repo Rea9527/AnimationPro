@@ -21,10 +21,11 @@ public:
     ParticleRenderer() { }
     ParticleRenderer(ParticleShader shader);
     
-    void render(ParticleGenerator particles, glm::mat4 projectionMatrix, glm::mat4 modelMatrix, float dt);
+    void render(ParticleGenerator *particles, glm::mat4 projectionMatrix, glm::mat4 modelMatrix, float dt);
     
 private:
     ParticleShader shader;
+
 };
 
 #endif /* ParticleRenderer_hpp */

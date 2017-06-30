@@ -15,28 +15,29 @@ ParticleGenerator::ParticleGenerator(ParticleShader shader, ModelTexture texture
     this->init();
 }
 
-void ParticleGenerator::Update(GLfloat dt, glm::mat4 modelMatrix, GLuint newParticles, glm::vec3 offset) {
+void ParticleGenerator::Update(GLfloat dt, GLuint newParticles, glm::vec3 offset) {
     // Add new particles
     for (GLuint i = 0; i < newParticles; ++i) {
         int unusedParticle = this->firstUnusedParticle();
-        this->respawnParticle(this->particles[unusedParticle], modelMatrix, offset);
+        this->respawnParticle(this->particles[unusedParticle], offset);
     }
     // Update all particles
     for (GLuint i = 0; i < this->amount; ++i) {
         Particle &p = this->particles[i];
         p.Life -= dt; // reduce life
+//        cout <<  i << " " << p.Life << endl;
         if (p.Life > 0.0f) {	// particle is alive, thus update
-            p.Position -= p.Velocity * dt;
-//            p.Color.a -= dt * 2.5;
+            p.Position += p.Velocity * dt;
         }
     }
+    cout << this->particles[0].Life << endl;
 }
 
 // Render all particles
 void ParticleGenerator::Draw()
 {
     // Use additive blending to give it a 'glow' effect
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     this->shader.Use();
     for (Particle particle : this->particles) {
         if (particle.Life > 0.0f) {
@@ -44,7 +45,7 @@ void ParticleGenerator::Draw()
             this->shader.setVec4("color", particle.Color);
             this->texture.bind();
             glBindVertexArray(this->model.getVAO());
-            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 //            glDrawArrays(GL_TRIANGLES, 0, 6);
             glBindVertexArray(0);
         }
@@ -99,13 +100,14 @@ GLuint ParticleGenerator::firstUnusedParticle() {
     return 0;
 }
 
-void ParticleGenerator::respawnParticle(Particle &particle, glm::mat4 modelMatrix, glm::vec3 offset) {
+void ParticleGenerator::respawnParticle(Particle &particle, glm::vec3 offset) {
     GLfloat random = ((rand() % 100) - 50) / 10.0f;
     offset.x = random;
     offset.z = random;
-    offset.y = (800 - (rand() % 800)) / 10.0f;
+    offset.y = 10.0f;
     particle.Position = offset;
     particle.Color = glm::vec4(1.0, 1.0, 1.0, 1.0f);
-    particle.Life = 1.0f;
-    particle.Velocity = glm::vec3(0.0f, -0.001f, 0.0f);
+    particle.Life = 0.6f;
+    GLfloat vel = ((rand() % 200) - 200) / 10.0f - 10.0f;
+    particle.Velocity = glm::vec3(0.0f, vel, 0.0f);
 }

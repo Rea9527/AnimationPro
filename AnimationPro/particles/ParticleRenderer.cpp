@@ -16,15 +16,15 @@ ParticleRenderer::ParticleRenderer(ParticleShader shader) {
     this->shader.Stop();
 }
 
-void ParticleRenderer::render(ParticleGenerator particles, glm::mat4 projectionViewMatrix, glm::mat4 modelMatrix, float dt) {
+void ParticleRenderer::render(ParticleGenerator *particles, glm::mat4 projectionViewMatrix, glm::mat4 modelMatrix, float dt) {
     
     this->shader.Use();
     this->shader.setMat4("projectionView", projectionViewMatrix);
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::scale(modelMatrix, glm::vec3(0.05f, 0.05f, 0.05f));
+    model = glm::scale(modelMatrix, glm::vec3(1.05f, 1.05f, 1.05f));
     this->shader.setMat4("model", model);
-    particles.Update(dt, modelMatrix, 2);
-    particles.Draw();
+    particles->Update(dt, 1);
+    particles->Draw();
     
     this->shader.Stop();
 }

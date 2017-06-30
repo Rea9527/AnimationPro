@@ -190,8 +190,8 @@ int main(int argc, const char * argv[]) {
     
     //particles
     ParticleShader particleShader("./particles/particle.vs", "./particles/particle.frag");
-    ParticleGenerator particles(particleShader, ModelTexture(loader.loadTexture("assets/particles/particle.png")), 10);
-    ParticleRenderer particleRenderer(particleShader);
+    ParticleGenerator *particles = new ParticleGenerator(particleShader, ModelTexture(loader.loadTexture("assets/particles/particle.png")), 200);
+    ParticleRenderer *particleRenderer = new ParticleRenderer(particleShader);
     
     
     //==============================
@@ -441,7 +441,7 @@ int main(int argc, const char * argv[]) {
         treeRenderer.renderInstance(treeModel, 200, myCamera);
         
         //render particle
-        particleRenderer.render(particles, projectionViewMatirx, manModel.modelMatrix, 0.001);
+        particleRenderer->render(particles, projectionViewMatirx, manModel.modelMatrix, 0.01);
         
         //skybox
         //==============================
