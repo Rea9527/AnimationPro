@@ -30,7 +30,6 @@ void ParticleGenerator::Update(GLfloat dt, GLuint newParticles, glm::vec3 offset
             p.Position += p.Velocity * dt;
         }
     }
-    cout << this->particles[0].Life << endl;
 }
 
 // Render all particles
